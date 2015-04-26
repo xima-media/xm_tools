@@ -14,3 +14,5 @@ XmTools is an extension for the Typo3 CMS that can facilitate common use cases f
 ## Configuration
 
 ## Documentation
+
+http://xmtools.readthedocs.org
