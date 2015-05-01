@@ -102,6 +102,12 @@ exclude_patterns = []
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
 
+# The name of the default domain.
+primary_domain = 'php'
+ 
+# The default language to highlight source code in.
+highlight_language = 'php'
+
 # A list of ignored prefixes for module index sorting.
 #modindex_common_prefix = []
 

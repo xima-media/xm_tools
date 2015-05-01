@@ -5,6 +5,7 @@ To write data to and retrieve data from the session, use the SessionManager:
 
 ::
 
+    <?php
     class MyController
     {
         /**
@@ -28,6 +29,7 @@ This session is kept for the current extension on for the current page. If you w
 
 ::
 
+    <?php
     function updateSessionDataForSomewhereElse()
     {
         $data = $this->session->get('myData';
