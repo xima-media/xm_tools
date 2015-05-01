@@ -9,14 +9,19 @@ Welcome to xm_tools's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
+   
+   install
+   examples
+   architecture
 
 
 
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+..
+    Indices and tables
+    ==================
+    
+    * :ref:`genindex`
+    * :ref:`modindex`
+    * :ref:`search`
 
