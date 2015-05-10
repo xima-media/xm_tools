@@ -15,4 +15,4 @@ xm_tools is an extension for the TYPO3 CMS that can facilitate common use cases 
 
 ## Documentation
 
-http://xmtools.readthedocs.org
+http://xm-tools.readthedocs.org
