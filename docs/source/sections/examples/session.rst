@@ -1,7 +1,7 @@
 Session handling
 ================
 
-To write data to and retrieve data from the session, use the SessionManager:
+To write data to and retrieve data from the session, use the :php:class:`SessionManager`:
 
 ::
 
