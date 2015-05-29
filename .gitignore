@@ -1,4 +1,15 @@
+composer.lock
+
+# eclipse settings
 /.buildpath
 /.project
-/docs/build
+/.settings/
+
+# documentation
+/docs/build/
 *.pyc
+
+# xm_tools
+Resources/Private/Language/*.xlf
+parameters.yml
+vendor/
