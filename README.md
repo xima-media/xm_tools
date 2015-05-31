@@ -15,4 +15,5 @@ xm_tools is an extension for the TYPO3 CMS that can facilitate common use cases 
 
 ## Documentation
 
-http://xm-tools.readthedocs.org
+* http://xm-tools.readthedocs.org
+* [API](docs/api/index.html)
