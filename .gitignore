@@ -7,7 +7,7 @@ composer.lock
 
 # documentation
 /docs/build/
-/docs/api/cache/
+/docs/source/_static/api/cache/
 *.pyc
 
 # xm_tools

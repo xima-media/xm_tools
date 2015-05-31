@@ -25,3 +25,4 @@ Contents:
     * :ref:`modindex`
     * :ref:`search`
 
+`API documentation <_static/api/index.html>`_
