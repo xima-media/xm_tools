@@ -9,14 +9,21 @@ use Symfony\Component\Yaml\Yaml;
 use Xima\XmTools\Classes\Typo3\Extension\ExtensionManager;
 
 /**
- * Static and non static helper functions for TYPO3. Context of current extension used.
- * Include it by dependency injection, the rest is done for you.
+ * XmTools' facade like base class.
+ *
+ * Initialises common settings such as current language and extension, global site parameters and managers. Includes static and non static helper functions for TYPO3.
+ * Include it by dependency injection.
  *
  * @author Steve Lenz <sle@xima.de>
  * @author Wolfram Eberius <woe@xima.de>
  */
 class Services implements \TYPO3\CMS\Core\SingletonInterface
 {
+    /**
+     * TYPO3's name for the default language.
+     *
+     * @var string
+     */
     const DEFAULT_LANG_STRING = 'default';
 
     /**
@@ -32,7 +39,18 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected $extension;
 
+    /**
+     * The current language id.
+     *
+     * @var int
+     */
     protected $langId = null;
+
+    /**
+     * The current locale (e.g. de, en).
+     *
+     * @var string
+     */
     protected $lang = null;
 
     /**
@@ -49,6 +67,10 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
      */
     protected $settings = array();
 
+    /**
+     * Initialises the current language settings and, if in frontend mode, the currently used extension.
+     * Fetches and caches settings of parameters.yml and provides them as javascript.
+     */
     public function initializeObject()
     {
         if (TYPO3_MODE === 'FE') {
@@ -62,7 +84,6 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
         $this->settings = $this->extensionManager->getXmTools()->getSettings();
 
         //get parameters
-
         $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
 
         $cacheManager = $objectManager->get('Xima\XmTools\Classes\Typo3\Cache\ExtensionCacheManager');

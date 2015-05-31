@@ -16,7 +16,7 @@ Xima\\XmTools\\Classes\\Typo3
    /_static/sphinxcontrib-phpdomain/Xima/XmTools/Classes/Typo3/Helper/index
    /_static/sphinxcontrib-phpdomain/Xima/XmTools/Classes/Typo3/Logger
    /_static/sphinxcontrib-phpdomain/Xima/XmTools/Classes/Typo3/Model/index
-   Query/index
+   /_static/sphinxcontrib-phpdomain/Xima/XmTools/Classes/Typo3/Query/index
    /_static/sphinxcontrib-phpdomain/Xima/XmTools/Classes/Typo3/Services
    /_static/sphinxcontrib-phpdomain/Xima/XmTools/Classes/Typo3/SessionManager
    /_static/sphinxcontrib-phpdomain/Xima/XmTools/Classes/Typo3/SessionStore

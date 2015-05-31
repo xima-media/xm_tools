@@ -10,43 +10,43 @@ Xima\\XmTools\\Classes\\Typo3\\Query\\QueryTrait
 
         protected int
 
-        currentPage
+        currentPage.
 
     .. php:attr:: searchTerm
 
         protected string
 
-        searchTerm
+        searchTerm.
 
     .. php:attr:: sort
 
         protected string
 
-        sort
+        sort.
 
     .. php:attr:: limit
 
         protected int
 
-        limit
+        limit.
 
     .. php:attr:: lang
 
         protected string
 
-        lang
+        lang.
 
     .. php:attr:: context
 
         protected string
 
-        context
+        context.
 
     .. php:attr:: params
 
         protected array
 
-        params
+        params.
 
     .. php:method:: getParams()
 
@@ -58,7 +58,6 @@ Xima\\XmTools\\Classes\\Typo3\\Query\\QueryTrait
 
         :type $currentPage: int
         :param $currentPage:
-        :returns: void
 
     .. php:method:: getSearchTerm()
 
@@ -66,7 +65,6 @@ Xima\\XmTools\\Classes\\Typo3\\Query\\QueryTrait
 
         :type $searchTerm: string
         :param $searchTerm:
-        :returns: void
 
     .. php:method:: getSort()
 
@@ -74,7 +72,6 @@ Xima\\XmTools\\Classes\\Typo3\\Query\\QueryTrait
 
         :type $sort: string
         :param $sort:
-        :returns: void
 
     .. php:method:: getLimit()
 
@@ -82,7 +79,6 @@ Xima\\XmTools\\Classes\\Typo3\\Query\\QueryTrait
 
         :type $limit: int
         :param $limit:
-        :returns: void
 
     .. php:method:: getLang()
 
@@ -90,7 +86,6 @@ Xima\\XmTools\\Classes\\Typo3\\Query\\QueryTrait
 
         :type $lang: string
         :param $lang:
-        :returns: void
 
     .. php:method:: getContext()
 

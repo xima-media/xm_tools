@@ -1,7 +1,7 @@
-# xm_tools
+# XmTools
 A framework for TYPO3 extensions.
 
-xm_tools is an extension for the TYPO3 CMS that can facilitate common use cases for your custom extensions.
+XmTools is an extension for the TYPO3 CMS that can facilitate common use cases for your custom extensions.
 
 ## Requirements
 
@@ -9,11 +9,12 @@ xm_tools is an extension for the TYPO3 CMS that can facilitate common use cases 
 * TYPO3 CMS 6.2.*
 
 ## Installation
-
+* run `composer install`
 
 ## Configuration
 
 ## Documentation
 
-* http://xm-tools.readthedocs.org
+* [Documentation](http://xm-tools.readthedocs.org)
 * [API](http://xm-tools.readthedocs.org/en/documentation/_static/api/index.html)
+* [Documentation readme](docs/README.md)
