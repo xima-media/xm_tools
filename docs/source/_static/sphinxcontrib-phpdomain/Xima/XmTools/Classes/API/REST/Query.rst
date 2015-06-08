@@ -6,6 +6,8 @@ Xima\\XmTools\\Classes\\API\\REST\\Query
 
 .. php:class:: Query
 
+    A query object for REST API calls.
+
     .. php:attr:: repository
 
         protected

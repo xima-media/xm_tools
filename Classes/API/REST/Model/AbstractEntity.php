@@ -8,7 +8,7 @@ use Xima\XmTools\Classes\Helper\Helper;
  *
  *  Copyright notice
  *
- *  (c) 2015 Wolfram Eberius <wolfram.eberius@xima.de>
+ *  (c) 2015 Wolfram Eberius <woe@xima.de>
  *
  *  All rights reserved
  *
@@ -30,12 +30,34 @@ use Xima\XmTools\Classes\Helper\Helper;
  ***************************************************************/
 
 /**
- * GrowingArea.
+ * Base class for models that get constructed by the \Xima\XmTools\Classes\API\REST\Connector. API data is returned as json, converted to an array and then iterated to instantiate model classes.
+ * Model properties are set by each array, a key in the array will become a property name of the model. If the model class has a parse{key} function for a property, then this function will be called instead of
+ * setting the data directly.
+ *
+ * <code>
+ class Person extends \Xima\XmTools\Classes\API\REST\Model\AbstractApiEntity
+ {
+ protected $address;
+
+ public function parseAddress($array)
+ {
+ $address = new Address();
+ $address->setStreet($array['street']);
+ $address->setZipCode($array['zipCode']);
+ $address->setLatitude($array['latitude']);
+ $address->setLongitude($array['longitude']);
+ $address->setLongitude($array['longitude']);
+
+ $this->address = $address;
+ }
+ * </code>
+ *
+ * @author Wolfram Eberius <woe@xima.de>
  */
 class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
     /**
-     * Sets the uid.
+     * Sets the uid (suggested for the TYPO3 environment).
      *
      * @param int $uid
      */
@@ -44,6 +66,14 @@ class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->uid = $uid;
     }
 
+    /**
+     * @param $array The data to be parsed.
+     *
+     * Parses array data as $key => $value in the following manner:
+     * 1. If a parse function for the $key exists, it's getting called.
+     * 2. If a setter function for $key exists, it's getting called.
+     * 3. Otherwise, $value will be set to a property called $key.
+     */
     public function parsePropertyArray($array)
     {
         foreach ($array as $key => $value) {
@@ -53,9 +83,9 @@ class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
             $setter = 'set'.Helper::underscoreToCamelCase($key);
 
             if (method_exists($this, $parseFunction)) {
-                $this->$parseFunction ($value);
+                $this->$parseFunction($value);
             } elseif (method_exists($this, $setter)) {
-                $this->$setter ($value);
+                $this->$setter($value);
             } else {
                 $this->{$key} = $value;
             }

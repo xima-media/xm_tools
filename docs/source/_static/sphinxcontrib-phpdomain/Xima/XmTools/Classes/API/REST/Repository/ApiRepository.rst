@@ -6,23 +6,20 @@ Xima\\XmTools\\Classes\\API\\REST\\Repository\\ApiRepository
 
 .. php:class:: ApiRepository
 
-    Abstract class for extbase repositories to retrieve data through a REST URL.
-    The concrete repository must provide the API route relative to the API URL configured in
-    the TYPO3 constant editor for the concrete extension.
-
-    .. php:attr:: extensionManager
-
-        protected \Xima\XmTools\Classes\Typo3\Extension\ExtensionManager
+    Abstract class for extbase repositories to retrieve data through a REST API.
+    The name of the inheriting repository class will be used for creating the API URL and instantiating model classes. This behaviour can be changed by overriding the function getApiTarget().
 
     .. php:attr:: connector
 
         protected \Xima\XmTools\Classes\API\REST\Connector
 
-        connector.
+        The connector class.
 
     .. php:attr:: typo3Services
 
         protected \Xima\XmTools\Classes\Typo3\Services
+
+        The xm_tools facade.
 
     .. php:attr:: apiKey
 
@@ -50,30 +47,42 @@ Xima\\XmTools\\Classes\\API\\REST\\Repository\\ApiRepository
 
     .. php:method:: initializeObject()
 
+        Retrieves the calling extension through the package name of the inheriting
+        repository class. Configures the repository with the extensions' settings.
+
     .. php:method:: findByUid($id)
 
-        find.
+        Find an entity by id.
 
         :param $id:
-        :returns: The model object with the given id.
+        :returns: Xima\XmTools\Classes\API\REST\Model\AbstractEntity|array The model class or array with the given id.
 
     .. php:method:: findAll()
 
-        findAll.
+        Find all entities.
 
-        :returns: Array of model objects according the repository class name, if existing, otherwise array of arrays. Indexed by id.
+        :returns: Array of model objects (@see ApiRepository::findByUid())
 
     .. php:method:: findAllByQuery(Xima\XmTools\Classes\Typo3\Query\QueryInterface $query)
 
+        Find all entities filtered by a
+        \Xima\XmTools\Classes\Typo3\Query\QueryInterface.
+
         :type $query: Xima\XmTools\Classes\Typo3\Query\QueryInterface
-        :param $query:
+        :param $query: The filter object.
+        :returns: Array of model objects (@see ApiRepository::findByUid())
 
     .. php:method:: createQuery()
 
+        Create a Xima\XmTools\Classes\API\REST\Query object. Overrides TYPO3
+        default behavivour.
+
+        :returns: \Xima\XmTools\Classes\API\REST\Query
+
     .. php:method:: buildUrl($route, $params = array())
 
-        Builds the URL to API. The API schema must be definedin the TYPO3 constant
-        editor to something like:
+        Builds the URL to the API. The API schema must be definedin the TYPO3
+        constant editor to something like:
         -[Api-URL]/[Api-Key][Api-Route]
         -[Api-URL][Api-Route]?[Api-Key]
         -...

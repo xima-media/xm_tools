@@ -7,8 +7,7 @@ Required packages for documentation:
 - [sphpdox](https://github.com/EdRush/sphpdox) (PHPDoc to sphinxcontrib-phpdomain)
 - [phpDocumentor](http://www.phpdoc.org/)
 
-
- Steps to reproduce before pushing changes:
+Steps to reproduce before pushing changes:
 - Fix coding standard: `php-cs-fixer fix Classes/ --verbose`
 - Generate sphinx api documentation: `php ../sphpdox/sphpdox.php process --output "docs/source/_static/sphinxcontrib-phpdomain" "Xima\XmTools" Classes`
 - Generate php documentation: `phpdoc`

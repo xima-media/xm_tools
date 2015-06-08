@@ -6,7 +6,7 @@ namespace Xima\XmTools\Classes\Typo3\Controller;
  *
  *  Copyright notice
  *
- *  (c) 2015 Wolfram Eberius <wolfram.eberius@xima.de>
+ *  (c) 2015 Wolfram Eberius <woe@xima.de>
  *
  *  All rights reserved
  *

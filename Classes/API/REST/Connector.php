@@ -12,26 +12,23 @@ use Xima\XmTools\Classes\Helper\Helper;
 class Connector
 {
     /**
+     * The extension that uses the Connector.
+     *
      * @var \Xima\XmTools\Classes\Typo3\Model\Extension
      */
     protected $extension;
 
     /**
-     * @var \Xima\XmTools\Classes\Typo3\Services
-     * @inject
-     */
-    protected $typo3Services;
-
-    /**
+     * The cache manager for retrieved data.
+     *
      * @var \Xima\XmTools\Classes\Typo3\Cache\ApiCacheManager
      * @inject
      */
     protected $cacheManager;
 
     /**
-     * Gets called by
-     * repositories inheriting from Xima\XmTools\Classes\API\REST\Repository\AbstractApiRepository, retrieves JSON responses, converts
-     * arrays to objects according to the given repository class name (if existing) or to array of arrays.
+     * Gets called by repositories inheriting from \Xima\XmTools\Classes\API\REST\Repository\AbstractApiRepository, retrieves JSON responses, converts
+     * arrays to objects according to the given repository class name (if existing, also parses to class properties) or to array of arrays.
      * Translates values to the current or fallback language when fields with the following patterns are found:
      * -nameDe, nameEn...
      * -name_de, name_en...
@@ -118,6 +115,13 @@ class Connector
         return $response;
     }
 
+    /**
+     * Sets the current extension and the cache path accoring to the extension key.
+     *
+     * @param \Xima\XmTools\Classes\Typo3\Model\Extension
+     *
+     * @return \Xima\XmTools\Classes\API\REST\Connector
+     */
     public function setExtension(\Xima\XmTools\Classes\Typo3\Model\Extension $extension)
     {
         $this->extension = $extension;

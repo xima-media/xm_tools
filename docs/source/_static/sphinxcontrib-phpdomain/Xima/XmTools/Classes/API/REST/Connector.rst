@@ -12,22 +12,21 @@ Xima\\XmTools\\Classes\\API\\REST\\Connector
 
         protected \Xima\XmTools\Classes\Typo3\Model\Extension
 
-    .. php:attr:: typo3Services
-
-        protected \Xima\XmTools\Classes\Typo3\Services
+        The extension that uses the Connector.
 
     .. php:attr:: cacheManager
 
         protected \Xima\XmTools\Classes\Typo3\Cache\ApiCacheManager
 
+        The cache manager for retrieved data.
+
     .. php:method:: get($url, Xima\XmTools\Classes\API\REST\Repository\ApiRepository $repository, $params = array())
 
-        Gets called by
-        repositories inheriting from
-        Xima\XmTools\Classes\API\REST\Repository\AbstractApiRepository, retrieves
+        Gets called by repositories inheriting from
+        \Xima\XmTools\Classes\API\REST\Repository\AbstractApiRepository, retrieves
         JSON responses, converts
         arrays to objects according to the given repository class name (if
-        existing) or to array of arrays.
+        existing, also parses to class properties) or to array of arrays.
         Translates values to the current or fallback language when fields with the
         following patterns are found:
         -nameDe, nameEn...
@@ -42,5 +41,9 @@ Xima\\XmTools\\Classes\\API\\REST\\Connector
 
     .. php:method:: setExtension(Xima\XmTools\Classes\Typo3\Model\Extension $extension)
 
+        Sets the current extension and the cache path accoring to the extension
+        key.
+
         :type $extension: Xima\XmTools\Classes\Typo3\Model\Extension
         :param $extension:
+        :returns: \Xima\XmTools\Classes\API\REST\Connector

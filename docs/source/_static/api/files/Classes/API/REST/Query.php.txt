@@ -2,6 +2,13 @@
 
 namespace Xima\XmTools\Classes\API\REST;
 
+/**
+ * A query object for REST API calls.
+ *
+ * @todo: Deprecated?
+ *
+ * @author Wolfram Eberius <woe@xima.de>
+ */
 class Query extends \TYPO3\CMS\Extbase\Persistence\Generic\Query
 {
     protected $repository;
