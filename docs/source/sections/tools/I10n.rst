@@ -1,0 +1,8 @@
+I10n
+====
+
+* based on typo3 conventions/xliff
+* keep a base set of your translations in one place
+* use translations of any other extension
+* use in php, fluid and js
+* caching supported
