@@ -12,7 +12,8 @@ Contents:
    :maxdepth: 3
    
    install
-   examples
+   tools
+   viewhelper
    architecture
 
 

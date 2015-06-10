@@ -1,7 +1,5 @@
-Examples
-========
-
-...
+Tools
+=====
 
 Contents:
 
@@ -9,4 +7,4 @@ Contents:
    :maxdepth: 3
    :glob:
    
-   sections/examples/*
+   sections/tools/*
