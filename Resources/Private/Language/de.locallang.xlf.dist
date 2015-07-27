@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2015-03-05T22:48:27" product-name="" target-language="de">
+        <header />
+        <body>
+            <trans-unit id="button_ok">
+                <source>Ok</source>
+                <target>Ok</target>
+            </trans-unit>
+            <trans-unit id="button_show">
+                <source>Anzeigen</source>
+                <target>Anzeigen</target>
+            </trans-unit>
+            <trans-unit id="button_submit">
+                <source>Absenden</source>
+                <target>Absenden</target>
+            </trans-unit>
+            <trans-unit id="display">
+                <source>Darstellung</source>
+                <target>Darstellung</target>
+            </trans-unit>
+            <trans-unit id="foreign_languages">
+                <source>Fremdsprachen</source>
+                <target>Fremdsprachen</target>
+            </trans-unit>
+            <trans-unit id="less_information">
+                <source>Weniger Informationen</source>
+                <target>Weniger Informationen</target>
+            </trans-unit>
+            <trans-unit id="list">
+                <source>Liste</source>
+                <target>Liste</target>
+            </trans-unit>
+            <trans-unit id="list_1_result">
+                <source>Ein Ergebnis</source>
+                <target>Ein Ergebnis</target>
+            </trans-unit>
+            <trans-unit id="list_pager_next_page">
+                <source>Nächste Seite</source>
+                <target>Nächste Seite</target>
+            </trans-unit>
+            <trans-unit id="list_pager_previous_page">
+                <source>Vorherige Seite</source>
+                <target>Vorherige Seite</target>
+            </trans-unit>
+            <trans-unit id="list_x_results">
+                <source>%1$s Ergebnisse</source>
+                <target>%1$s Ergebnisse</target>
+            </trans-unit>
+            <trans-unit id="list_x_results_of_y">
+                <source>%1$s - %2$s von %3$s Ergebnissen</source>
+                <target>%1$s - %2$s von %3$s Ergebnissen</target>
+            </trans-unit>
+            <trans-unit id="more">
+                <source>Mehr</source>
+                <target>Mehr</target>
+            </trans-unit>
+            <trans-unit id="more_information">
+                <source>Weitere Informationen</source>
+                <target>Weitere Informationen</target>
+            </trans-unit>
+            <trans-unit id="no">
+                <source>nein</source>
+                <target>nein</target>
+            </trans-unit>
+            <trans-unit id="search_verb">
+                <source>suchen</source>
+                <target>suchen</target>
+            </trans-unit>
+            <trans-unit id="yes">
+                <source>ja</source>
+                <target>ja</target>
+            </trans-unit>
+            <trans-unit id="label_search">
+                <source>Suche</source>
+                <target>Suche</target>
+            </trans-unit>
+            <trans-unit id="model_address">
+                <source>Adresse</source>
+                <target>Adresse</target>
+            </trans-unit>
+            <trans-unit id="model_address_place">
+                <source>Ort</source>
+                <target>Ort</target>
+            </trans-unit>
+            <trans-unit id="model_address_street">
+                <source>Strasse</source>
+                <target>Strasse</target>
+            </trans-unit>
+            <trans-unit id="model_address_zip">
+                <source>PLZ</source>
+                <target>PLZ</target>
+            </trans-unit>
+            <trans-unit id="model_address_zip_code">
+                <source>Postleitzahl</source>
+                <target>Postleitzahl</target>
+            </trans-unit>
+            <trans-unit id="model_contact_fax">
+                <source>Fax</source>
+                <target>Fax</target>
+            </trans-unit>
+            <trans-unit id="model_contact_phone_abbreviation">
+                <source>Tel.</source>
+                <target>Tel.</target>
+            </trans-unit>
+            <trans-unit id="model_name">
+                <source>Name</source>
+                <target>Name</target>
+            </trans-unit>
+            <trans-unit id="price">
+                <source>Preis</source>
+                <target>Preis</target>
+            </trans-unit>
+            <trans-unit id="country">
+                <source>Land</source>
+                <target>Land</target>
+            </trans-unit>
+            <trans-unit id="categories">
+                <source>Kategorien</source>
+                <target>Kategorien</target>
+            </trans-unit>
+            <trans-unit id="contact">
+                <source>Kontakt</source>
+                <target>Kontakt</target>
+            </trans-unit>
+            <trans-unit id="dates">
+                <source>Termine</source>
+                <target>Termine</target>
+            </trans-unit>
+            <trans-unit id="no_results_change_query">
+                <source>Ihre Suche ergab keinen Treffer. Bitte verändern Sie Ihre Suchanfrage.</source>
+                <target>Ihre Suche ergab keinen Treffer. Bitte verändern Sie Ihre Suchanfrage.</target>
+            </trans-unit>
+            <trans-unit id="description">
+                <source>Beschreibung</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
