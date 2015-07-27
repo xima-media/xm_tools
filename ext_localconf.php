@@ -1,11 +1,9 @@
 <?php
-//declare ajax action to remove extension caches
-$TYPO3_CONF_VARS['BE']['AJAX']['xm_tools::clearCache'] = 'EXT:xm_tools/Classes/Typo3/Cache/ApiCacheManager.php:Xima\XmTools\Classes\Typo3\Cache\ApiCacheManager->clear';
 
+//register the autoloader for xm_tools classes
 spl_autoload_register(function ($class) 
 {
     $debug = false;
-    
     if ($debug) 
     {
         echo 'Trying to autoload \''.$class.'\'...';
@@ -17,14 +15,6 @@ spl_autoload_register(function ($class)
     if (strstr($class, 'Xima\XmTools')) 
     {
         $classFile = str_replace('Xima\XmTools', 'xm_tools', $class);
-    }
-    else
-    {
-        $classFile = 'xm_tools\vendor\\'.$class;
-    }
-
-    if ($classFile)
-    {
         $classFile = str_replace('\\', DIRECTORY_SEPARATOR, $classFile);
         $classPI = pathinfo($classFile);
         $baseDir = PATH_site;
@@ -65,3 +55,16 @@ spl_autoload_register(function ($class)
         }
     }
 });
+
+//declare ajax action to remove extension caches
+$TYPO3_CONF_VARS['BE']['AJAX']['xm_tools::clearCache'] = 'EXT:xm_tools/Classes/Typo3/Cache/ApiCacheManager.php:Xima\XmTools\Classes\Typo3\Cache\ApiCacheManager->clear';
+
+//autoload vendors
+$vendorsAutoloadFile =  PATH_site.'typo3conf'.DIRECTORY_SEPARATOR.
+                        'ext'.DIRECTORY_SEPARATOR.
+                        'xm_tools'.DIRECTORY_SEPARATOR.
+                        'vendor'.DIRECTORY_SEPARATOR.'autoload.php';
+                        
+if (is_readable($vendorsAutoloadFile)){
+    require_once($vendorsAutoloadFile);
+}
