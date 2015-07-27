@@ -47,6 +47,8 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
     protected $apiSchema;
     protected $apiRouteFindById;
     protected $apiRouteFindByQuery;
+    protected $apiRouteCreate;
+    protected $apiRouteUpdate;
     
     protected $lastReponse = array();
 
@@ -66,6 +68,8 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
         $this->setApiSchema($settings ['api']['schema']);
         $this->setApiRouteFindById($settings ['api']['routeFindById']);
         $this->setApiRouteFindByQuery($settings ['api']['routeFindByQuery']);
+        $this->setApiRouteCreate($settings ['api']['routeCreate']);
+        $this->setApiRouteUpdate($settings ['api']['routeUpdate']);
         
         $this->connector->setExtension($extension);
 
@@ -177,6 +181,22 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
 
         return $route;
     }
+    
+    public function persist(\Xima\XmTools\Classes\API\REST\Model\AbstractEntity $entity){
+        
+        $target = $this->getApiTarget();
+        
+        if ($entity->getUid()){
+            $apiRoute = str_replace(ApiRepository::PLACEHOLDER_TARGET, $target, $this->apiRouteUpdate).'/'.$entity->getUid();
+        } else{
+            $apiRoute = str_replace(ApiRepository::PLACEHOLDER_TARGET, $target, $this->apiRouteCreate);
+        }
+        
+        $apiUrl = $this->buildUrl($apiRoute);
+        $result = $this->connector->post($apiUrl, $entity);
+        
+        return $result;
+    }
 
     public function getApiKey()
     {
@@ -246,5 +266,28 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
         $this->lastReponse = $lastReponse;
         return $this;
     }
+
+    public function getApiRouteCreate()
+    {
+        return $this->apiRouteCreate;
+    }
+
+    public function setApiRouteCreate($apiRouteCreate)
+    {
+        $this->apiRouteCreate = $apiRouteCreate;
+        return $this;
+    }
+
+    public function getApiRouteUpdate()
+    {
+        return $this->apiRouteUpdate;
+    }
+
+    public function setApiRouteUpdate($apiRouteUpdate)
+    {
+        $this->apiRouteUpdate = $apiRouteUpdate;
+        return $this;
+    }
+ 
  
 }

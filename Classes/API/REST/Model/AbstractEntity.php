@@ -28,15 +28,27 @@ use Xima\XmTools\Classes\Helper\Helper;
  ***************************************************************/
 
 /**
- * GrowingArea
+ * AbstractEntity
+ * 
+ * @todo Store both id and ui?
  */
 class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
 
     /**
-     * Sets the uid
-     *
-     * @param  integer $uid
+     * @var integer
+     */
+    protected $id;
+    
+    
+    /**
+     * Hook to perform actions after json mapping.
+     */
+    public function postMapping(){
+        $this->uid = $this->id;
+    }
+    
+    /**
      * @return void
      */
     public function setUid($uid)
@@ -44,26 +56,17 @@ class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
         $this->uid = $uid;
     }
     
-    public function parsePropertyArray($array)
+    public function getId()
     {
-        foreach ($array as $key => $value) {
-        
-            //try to set the value: call a parse function, a setter or set directly
-            $parseFunction = 'parse'.Helper::underscoreToCamelCase($key);
-            $setter = 'set'.Helper::underscoreToCamelCase($key);
-        
-            if (method_exists($this, $parseFunction))
-            {
-                $this->$parseFunction ($value);
-            }
-            elseif (method_exists($this, $setter))
-            {
-                $this->$setter ($value);
-            } 
-            else
-            {
-               $this->{$key} = $value;
-            }
-        }
+       return $this->id;
     }
+    
+    /**
+     * @return void
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+    
 }
