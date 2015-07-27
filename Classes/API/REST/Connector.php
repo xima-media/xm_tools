@@ -58,6 +58,7 @@ class Connector
         $responseJson = false;
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
         $logger = $objectManager->get('Xima\XmTools\Classes\Typo3\Logger');
+        $session = $objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Session');
         
         $logger->log('Called api url: '.$url);
         
@@ -100,26 +101,37 @@ class Connector
                     $response ['result'] ['id'] => $response ['result'], );
             }
     
+            //map json data to objects if a class exists
             if (class_exists($modelClassName)) {
-                $result = array();
+
+                $mapper = new \JsonMapper();
+
+                $objectsJson = $response ['result'];
+                $response ['result'] = array();
                 
-                foreach ($response ['result'] as $key => $data) 
+                foreach ($objectsJson as $objectJson)
                 {
-                    if (isset($data['id']))
+                    $object = $mapper->map($objectJson, new $modelClassName());
+                    if (method_exists ($object, 'getId'))
                     {
-                        // make the entities fit typo3 better
-                        $data ['uid'] = $data['id'];
+                        //check if the object is already registered
+                        $testObject = $session->getObjectByIdentifier($modelClassName, $object->getId());
+                        if ($testObject){
+                            $object = $testObject;
+                        } else {
+                            //register object to e.g. render option tags with correct identifier values 
+                            $session->registerObject($object, $object->getId());                            
+                        }
+                    }
+                    if (is_a($object, '\Xima\XmTools\Classes\API\REST\Model\AbstractEntity'))
+                    {
+                        $object->postMapping();
                     }
                     
-                    $result [$key] = new $modelClassName ();
-                    if (is_a($result [$key], 'Xima\XmTools\Classes\API\REST\Model\AbstractEntity'))
-                    {
-                        $result [$key]->parsePropertyArray($data);
-                    }
-    
+                    $response ['result'][] = $object;
+                    
                 }
-    
-                $response ['result'] = $result;
+                
             }
         }
         else 
@@ -132,6 +144,28 @@ class Connector
         }
 
         return $response;
+    }
+    
+    public function post($url, $data){
+        
+        //Initiate cURL.
+        $ch = curl_init($url);
+        
+        //Encode the array into JSON.
+        $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
+        $jsonData = $serializer->serialize($data, 'json');
+        
+        //Tell cURL that we want to send a POST request.
+        curl_setopt($ch, CURLOPT_POST, 1);
+        
+        //Attach our encoded JSON string to the POST fields.
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+        
+        //Set the content type to application/json
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        
+        //Execute the request
+        return curl_exec($ch);
     }
 
     public function setExtension(\Xima\XmTools\Classes\Typo3\Model\Extension $extension) {
