@@ -1,6 +1,6 @@
 {
     "require": {
         "symfony/yaml": "2.7.x-dev",
-        "netresearch/jsonmapper": "dev-master"
+        "netresearch/jsonmapper": "0.7.0"
     }
 }
