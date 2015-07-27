@@ -17,21 +17,19 @@ class IndexEntry
 
     const CONTENT_SEPERATOR = ", \n";
 
-    public function addContent($content, $title=null)
+    public function addContent($content, $title = null)
     {
-        if (is_array($content)){
+        if (is_array($content)) {
             $content = implode(', ', $content);
-        }else
-        {
-            $content = trim(strip_tags($content));            
+        } else {
+            $content = trim(strip_tags($content));
         }
-        
+
         if (!empty($content)) {
             if (!empty($this->content)) {
                 $this->content .= self::CONTENT_SEPERATOR;
             }
-            if (!is_null($title))
-            {
+            if (!is_null($title)) {
                 $content = $title.': '.$content;
             }
             $this->content .= $content;

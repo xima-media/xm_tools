@@ -14,9 +14,9 @@ class ExtensionHelper
      * @inject
      */
     protected $configurationManagerInterface;
-    
+
     /**
-     * @param string $extensionName
+     * @param  string                                      $extensionName
      * @return \Xima\XmTools\Classes\Typo3\Model\Extension
      */
     public function getExtension($extensionName = null)
@@ -24,39 +24,30 @@ class ExtensionHelper
         $extension = null;
         $configuration = array();
 
-        if (TYPO3_MODE === 'FE') 
-        {
-            if (is_null($extensionName))
-            {
+        if (TYPO3_MODE === 'FE') {
+            if (is_null($extensionName)) {
                 //do this only for frontend extensions that call directly (in $configuration ['extensionName'])
                 //get the extensions name that causes the call
                 $configuration = $this->configurationManagerInterface->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
                 $extensionName = $configuration ['extensionName'];
-            }
-            else 
-            {
+            } else {
                 $configuration = $this->getConfigurationFE($extensionName);
-            } 
-        } 
-        elseif (TYPO3_MODE === 'BE' && !is_null($extensionName)) 
-        {
+            }
+        } elseif (TYPO3_MODE === 'BE' && !is_null($extensionName)) {
             $configuration = $this->getConfigurationBE($extensionName);
         }
 
         //now create the demanded extension
         if (!is_null($extensionName)) {
-            
             $extensionKey = ExtensionHelper::getExtensionKeyByExtensionName($extensionName);
-            if (in_array($extensionKey,ExtensionManagementUtility::getLoadedExtensionListArray()))
-            {
+            if (in_array($extensionKey, ExtensionManagementUtility::getLoadedExtensionListArray())) {
                 $extension = new Extension();
-    
+
                 /* @var $extension \Xima\XmTools\Classes\Typo3\Model\Extension */
                 $extension->setName($extensionName);
                 $extension->setKey($extensionKey);
                 $extension->setConfiguration($configuration);
-                if (isset($configuration["settings"]))
-                {
+                if (isset($configuration["settings"])) {
                     $extension->setSettings($configuration["settings"]);
                 }
                 $extension->setRelPath(ExtensionManagementUtility::siteRelPath($extension->getKey()));
@@ -101,7 +92,7 @@ class ExtensionHelper
 
         // access the typoscript cache
         $arrOfObj = (array) $manager;
-        
+
         //$arrKeys = array_keys($arrOfObj);
         $config = $arrOfObj["\0*\0typoScriptSetupCache"];
 

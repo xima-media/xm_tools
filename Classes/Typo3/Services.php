@@ -19,103 +19,93 @@ use Xima\XmTools\Classes\Typo3\Extension\ExtensionManager;
 class Services implements \TYPO3\CMS\Core\SingletonInterface
 {
     const DEFAULT_LANG_STRING = 'default';
-    
+
     /**
      * @var \Xima\XmTools\Classes\Typo3\Extension\ExtensionManager
      * @inject
      */
     protected $extensionManager;
-    
+
     /**
      * The current extension
      *
      * @var \Xima\XmTools\Classes\Typo3\Model\Extension
      */
     protected $extension;
-    
+
     protected $langId = null;
     protected $lang = null;
-    
+
     /**
      * The site parameters from parameters.yml
-     * 
+     *
      * @var array
      */
     protected $parameters = array();
-    
+
     /**
      * The settings of the xm_tools extension
-     * 
+     *
      * @var array
      */
     protected $settings = array();
-    
+
     public function initializeObject()
     {
-        if (TYPO3_MODE === 'FE') 
-        {
+        if (TYPO3_MODE === 'FE') {
             $this->langId = $GLOBALS ['TSFE']->sys_language_uid;
             $this->lang = $GLOBALS ['TSFE']->lang;
-        } 
-        elseif (TYPO3_MODE === 'BE') 
-        {
+        } elseif (TYPO3_MODE === 'BE') {
             $this->lang = $GLOBALS['BE_USER']->user['lang'];
         }
-        
+
         $this->extension = $this->extensionManager->getCurrentExtension();
         $this->settings = $this->extensionManager->getXmTools()->getSettings();
-        
+
         //get parameters
-        
+
         $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
-        
+
         $cacheManager = $objectManager->get('Xima\XmTools\Classes\Typo3\Cache\ExtensionCacheManager');
         /* @var $cacheManager \Xima\XmTools\Classes\Typo3\Cache\ExtensionCacheManager */
-        
+
         $cacheManager->setPath($this->extensionManager->getXmTools()->getKey());
-        
+
         $cacheFileName = 'parameters.php';
         $parametersSerialized = $cacheManager->get($cacheFileName);
 
-        if ($parametersSerialized && !$this->extensionManager->getXmTools()->getSettings()['devModeIsEnabled'])
-        {
+        if ($parametersSerialized && !$this->extensionManager->getXmTools()->getSettings()['devModeIsEnabled']) {
             $this->parameters = unserialize($parametersSerialized);
-        }
-        else
-        {
+        } else {
             //get site parameters
             $ymlFile = PATH_site.$this->extensionManager->getXmTools()->getRelPath().'/parameters.yml';
-        
-            if (is_readable($ymlFile))
-            {
+
+            if (is_readable($ymlFile)) {
                 $this->parameters = Yaml::parse(file_get_contents($ymlFile));
                 $cacheManager->write($cacheFileName, serialize($this->parameters));
             }
         }
-        
+
         //offer as js
-        if ($this->settings['jsSupportIsEnabled'])
-        {
+        if ($this->settings['jsSupportIsEnabled']) {
             $fileName = 'parameters.js';
             $jsFilePath = $cacheManager->getFilePath($fileName);
-            
-            if (!is_readable($jsFilePath) || $this->extensionManager->getXmTools()->getSettings()['devModeIsEnabled'])
-            {
-                    $content = "if (typeof xmTools != \"undefined\")\n";
-                    $content .= "{\n";
-                    $content .= "  parameters=".json_encode($this->parameters).";\n";
-                    $content .= "  xmTools.setParameters(parameters);\n";
-                    $content .= "  delete parameters;\n";
-                    $content .= "};";
-            
+
+            if (!is_readable($jsFilePath) || $this->extensionManager->getXmTools()->getSettings()['devModeIsEnabled']) {
+                $content = "if (typeof xmTools != \"undefined\")\n";
+                $content .= "{\n";
+                $content .= "  parameters=".json_encode($this->parameters).";\n";
+                $content .= "  xmTools.setParameters(parameters);\n";
+                $content .= "  delete parameters;\n";
+                $content .= "};";
+
                     //open and write to file
                     $cacheManager->write($fileName, $content);
             }
-                
+
             $this->includeJavaScript(array('EXT:xm_tools.js'), $this->extensionManager->getXmTools());
             $this->includeJavaScript(array($jsFilePath));
         }
-
     }
 
     /**
@@ -135,16 +125,15 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
      */
     public function includeJavaScript(array $files, Extension $extension = null)
     {
-        $extension = (is_null($extension))? $this->extension : $extension;
+        $extension = (is_null($extension)) ? $this->extension : $extension;
         foreach ($files as $file) {
-            
+
             //support typo3 notation (Ext:Resources/Public/js/xyz.js) and short notation (Ext:xyz.js)
-            if (strstr($file,'EXT:'))
-            {
-                $parts = explode(':', $file); 
+            if (strstr($file, 'EXT:')) {
+                $parts = explode(':', $file);
                 $file = $extension->getRelPath().$extension->getJsRelPath().array_pop(explode('/', $parts[1]));
             }
-            
+
             if ($this->getPageRenderer()) {
                 $this->getPageRenderer()->addJsFile($file);
             }
@@ -180,12 +169,11 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
      */
     public function includeCss(array $files, Extension $extension = null)
     {
-        $extension = (is_null($extension))? $this->extension : $extension;
+        $extension = (is_null($extension)) ? $this->extension : $extension;
         foreach ($files as $file) {
-            
+
             //support typo3 notation (Ext:Resources/Public/css/xyz.css) and short notation (Ext:xyz.css)
-            if (strstr($file,'EXT:'))
-            {
+            if (strstr($file, 'EXT:')) {
                 $parts = explode(':', $file);
                 $file = $extension->getRelPath().$extension->getCssRelPath().array_pop(explode('/', $parts[1]));
             }
@@ -309,12 +297,11 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
             $this->substitutePageTitle($title.$hit);
         }
     }
-    
-    public function getIsoLang() {
-        
-        switch ($this->lang)
-        {
-            case 'cs':
+
+    public function getIsoLang()
+    {
+        switch ($this->lang) {
+            case 'cs' :
                 return 'cz';
                 break;
             default:
@@ -322,7 +309,7 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
                 break;
         }
     }
-    
+
     public function getLangId()
     {
         return $this->langId;
@@ -343,66 +330,67 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
         $this->lang = $lang;
     }
 
-    public function getExtension() {
-
+    public function getExtension()
+    {
         return $this->extension;
     }
 
-    public function setExtension($extension) {
-
+    public function setExtension($extension)
+    {
         $this->extension = $extension;
+
         return $this;
     }
 
-    public function getExtensionManager() {
-
+    public function getExtensionManager()
+    {
         return $this->extensionManager;
     }
 
-    public function setExtensionManager($extensionManager) {
-
+    public function setExtensionManager($extensionManager)
+    {
         $this->extensionManager = $extensionManager;
+
         return $this;
     }
 
-    public function getParameters() {
-
+    public function getParameters()
+    {
         return $this->parameters;
     }
 
-    public function setParameters(array $parameters) {
-
+    public function setParameters(array $parameters)
+    {
         $this->parameters = $parameters;
+
         return $this;
     }
 
-    public function getSettings() {
-
+    public function getSettings()
+    {
         return $this->settings;
     }
 
-    public function setSettings(array $settings) {
-
+    public function setSettings(array $settings)
+    {
         $this->settings = $settings;
+
         return $this;
     }
 
     /**
      * @return \TYPO3\CMS\Core\Page\PageRenderer
      */
-    public function getPageRenderer() {
-
+    public function getPageRenderer()
+    {
         $pageRenderer = null;
-        
-        if (TYPO3_MODE === 'FE' && isset($GLOBALS ['TSFE']))
-        {
+
+        if (TYPO3_MODE === 'FE' && isset($GLOBALS ['TSFE'])) {
             $pageRenderer = $GLOBALS['TSFE']->getPageRenderer();
-        }
-        elseif (TYPO3_MODE === 'BE' && isset($GLOBALS['TBE_TEMPLATE']))
-        {
+        } elseif (TYPO3_MODE === 'BE' && isset($GLOBALS['TBE_TEMPLATE'])) {
             $pageRenderer = $GLOBALS['TBE_TEMPLATE']->getPageRenderer();
         }
+
         return $pageRenderer;
     }
- 
 }

@@ -43,7 +43,7 @@ class FeUser
     /**
      * Checks if fe_user is authenticated and has given role id
      *
-     * @param  integer  $role
+     * @param  integer $role
      * @return boolean
      */
     public function feUserHasRoleId($role)

@@ -14,9 +14,9 @@ abstract class AbstractSessionStore
 
     /**
      * Write data into session.
-     * 
-     * @param string $key
-     * @param mixed $value
+     *
+     * @param  string $key
+     * @param  mixed  $value
      * @return bool
      */
     abstract public function set($key, $value);
@@ -24,15 +24,15 @@ abstract class AbstractSessionStore
     /**
      * Restore data from session.
      *
-     * @param  string $key
-     * 
+     * @param string $key
+     *
      * @return mixed
      */
     abstract public function get($key);
 
     /**
      * Clean up all session data.
-     * 
+     *
      * @return bool
      */
     abstract public function cleanUp();

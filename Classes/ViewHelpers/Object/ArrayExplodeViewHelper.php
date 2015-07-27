@@ -15,11 +15,11 @@ class ArrayExplodeViewHelper extends AbstractViewHelper
 {
 
     /**
-     * Basically equal to PHP explode(). 
+     * Basically equal to PHP explode().
      *
      * @param $delimiter string
      * @param $string Array
-     * 
+     *
      * @return array
      */
     public function render($delimiter, $string)

@@ -17,11 +17,11 @@ class Repository extends \TYPO3\CMS\Extbase\Persistence\Repository
     {
         //to do
     }
-    
+
     /**
      * @param \Xima\XmTools\Classes\Typo3\Query\QueryInterface $query
      */
-    public function findAllByQuery (\Xima\XmTools\Classes\Typo3\Query\QueryInterface $query)
+    public function findAllByQuery(\Xima\XmTools\Classes\Typo3\Query\QueryInterface $query)
     {
         //to do
     }

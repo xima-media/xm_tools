@@ -13,14 +13,14 @@ class IndexLog
      * @var int
      */
     protected $countTotal = 0;
-    
+
     /**
      * page
      *
      * @var int
      */
     protected $page = 1;
-    
+
     /**
      * languageUid
      *
@@ -34,7 +34,7 @@ class IndexLog
      * @var string
      */
     protected $lang;
-    
+
     public function getCountTotal()
     {
         return $this->countTotal;
@@ -43,6 +43,7 @@ class IndexLog
     public function setCountTotal($countTotal)
     {
         $this->countTotal = $countTotal;
+
         return $this;
     }
 
@@ -54,6 +55,7 @@ class IndexLog
     public function setPage($page)
     {
         $this->page = $page;
+
         return $this;
     }
 
@@ -65,6 +67,7 @@ class IndexLog
     public function setLanguageUid($languageUid)
     {
         $this->languageUid = $languageUid;
+
         return $this;
     }
 
@@ -76,8 +79,7 @@ class IndexLog
     public function setLang($lang)
     {
         $this->lang = $lang;
+
         return $this;
     }
- 
- 
 }

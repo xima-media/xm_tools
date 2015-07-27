@@ -11,25 +11,25 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class ApiCacheManager extends ExtensionCacheManager
 {
-    public function setPath($path) {
-    
+    public function setPath($path)
+    {
         $path .= '/'.CacheManager::API_DIR_NAME;
-    
+
         return parent::setPath($path);
     }
-    
+
     public function clear()
     {
         $extensionKey = $_GET['extension_key'];
-        if (0 === strpos($extensionKey, 'xm_'))
-        {
+        if (0 === strpos($extensionKey, 'xm_')) {
             $this->setPath($extensionKey);
+
             return $this->clearCache();
         }
-    
+
         return false;
     }
-    
+
     /**
      * Creates file name by replacing special chars.
      *
@@ -41,14 +41,13 @@ class ApiCacheManager extends ExtensionCacheManager
         $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');
         $services = $objectManager->get('Xima\XmTools\Classes\Typo3\Services');
         /* @var $services \Xima\XmTools\Classes\Typo3\Services */
-        
+
         $fileName = $this->sanitizeFileName($fileName);
 
-        if (!$services->getExtensionManager()->getXmTools()->getSettings()['devModeIsEnabled'])
-        {
+        if (!$services->getExtensionManager()->getXmTools()->getSettings()['devModeIsEnabled']) {
             $fileName = md5($fileName);
         }
-        
+
         /* @var $services \Xima\XmTools\Classes\Typo3\Services */
         $filePath = $this->path.$fileName;
 

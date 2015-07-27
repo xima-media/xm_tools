@@ -1,7 +1,6 @@
 <?php
 namespace Xima\XmTools\Classes\API\REST\Model;
 
-use Xima\XmTools\Classes\Helper\Helper;
 /***************************************************************
  *
  *  Copyright notice
@@ -29,7 +28,7 @@ use Xima\XmTools\Classes\Helper\Helper;
 
 /**
  * AbstractEntity
- * 
+ *
  * @todo Store both id and ui?
  */
 class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
@@ -39,15 +38,15 @@ class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
      * @var integer
      */
     protected $id;
-    
-    
+
     /**
      * Hook to perform actions after json mapping.
      */
-    public function postMapping(){
+    public function postMapping()
+    {
         $this->uid = $this->id;
     }
-    
+
     /**
      * @return void
      */
@@ -55,12 +54,12 @@ class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->uid = $uid;
     }
-    
+
     public function getId()
     {
-       return $this->id;
+        return $this->id;
     }
-    
+
     /**
      * @return void
      */
@@ -68,5 +67,4 @@ class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     {
         $this->id = $id;
     }
-    
 }

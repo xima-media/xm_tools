@@ -13,33 +13,32 @@ class Dictionary
 
     /**
      * translations
-     * 
+     *
      * @var array
      */
     protected $translations = array();
-    
-    public function __call($method,$args) {
-        
+
+    public function __call($method, $args)
+    {
+
         //make a property out of the getter
         $translationKey = strtolower(str_replace('get', '', $method));
-        if (isset($this->translations[$translationKey]))
-        {
+        if (isset($this->translations[$translationKey])) {
             return $this->translations[$translationKey];
         }
-        
+
         return 'Missing translation: '.$translationKey;
     }
 
-    public function getTranslations() {
-
+    public function getTranslations()
+    {
         return $this->translations;
     }
 
-    public function setTranslations(array $translations) {
-
+    public function setTranslations(array $translations)
+    {
         $this->translations = $translations;
+
         return $this;
     }
- 
-    
 }

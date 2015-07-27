@@ -94,28 +94,21 @@ class Helper
     public static function translate($objectToTranslate, $lang, $fallbackLang = '')
     {
         foreach ($objectToTranslate as $key => $value) {
-            
+
             //knplabs translatables
-            if ('translations' === $key && is_array($value))
-            {
+            if ('translations' === $key && is_array($value)) {
                 //fill fallback language first
-                if (isset($value[$fallbackLang])) 
-                {
+                if (isset($value[$fallbackLang])) {
                     Helper::mergeTranslations($objectToTranslate, $value[$fallbackLang]);
                 }
-                if (isset($value[$lang])) 
-                {
+                if (isset($value[$lang])) {
                     Helper::mergeTranslations($objectToTranslate, $value[$lang]);
                 }
-                
-                unset ($objectToTranslate['translations']);
-            }
-            elseif (is_array($value)) 
-            {
+
+                unset($objectToTranslate['translations']);
+            } elseif (is_array($value)) {
                 $objectToTranslate[$key] = Helper::translate($value, $lang, $fallbackLang);
-            } 
-            else 
-            {
+            } else {
                 //pattern: nameDe, nameEn...
                 $langUcFirst = ucfirst($lang);
                 if (preg_match('~'.$langUcFirst.'$~', $key)) {
@@ -137,19 +130,16 @@ class Helper
 
                     $objectToTranslate[preg_replace('~'.$langUnderscored.'$~', '', $key)] = $value;
                 }
-                
             }
         }
 
         return $objectToTranslate;
     }
-    
-    private function mergeTranslations (&$objectToTranslate, $translations)
+
+    private function mergeTranslations(&$objectToTranslate, $translations)
     {
-        foreach ($translations as $key => $translation)
-        {
-            if ($key != 'id')
-            {
+        foreach ($translations as $key => $translation) {
+            if ($key != 'id') {
                 $objectToTranslate[$key] = $translation;
             }
         }
@@ -180,42 +170,40 @@ class Helper
 
         return preg_replace_callback('/_([a-z])/', $func, $string);
     }
-    
+
     /**
      * Get the package name of a class
-     * 
-     * @param mixed $class
+     *
+     * @param  mixed  $class
      * @return string
      */
     public static function getClassPackageName($class)
     {
         $name = '';
-        
-        if ($class)
-        {
+
+        if ($class) {
             $reflect  = new \ReflectionClass($class);
             $name = explode('\\', $reflect->getNamespaceName())[1];
         }
-    
+
         return $name;
     }
-    
+
     /**
      * Get the short name of a class (class name without namespace)
-     * 
-     * @param mixed $class
+     *
+     * @param  mixed  $class
      * @return string
      */
     public static function getClassShortName($class)
     {
         $name = '';
-        
-        if ($class)
-        {
+
+        if ($class) {
             $reflect  = new \ReflectionClass($class);
             $name = $reflect->getShortName();
         }
-        
+
         return $name;
     }
 }

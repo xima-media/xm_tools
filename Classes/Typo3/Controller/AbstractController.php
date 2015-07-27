@@ -2,7 +2,6 @@
 namespace Xima\XmTools\Classes\Typo3\Controller;
 
 use Xima\XmTools\Classes\Typo3\Services;
-use Xima\XmTools\Classes\Typo3\Helper\Localization;
 
 /***************************************************************
  *
@@ -34,77 +33,73 @@ use Xima\XmTools\Classes\Typo3\Helper\Localization;
  */
 abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
-	/**
-	 * @var \Xima\XmTools\Classes\Typo3\SessionManager
-	 * @inject
-	 */
-	protected $session = NULL;
-	
-	/**
-	 * @var \Xima\XmTools\Classes\Typo3\Services
-	 * @inject
-	 */
-	protected $typo3Services;
-	
-	protected function assignDefaultVariables()
-	{
-	    $this->view->assign ('lang', $this->typo3Services->getLang ());
-	    $this->view->assign ('settings', $this->settings);
-	}
+    /**
+     * @var \Xima\XmTools\Classes\Typo3\SessionManager
+     * @inject
+     */
+    protected $session = null;
 
-	
-	/**
-	 * Adds stylesheets and javascripts to page head by action.
-	 * 
-	 * @param string $action The current action.
-	 * @return bool
-	 */
-	protected function addAssets($action)
-	{
+    /**
+     * @var \Xima\XmTools\Classes\Typo3\Services
+     * @inject
+     */
+    protected $typo3Services;
+
+    protected function assignDefaultVariables()
+    {
+        $this->view->assign('lang', $this->typo3Services->getLang());
+        $this->view->assign('settings', $this->settings);
+    }
+
+    /**
+     * Adds stylesheets and javascripts to page head by action.
+     *
+     * @param  string $action The current action.
+     * @return bool
+     */
+    protected function addAssets($action)
+    {
         $settings = $this->typo3Services->getExtension()->getSettings();
-	    $js = (is_array($settings['js'][$action])? $settings['js'][$action] : array());
-	    $css = (is_array($settings['css'][$action])? $settings['css'][$action] : array());
-	    
-	    if (is_array($settings['js']['l10n'][$action][$this->typo3Services->getLang()]))
-	    {
-	        $js = array_merge($js, $settings['js']['l10n'][$action][$this->typo3Services->getLang()]);
-	    }
-	    if (is_array($settings['css']['l10n'][$action][$this->typo3Services->getLang()]))
-	    {
-	        $css = array_merge($css, $settings['css']['l10n'][$action][$this->typo3Services->getLang()]);
-	    }
-	    if (!empty($js))
-	    {
-	        $this->typo3Services->includeJavaScript($js);
-	    }
-	    if (!empty($css)) 
-	    {
-	        $this->typo3Services->includeCss($css);
-	    }
-	    
-	    return true;
-	}
-	
-    public function getSession() {
+        $js = (is_array($settings['js'][$action]) ? $settings['js'][$action] : array());
+        $css = (is_array($settings['css'][$action]) ? $settings['css'][$action] : array());
 
+        if (is_array($settings['js']['l10n'][$action][$this->typo3Services->getLang()])) {
+            $js = array_merge($js, $settings['js']['l10n'][$action][$this->typo3Services->getLang()]);
+        }
+        if (is_array($settings['css']['l10n'][$action][$this->typo3Services->getLang()])) {
+            $css = array_merge($css, $settings['css']['l10n'][$action][$this->typo3Services->getLang()]);
+        }
+        if (!empty($js)) {
+            $this->typo3Services->includeJavaScript($js);
+        }
+        if (!empty($css)) {
+            $this->typo3Services->includeCss($css);
+        }
+
+        return true;
+    }
+
+    public function getSession()
+    {
         return $this->session;
     }
 
-    public function setSession($session) {
-
+    public function setSession($session)
+    {
         $this->session = $session;
+
         return $this;
     }
 
-    public function getTypo3Services() {
-
+    public function getTypo3Services()
+    {
         return $this->typo3Services;
     }
 
-    public function setTypo3Services($typo3Services) {
-
+    public function setTypo3Services($typo3Services)
+    {
         $this->typo3Services = $typo3Services;
+
         return $this;
     }
- 
 }

@@ -68,11 +68,11 @@ abstract class AbstractIndexer
             $indexEntry->getAdditionalFields()); // additionalFields
     }
 
-    protected function getReport($indexerConfig, $objects, IndexLog $indexLog=null)
+    protected function getReport($indexerConfig, $objects, IndexLog $indexLog = null)
     {
         $count = count($objects);
-        $count .= ($indexLog && $indexLog->getCountTotal() > $count)? ' of total '. $indexLog->getCountTotal() : '';
-        
+        $count .= ($indexLog && $indexLog->getCountTotal() > $count) ? ' of total '.$indexLog->getCountTotal() : '';
+
         return '<p><b>Indexer "'.$indexerConfig ['title'].'":</b></br> '.$count.' elements have been indexed.</b></p>';
     }
 }

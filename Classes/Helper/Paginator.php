@@ -13,11 +13,11 @@ class Paginator
 {
 
     /**
-     * @param  int  $count
-     * @param  int  $limit
-     * @param  int  $currentPage
+     * @param  int      $count
+     * @param  int      $limit
+     * @param  int      $currentPage
      * @param  string   $url
-     * @param  int   $showLinksForBrowse
+     * @param  int      $showLinksForBrowse
      * @return Ambigous <unknown, multitype:, boolean, multitype:number >
      */
     public function getPageBrowser($count, $limit, $currentPage, $url, $showLinksForBrowse = 4)
@@ -34,20 +34,18 @@ class Paginator
     }
 
     /**
-     * @param  int  $countItems
-     * @param  int  $itemsPerPage
-     * @param  int  $currentPage
+     * @param  int   $countItems
+     * @param  int   $itemsPerPage
+     * @param  int   $currentPage
      * @param  int   $showLinksForBrowse
      * @return array
      */
     private function create($countItems, $itemsPerPage, $currentPage, $showLinksForBrowse)
     {
         $pager = array();
-        if ($countItems <= $itemsPerPage) 
-        {
+        if ($countItems <= $itemsPerPage) {
             $pager ['pages'] [1] ['current'] = true;
-        } else 
-        {
+        } else {
             // get the number of pages
             $countPages = (int) ceil($countItems / $itemsPerPage);
 
@@ -100,9 +98,9 @@ class Paginator
                     $end = (($currentPage + $itemsBeforAfterCurrentPage) > $countPages) ? $countPages : $currentPage + $itemsBeforAfterCurrentPage;
             } // switch
 
-            /**
-             * build pagination
-             */
+/**
+ * build pagination
+ */
             // first
             if ($currentPage > 1) {
                 $pager ['first'] = 1;
@@ -125,34 +123,29 @@ class Paginator
             if ($currentPage < $countPages) {
                 $pager ['last'] = $countPages;
             }
-            
+
             // total number of pages
             $pager ['countPages'] = $countPages;
             $pager ['penUltimatePage'] = $countPages-1;
         }
-        
+
         //get the display text for the result information
         //todo: place this somewhere else or do some refactoring
         $resultLabel = '';
         $countLabel = '';
         $dictionary = Localization::getDictionary();
 
-        if ($countItems == 1)
-        {
+        if ($countItems == 1) {
             $resultLabel = $dictionary->getList_1_result();
             $countLabel = $resultLabel;
-        }    
-        elseif (1 == count($pager['pages']))
-        {
-            $resultLabel = sprintf ($dictionary->getList_x_results(), $countItems);
+        } elseif (1 == count($pager['pages'])) {
+            $resultLabel = sprintf($dictionary->getList_x_results(), $countItems);
             $countLabel = $resultLabel;
-        }
-        else
-        {
+        } else {
             $currentFirst = ($currentPage - 1) * $itemsPerPage + 1;
             $currentLast = min(($currentPage - 1) * $itemsPerPage + $itemsPerPage, $countItems);
-            $resultLabel = sprintf ($dictionary->getList_x_results_of_y(), $currentFirst, $currentLast, $countItems);
-            $countLabel = sprintf ($dictionary->getList_x_results(), $countItems);;
+            $resultLabel = sprintf($dictionary->getList_x_results_of_y(), $currentFirst, $currentLast, $countItems);
+            $countLabel = sprintf($dictionary->getList_x_results(), $countItems);
         }
 
         $pager['resultLabel'] = $resultLabel;

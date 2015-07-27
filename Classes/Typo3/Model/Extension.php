@@ -1,7 +1,6 @@
 <?php
 namespace Xima\XmTools\Classes\Typo3\Model;
 
-use Xima\XmTools\Classes\Typo3\Extension\ExtensionHelper;
 use Xima\XmTools\Classes\Typo3\Helper\Localization;
 
 class Extension
@@ -87,32 +86,31 @@ class Extension
         $this->settings = $settings;
     }
 
-    public function getTranslations($lang) {
-
-        if (empty($this->translations[$lang]))
-        {
+    public function getTranslations($lang)
+    {
+        if (empty($this->translations[$lang])) {
             $this->translations[$lang] = Localization::getTranslations($this, $lang);
         }
-        
+
         return $this->translations[$lang];
     }
 
-    public function setTranslations($translations) {
-
+    public function setTranslations($translations)
+    {
         $this->translations = $translations;
+
         return $this;
     }
 
-    public function getConfiguration() {
-
+    public function getConfiguration()
+    {
         return $this->configuration;
     }
 
-    public function setConfiguration($configuration) {
-
+    public function setConfiguration($configuration)
+    {
         $this->configuration = $configuration;
+
         return $this;
     }
- 
- 
 }

@@ -2,10 +2,10 @@
 
 namespace Xima\XmTools\Classes\ViewHelpers\Security;
 
-use \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
 
 /**
- * Checks whether the user has one of given roles 
+ * Checks whether the user has one of given roles
  *
  * @author Steve Lenz <steve.lenz@xima.de>
  * @package xm_tools
@@ -16,14 +16,14 @@ class IfHasOneOfMultipleRolesViewHelper extends AbstractConditionViewHelper
 {
 
     /**
-     * 
-     * @param string $rolesCsv Role-IDs as csv
+     *
+     * @param  string  $rolesCsv Role-IDs as csv
      * @return boolean
      */
     public function render($rolesCsv)
     {
         $roles = explode(',', $rolesCsv);
-        
+
         foreach ($roles as $role) {
             if ($this->frontendUserHasRole($role)) {
                 return $this->renderThenChild();
@@ -32,14 +32,14 @@ class IfHasOneOfMultipleRolesViewHelper extends AbstractConditionViewHelper
     }
 
     /**
-     * 
-     * @param string $role
+     *
+     * @param  string  $role
      * @return boolean
      */
     protected function frontendUserHasRole($role)
     {
         if (!isset($GLOBALS['TSFE']) || !$GLOBALS['TSFE']->loginUser) {
-            return FALSE;
+            return false;
         }
         if (is_numeric($role)) {
             return is_array($GLOBALS['TSFE']->fe_user->groupData['uid']) && in_array($role, $GLOBALS['TSFE']->fe_user->groupData['uid']);
@@ -47,5 +47,4 @@ class IfHasOneOfMultipleRolesViewHelper extends AbstractConditionViewHelper
             return is_array($GLOBALS['TSFE']->fe_user->groupData['title']) && in_array($role, $GLOBALS['TSFE']->fe_user->groupData['title']);
         }
     }
-
 }

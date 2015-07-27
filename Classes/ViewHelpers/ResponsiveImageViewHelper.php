@@ -26,10 +26,12 @@ namespace Xima\XmTools\Classes\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
+class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+{
 
-    public function initializeArguments() {
-        $this->registerArgument('image', 'mixed', '', TRUE)
+    public function initializeArguments()
+    {
+        $this->registerArgument('image', 'mixed', '', true)
              ->registerArgument('sizes', 'array', '', false)
              ->registerArgument('alt', 'string', '', false)
              ->registerArgument('title', 'string', '', false);
@@ -40,35 +42,32 @@ class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
      *
      * @return string
      */
-    public function render() {
-
+    public function render()
+    {
         $output = '';
 
-        if (!$this->arguments['image'] || is_null($this->arguments['image']))
-        {
+        if (!$this->arguments['image'] || is_null($this->arguments['image'])) {
             return '';
         }
 
-        try
-        {
-            if (!isset($this->arguments['sizes']) || empty($this->arguments['sizes']))
-            {
+        try {
+            if (!isset($this->arguments['sizes']) || empty($this->arguments['sizes'])) {
                 $this->arguments['sizes'] = $this->templateVariableContainer->get('settings')['responsiveSizes'];
             }
 
             $output = '<picture>';
             $output .= '<!--[if IE 9]><video style="display: none;"><![endif]-->';
 
-            $TYPO3BaseDir = \TYPO3\CMS\Core\Utility\PathUtility::getAbsolutePathOfRelativeReferencedFileOrPath(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('xm_tools') . '/../../../');
-            $originalFilePath = '/fileadmin' . $this->arguments['image']->getIdentifier();
-            $originalInternalFilePath = $TYPO3BaseDir . $originalFilePath;
+            $TYPO3BaseDir = \TYPO3\CMS\Core\Utility\PathUtility::getAbsolutePathOfRelativeReferencedFileOrPath(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('xm_tools').'/../../../');
+            $originalFilePath = '/fileadmin'.$this->arguments['image']->getIdentifier();
+            $originalInternalFilePath = $TYPO3BaseDir.$originalFilePath;
             $originalFileName = $this->arguments['image']->getName();
             $parts = explode('.', $originalFileName);
             $originalFileNameExt = $parts[count($parts) - 1];
 
             list($originalWidth, $originalHeight) = getimagesize($originalInternalFilePath);
 
-            switch($this->arguments['image']->getMimeType()){
+            switch ($this->arguments['image']->getMimeType()) {
                 case 'image/jpeg':
                     $originalImg = imagecreatefromjpeg($originalInternalFilePath);
                     break;
@@ -84,44 +83,40 @@ class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
 
             $processedFileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\ProcessedFileRepository');
 
-            foreach($this->arguments['sizes'] as $size){
-                if(count($size) != 2){
+            foreach ($this->arguments['sizes'] as $size) {
+                if (count($size) != 2) {
                     continue;
                 }
 
                 list($media, $maxWidth) = $size;
 
-                if($originalWidth <= $maxWidth){
+                if ($originalWidth <= $maxWidth) {
                     // Breite des Bildes passt in die angegebene Maximalbreite
                     $filePath = $originalFilePath;
-                }else{
+                } else {
                     $processedFiles = $processedFileRepository->findAllByOriginalFile($this->arguments['image']);
 
                     $filePath = null;
                     $filePathAbsolute = null;
 
-                    if(!empty($processedFiles))
-                    {
-                        foreach($processedFiles as $file)
-                        {
-                            if($file->getProperty('width') == $maxWidth)
-                            {
-                                $filePath = '/fileadmin' . $file->getIdentifier();
-                                $filePathAbsolute = PATH_site .'fileadmin' . $file->getIdentifier();
+                    if (!empty($processedFiles)) {
+                        foreach ($processedFiles as $file) {
+                            if ($file->getProperty('width') == $maxWidth) {
+                                $filePath = '/fileadmin'.$file->getIdentifier();
+                                $filePathAbsolute = PATH_site.'fileadmin'.$file->getIdentifier();
                             }
                         }
                     }
 
-                    if(!is_readable($filePathAbsolute))
-                    {
+                    if (!is_readable($filePathAbsolute)) {
                         // neue Bildvariante anlegen
-                        if(null != $originalImg){
+                        if (null != $originalImg) {
                             $newHeight = $originalHeight * $maxWidth / $originalWidth;
 
                             $newFile = new \TYPO3\CMS\Core\Resource\ProcessedFile($this->arguments['image'], 'Image.CropScaleMask', array(
                                 'fileExtension' => $originalFileNameExt,
                                 'width' => $maxWidth,
-                                'height' => $newHeight
+                                'height' => $newHeight,
                             ));
 
                             $checksum = $newFile->calculateChecksum();
@@ -129,16 +124,16 @@ class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
                             $newImg = imagecreatetruecolor($maxWidth, $newHeight);
 
                             imagesavealpha($newImg, true);
-                            $color = imagecolorallocatealpha($newImg,0x00,0x00,0x00,127);
+                            $color = imagecolorallocatealpha($newImg, 0x00, 0x00, 0x00, 127);
                             imagefill($newImg, 0, 0, $color);
 
                             imagecopyresized($newImg, $originalImg, 0, 0, 0, 0, $maxWidth, $newHeight, $originalWidth, $originalHeight);
-                            $newFileName = preg_replace('~\.' . $originalFileNameExt . '$~', '_' . $checksum . '.' . $originalFileNameExt, $originalFileName);
-                            $newIdentifier = '/_processed_/' . $newFileName;
-                            $newFilePath = '/fileadmin' . $newIdentifier;
-                            $newInternalFilePath = $TYPO3BaseDir . $newFilePath;
+                            $newFileName = preg_replace('~\.'.$originalFileNameExt.'$~', '_'.$checksum.'.'.$originalFileNameExt, $originalFileName);
+                            $newIdentifier = '/_processed_/'.$newFileName;
+                            $newFilePath = '/fileadmin'.$newIdentifier;
+                            $newInternalFilePath = $TYPO3BaseDir.$newFilePath;
 
-                            switch($this->arguments['image']->getMimeType()){
+                            switch ($this->arguments['image']->getMimeType()) {
                                 case 'image/jpeg':
                                     imagejpeg($newImg, $newInternalFilePath);
                                     break;
@@ -164,34 +159,33 @@ class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
                                 'task_type' => 'Image.CropScaleMask',
                                 'checksum' => $checksum,
                                 'width' => $maxWidth,
-                                'height' => $newHeight
+                                'height' => $newHeight,
                             ));
 
                             unset($newFile);
 
                             $filePath = $newFilePath;
-                        }else{
+                        } else {
                             $filePath = $originalFilePath;
                         }
                     }
                 }
 
-                $output .= '<source media="' . $media . '" srcset="' . $filePath . '">';
+                $output .= '<source media="'.$media.'" srcset="'.$filePath.'">';
             }
 
             unset($processedFileRepository);
 
-            if(null != $originalImg){
+            if (null != $originalImg) {
                 imagedestroy($originalImg);
             }
 
             $metadata = $this->arguments['image']->_getMetadata();
 
             $output .= '<!--[if IE 9]></video><![endif]-->';
-            $output .= '<img alt="' . $metadata['alternative'] . '" title="' . $metadata['title'] . '" srcset="' . $originalFilePath . '">';
+            $output .= '<img alt="'.$metadata['alternative'].'" title="'.$metadata['title'].'" srcset="'.$originalFilePath.'">';
             $output .= '</picture>';
-        }catch(\Exception $e){
-
+        } catch (\Exception $e) {
         }
 
         return $output;

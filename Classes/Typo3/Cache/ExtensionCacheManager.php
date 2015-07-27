@@ -10,10 +10,10 @@ namespace Xima\XmTools\Classes\Typo3\Cache;
  */
 class ExtensionCacheManager extends CacheManager
 {
-    public function setPath($path) {
-    
+    public function setPath($path)
+    {
         $path = CacheManager::EXTENSION_DIR_NAME.'/'.$path;
-    
+
         return parent::setPath($path);
     }
 }

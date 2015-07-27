@@ -17,15 +17,14 @@ class IfViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionVie
     /**
      * renders <f:then> child if $conditions and/or combined is true, otherwise renders <f:else> child.
      *
-     * @param  array $conditions    View helper conditions
-     * @param  string  $conditionType
-     * @return string  the rendered string
+     * @param  array  $conditions    View helper conditions
+     * @param  string $conditionType
+     * @return string the rendered string
      */
     public function render($conditions, $conditionType = 'OR')
     {
         $result = false;
-        foreach ($conditions as $condition)
-        {
+        foreach ($conditions as $condition) {
             switch ($conditionType) {
                 case self::CONDITION_TYPE_AND:
                     $result = $result && $condition;
@@ -33,7 +32,7 @@ class IfViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionVie
                 case self::CONDITION_TYPE_OR:
                     $result = $result || $condition;
                     break;
-                    
+
             }
         }
 
