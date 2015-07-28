@@ -1,4 +1,13 @@
 {
+    "name": "xima-media/xm_tools",
+    "type": "typo3-cms-extension",
+    "description": "A framework for TYPO3 extensions.",
+    "homepage": "https://github.com/xima-media/xm_tools",
+    "license": ["MIT"],
+    "keywords": ["TYPO3 CMS", "Extbase", "Api", "Tools", "Xima", "ViewHelper"],
+    "support": {
+        "issues": "https://github.com/xima-media/xm_tools/issues"
+    },
 	"require" : {
 		"symfony/yaml" : "2.7.2",
 		"netresearch/jsonmapper" : "0.7.0",
