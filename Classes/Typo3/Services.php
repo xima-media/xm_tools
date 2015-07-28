@@ -9,8 +9,10 @@ use Symfony\Component\Yaml\Yaml;
 use Xima\XmTools\Classes\Typo3\Extension\ExtensionManager;
 
 /**
- * Static and non static helper functions for TYPO3. Context of current extension used.
- * Include it by dependency injection, the rest is done for you.
+ * XmTools' facade like base class.
+ *
+ * Initialises common settings such as current language and extension, global site parameters and managers. Includes static and non static helper functions for TYPO3.
+ * Include it by dependency injection.
  *
  * @author Steve Lenz <sle@xima.de>
  * @author Wolfram Eberius <woe@xima.de>

@@ -57,7 +57,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'xm_tools'
-copyright = u'2015, Steve Lenz, Sebastian Gierth, Wolfram Eberius'
+copyright = u'2014-2015 Sebastian Gierth, Steve Lenz, Wolfram Eberius'
 author = u'Steve Lenz, Sebastian Gierth, Wolfram Eberius'
 
 # The version info for the project you're documenting, acts as replacement for

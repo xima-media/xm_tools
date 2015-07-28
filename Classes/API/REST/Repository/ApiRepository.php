@@ -5,9 +5,8 @@ namespace Xima\XmTools\Classes\API\REST\Repository;
 use Xima\XmTools\Classes\Helper\Helper;
 
 /**
- * Abstract class for extbase repositories to retrieve data through a REST URL.
- * The concrete repository must provide the API route relative to the API URL configured in
- * the TYPO3 constant editor for the concrete extension.
+ * Abstract class for extbase repositories to retrieve data through a REST API.
+ * The name of the inheriting repository class will be used for creating the API URL and instantiating model classes. This behaviour can be changed by overriding the function getApiTarget().
  *
  * @author Wolfram Eberius <woe@xima.de>
  */
@@ -25,7 +24,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
     protected $extensionManager;
 
     /**
-     * connector.
+     * The connector class.
      *
      * @var \Xima\XmTools\Classes\API\REST\Connector
      * @inject
@@ -33,6 +32,8 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
     protected $connector;
 
     /**
+     * The xm_tools facade.
+     *
      * @var \Xima\XmTools\Classes\Typo3\Services
      * @inject
      */
@@ -48,6 +49,9 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
 
     protected $lastReponse = array();
 
+    /**
+     * Retrieves the calling extension through the package name of the inheriting repository class. Configures the repository with the extensions' settings.
+     */
     public function initializeObject()
     {
         $extensionName = null;
@@ -70,11 +74,11 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
     }
 
     /**
-     * find.
+     * Find an entity by id.
      *
      * @param $id
      *
-     * @return The model object with the given id.
+     * @return Xima\XmTools\Classes\API\REST\Model\AbstractEntity|array The model class or array with the given id.
      */
     public function findByUid($id)
     {
@@ -106,7 +110,11 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
     }
 
     /**
-     * @see \Xima\XmTools\Classes\Typo3\Domain\Repository\Repository::findAllByQuery()
+     * Find all entities filtered by a \Xima\XmTools\Classes\Typo3\Query\QueryInterface.
+     *
+     * @param \Xima\XmTools\Classes\Typo3\Query\QueryInterface $query The filter object.
+     *
+     * @return Array of model objects
      */
     public function findAllByQuery(\Xima\XmTools\Classes\Typo3\Query\QueryInterface $query)
     {
@@ -121,6 +129,11 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
         return $this->lastReponse['result'];
     }
 
+    /**
+     * Create a Xima\XmTools\Classes\API\REST\Query object. Overrides TYPO3 default behavivour.
+     *
+     * @return \Xima\XmTools\Classes\API\REST\Query
+     */
     public function createQuery()
     {
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Extbase\\Object\\ObjectManager');

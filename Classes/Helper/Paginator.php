@@ -6,6 +6,8 @@ use Xima\XmTools\Classes\Typo3\Helper\Localization;
 
 /**
  * @author Steve Lenz <sle@xima.de>
+ *
+ * @todo Refactor
  */
 class Paginator
 {

@@ -30,6 +30,8 @@ namespace Xima\XmTools\Classes\API\REST\Model;
 /**
  * AbstractEntity.
  *
+ * Base class for models that get constructed by the \Xima\XmTools\Classes\API\REST\Connector. API data is returned as json, converted to an array and then iterated to instantiate model classes.
+ * Objects get hydrated by netresearch/jsonmapper.
  * @todo Store both id and ui?
  */
 class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
@@ -48,6 +50,9 @@ class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
+     * Sets the uid (suggested for the TYPO3 environment).
+     *
+     * @param int $uid
      */
     public function setUid($uid)
     {

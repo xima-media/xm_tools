@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+  <parser>
+    <target>docs/source/_static/api/cache</target>
+  </parser>
+  <transformer>
+    <target>docs/source/_static/api</target>
+  </transformer>
+  <files>
+    <directory>.</directory>
+  </files>
+  <title>xm_tools apidoc</title>
+</phpdoc>

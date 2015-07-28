@@ -12,7 +12,8 @@ Contents:
    :maxdepth: 3
    
    install
-   examples
+   tools
+   viewhelper
    architecture
 
 
@@ -25,3 +26,4 @@ Contents:
     * :ref:`modindex`
     * :ref:`search`
 
+`API documentation <_static/api/index.html>`_
