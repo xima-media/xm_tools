@@ -3,7 +3,7 @@
     "type": "typo3-cms-extension",
     "description": "A framework for TYPO3 extensions.",
     "homepage": "https://github.com/xima-media/xm_tools",
-    "license": ["MIT"],
+    "license": ["GPL-2.0+"],
     "keywords": ["TYPO3 CMS", "Extbase", "Api", "Tools", "Xima", "ViewHelper"],
     "support": {
         "issues": "https://github.com/xima-media/xm_tools/issues"
