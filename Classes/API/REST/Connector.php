@@ -13,7 +13,7 @@ class Connector
 {
     /**
      * The extension that uses the Connector.
-     * 
+     *
      * @var \Xima\XmTools\Classes\Typo3\Model\Extension
      */
     protected $extension;
