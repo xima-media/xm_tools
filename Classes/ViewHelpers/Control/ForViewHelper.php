@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Classes\ViewHelpers\Control;
 
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -17,7 +18,8 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 class ForViewHelper extends AbstractViewHelper
 {
     /**
-     * Returns selected="selected", if $value is contained in $inData
+     * Returns selected="selected", if $value is contained in $inData.
+     *
      * @param int    $max
      * @param int    $min
      * @param int    $step

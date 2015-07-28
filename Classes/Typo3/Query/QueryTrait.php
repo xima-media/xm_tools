@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Classes\Typo3\Query;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -6,49 +7,49 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 trait QueryTrait
 {
     /**
-     * currentPage
+     * currentPage.
      *
      * @var int
      */
     protected $currentPage = 1;
 
     /**
-     * searchTerm
+     * searchTerm.
      *
      * @var string
      */
     protected $searchTerm = null;
 
     /**
-     * sort
+     * sort.
      *
      * @var string
      */
     protected $sort = null;
 
     /**
-     * limit
+     * limit.
      *
      * @var int
      */
     protected $limit = null;
 
     /**
-     * lang
+     * lang.
      *
      * @var string
      */
     protected $lang = null;
 
     /**
-     * context
+     * context.
      *
      * @var string
      */
     protected $context = null;
 
     /**
-     * params
+     * params.
      *
      * @var array
      */
@@ -95,8 +96,7 @@ trait QueryTrait
     }
 
     /**
-     * @param  int  $currentPage
-     * @return void
+     * @param int $currentPage
      */
     public function setCurrentPage($currentPage)
     {
@@ -111,8 +111,7 @@ trait QueryTrait
     }
 
     /**
-     * @param  string $searchTerm
-     * @return void
+     * @param string $searchTerm
      */
     public function setSearchTerm($searchTerm)
     {
@@ -127,8 +126,7 @@ trait QueryTrait
     }
 
     /**
-     * @param  string $sort
-     * @return void
+     * @param string $sort
      */
     public function setSort($sort)
     {
@@ -143,8 +141,7 @@ trait QueryTrait
     }
 
     /**
-     * @param  int  $limit
-     * @return void
+     * @param int $limit
      */
     public function setLimit($limit)
     {
@@ -159,8 +156,7 @@ trait QueryTrait
     }
 
     /**
-     * @param  string $lang
-     * @return void
+     * @param string $lang
      */
     public function setLang($lang)
     {

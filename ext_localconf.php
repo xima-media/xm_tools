@@ -47,7 +47,7 @@ spl_autoload_register(function ($class) {
 $TYPO3_CONF_VARS['BE']['AJAX']['xm_tools::clearCache'] = 'EXT:xm_tools/Classes/Typo3/Cache/ApiCacheManager.php:Xima\XmTools\Classes\Typo3\Cache\ApiCacheManager->clear';
 
 //autoload vendors
-$vendorsAutoloadFile =  PATH_site.'typo3conf'.DIRECTORY_SEPARATOR.
+$vendorsAutoloadFile = PATH_site.'typo3conf'.DIRECTORY_SEPARATOR.
                         'ext'.DIRECTORY_SEPARATOR.
                         'xm_tools'.DIRECTORY_SEPARATOR.
                         'vendor'.DIRECTORY_SEPARATOR.'autoload.php';

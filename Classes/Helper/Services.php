@@ -1,22 +1,21 @@
 <?php
+
 namespace Xima\XmTools\Classes\Helper;
 
 /**
  * Static helper methods, independent of context like TYPO3...
  *
- * @package xm_tools
  * @author Steve Lenz <sle@xima.de>
  * @author Wolfram Eberius <woe@xima.de>
- *
  */
 class Services
 {
-
   /**
-   * Json laden
+   * Json laden.
    *
    * @param string $file Path with filename
    * @param string $type array|json
+   *
    * @return mixed
    */
   public static function loadJson($file, $type = 'array')
@@ -31,9 +30,10 @@ class Services
   }
 
   /**
-   * Load file content
+   * Load file content.
    *
    * @param string $file
+   *
    * @return string
    */
   public static function loadFileContent($file)
@@ -42,10 +42,11 @@ class Services
   }
 
   /**
-   * Loads data with curl
+   * Loads data with curl.
    *
    * @param string $url
-   * @param boolean $convertJsonToArray
+   * @param bool $convertJsonToArray
+   *
    * @return mixed
    */
   public static function curlLoad($url, $convertJsonToArray = false)
@@ -73,11 +74,12 @@ class Services
   }
 
   /**
-   * Truncate
+   * Truncate.
    *
    * @param string $text
    * @param int $limit
    * @param string $encodiung
+   *
    * @return string
    */
   public static function truncate($text, $limit = 200, $end = null, $encodiung = 'UTF-8')
@@ -93,9 +95,10 @@ class Services
   }
 
   /**
-   * Bereinigt Strings von Umlauten, Sonder- und Leerzeichen
+   * Bereinigt Strings von Umlauten, Sonder- und Leerzeichen.
    *
    * @param string $name
+   *
    * @return string
    */
   public static function cleanString($string)
@@ -111,13 +114,14 @@ class Services
 
   /**
    * Geokodierung mit Google GeoCoding API V3
-   * https://developers.google.com/maps/documentation/geocoding/?hl=de
+   * https://developers.google.com/maps/documentation/geocoding/?hl=de.
    *
    * @param string $city
    * @param string/int $postcode
    * @param string $street
    * @param string/int $nr
    * @param string $sensor ('true'|'false')
+   *
    * @return array
    */
   public static function getGeoCoding($city, $postcode, $street, $nr, $sensor = 'false')
@@ -131,10 +135,11 @@ class Services
 
   /**
    * Die Adresse zu Geokoordinaten mittels Google GeoCoding API V3 ermitteln
-   * https://developers.google.com/maps/documentation/geocoding/?hl=de#ReverseGeocoding
+   * https://developers.google.com/maps/documentation/geocoding/?hl=de#ReverseGeocoding.
    *
    * @param float $lat
    * @param float $lng
+   *
    * @return type array
    */
   public static function reverseGeoCoding($lat, $lng, $sensor = 'false')
@@ -148,9 +153,9 @@ class Services
   }
 
   /**
-   *
    * @param array $placeholder
    * @param string $string
+   *
    * @return string
    */
   public static function replacePlaceholder($placeholder, $string)
@@ -163,9 +168,9 @@ class Services
   }
 
   /**
-   *
    * @param string $file
    * @param string $delimiter
+   *
    * @return type
    */
   public static function loadCvsAsAssocArray($file, $delimiter = ',')
@@ -194,7 +199,7 @@ class Services
   }
 
   /**
-   * Print arrays for debugging
+   * Print arrays for debugging.
    *
    * @param mixed $array
    * @param string $title
@@ -207,11 +212,12 @@ class Services
   }
 
   /**
-   * Converts array values into CSV
+   * Converts array values into CSV.
    *
    * @param array $array
    * @param string $key
    * @param string $separator - Default: ', '
+   *
    * @return string
    */
   public static function arrayByKeyToCsv($array, $key, $separator = ', ')

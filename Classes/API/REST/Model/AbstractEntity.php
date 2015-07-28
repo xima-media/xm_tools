@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Classes\API\REST\Model;
 
 /***************************************************************
@@ -27,15 +28,14 @@ namespace Xima\XmTools\Classes\API\REST\Model;
  ***************************************************************/
 
 /**
- * AbstractEntity
+ * AbstractEntity.
  *
  * @todo Store both id and ui?
  */
 class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
 {
-
     /**
-     * @var integer
+     * @var int
      */
     protected $id;
 
@@ -48,7 +48,6 @@ class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return void
      */
     public function setUid($uid)
     {
@@ -61,7 +60,6 @@ class AbstractEntity extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     }
 
     /**
-     * @return void
      */
     public function setId($id)
     {

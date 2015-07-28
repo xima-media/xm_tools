@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Classes\Typo3;
 
 use Xima\XmTools\Classes\Helper\AbstractSessionManager;
@@ -6,21 +7,18 @@ use Xima\XmTools\Classes\Helper\AbstractSessionManager;
 /**
  * TYPO3 session manager. Managages the retrieval of selected TYPO3 session stores.
  *
- * @package xm_tools
  * @author Wolfram Eberius <woe@xima.de>
- *
  */
 class SessionManager extends AbstractSessionManager implements \TYPO3\CMS\Core\SingletonInterface
 {
     /**
-     *
      * @var \Xima\XmTools\Classes\Typo3\Services
      * @inject
      */
     protected $typo3Services;
 
     /**
-     * Write data into session
+     * Write data into session.
      *
      * @param string                                      $key
      * @param mixed                                       $value
@@ -35,9 +33,10 @@ class SessionManager extends AbstractSessionManager implements \TYPO3\CMS\Core\S
     }
 
     /**
-     * Restore data from session
+     * Restore data from session.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return mixed
      */
     public function get($key, $postfix = null, $extension = null)
@@ -48,7 +47,7 @@ class SessionManager extends AbstractSessionManager implements \TYPO3\CMS\Core\S
     }
 
     /**
-     * Clean up session
+     * Clean up session.
      */
     public function cleanUp($postfix = null, $extension = null)
     {

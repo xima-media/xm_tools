@@ -1,11 +1,11 @@
 <?php
+
 namespace Xima\XmTools\Classes\Typo3\Extension;
 
 class ExtensionManager implements \TYPO3\CMS\Core\SingletonInterface
 {
     const XmTools = 'XmTools';
     /**
-     *
      * @var \Xima\XmTools\Classes\Typo3\Extension\ExtensionHelper
      * @inject
      */
@@ -16,9 +16,9 @@ class ExtensionManager implements \TYPO3\CMS\Core\SingletonInterface
     protected $currentExtensionName = null;
 
     /**
-     * @param  string                                      $extensionName
-     * @return \Xima\XmTools\Classes\Typo3\Model\Extension $extension
+     * @param string $extensionName
      *
+     * @return \Xima\XmTools\Classes\Typo3\Model\Extension $extension
      */
     public function getExtensionByName($extensionName)
     {
@@ -53,6 +53,6 @@ class ExtensionManager implements \TYPO3\CMS\Core\SingletonInterface
 
     public function getXmTools()
     {
-        return $this->getExtensionByName(ExtensionManager::XmTools);
+        return $this->getExtensionByName(self::XmTools);
     }
 }

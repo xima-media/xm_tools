@@ -1,17 +1,15 @@
 <?php
+
 namespace Xima\XmTools\Classes\Helper;
 
 /**
  * Static helper methods, independent of context like TYPO3...
  *
- * @package xm_tools
  * @author Steve Lenz <sle@xima.de>
  * @author Wolfram Eberius <woe@xima.de>
- *
  */
 class Helper
 {
-
     /**
      * Modifies a string to remove all non ASCII characters and spaces.
      */
@@ -63,10 +61,10 @@ class Helper
         $string = strtolower($string);
 
         // Replace all non-word characters by dashes
-        $string = preg_replace("/\W/", "-", $string);
+        $string = preg_replace("/\W/", '-', $string);
 
         // Replace double dashes by single dashes
-        $string = preg_replace("/-+/", '-', $string);
+        $string = preg_replace('/-+/', '-', $string);
 
         // Trim dashes from the beginning and end of string
         $string = trim($string, '-');
@@ -89,7 +87,7 @@ class Helper
     }
 
     /**
-     * Convert the date result by current language
+     * Convert the date result by current language.
      */
     public static function translate($objectToTranslate, $lang, $fallbackLang = '')
     {
@@ -99,15 +97,15 @@ class Helper
             if ('translations' === $key && is_array($value)) {
                 //fill fallback language first
                 if (isset($value[$fallbackLang])) {
-                    Helper::mergeTranslations($objectToTranslate, $value[$fallbackLang]);
+                    self::mergeTranslations($objectToTranslate, $value[$fallbackLang]);
                 }
                 if (isset($value[$lang])) {
-                    Helper::mergeTranslations($objectToTranslate, $value[$lang]);
+                    self::mergeTranslations($objectToTranslate, $value[$lang]);
                 }
 
                 unset($objectToTranslate['translations']);
             } elseif (is_array($value)) {
-                $objectToTranslate[$key] = Helper::translate($value, $lang, $fallbackLang);
+                $objectToTranslate[$key] = self::translate($value, $lang, $fallbackLang);
             } else {
                 //pattern: nameDe, nameEn...
                 $langUcFirst = ucfirst($lang);
@@ -147,19 +145,19 @@ class Helper
 
     public static function shortenText($text, $length, $glue = ' ', $finishString = '...')
     {
-        $lastPos = strpos($text, ' ', $length) -1;
-        $shortenedText = ($lastPos>0) ? substr($text, 0, $lastPos).'...' : $text;
+        $lastPos = strpos($text, ' ', $length) - 1;
+        $shortenedText = ($lastPos > 0) ? substr($text, 0, $lastPos).'...' : $text;
 
         return $shortenedText;
     }
 
     /**
-     * Convert strings with underscores into CamelCase
+     * Convert strings with underscores into CamelCase.
      *
-     * @param  string $string          The string to convert
-     * @param  bool   $first_char_caps camelCase or CamelCase
+     * @param string $string          The string to convert
+     * @param bool   $first_char_caps camelCase or CamelCase
+     *
      * @return string The converted string
-     *
      */
     public static function underscoreToCamelCase($string, $first_char_caps = true)
     {
@@ -172,9 +170,10 @@ class Helper
     }
 
     /**
-     * Get the package name of a class
+     * Get the package name of a class.
      *
-     * @param  mixed  $class
+     * @param mixed $class
+     *
      * @return string
      */
     public static function getClassPackageName($class)
@@ -182,7 +181,7 @@ class Helper
         $name = '';
 
         if ($class) {
-            $reflect  = new \ReflectionClass($class);
+            $reflect = new \ReflectionClass($class);
             $name = explode('\\', $reflect->getNamespaceName())[1];
         }
 
@@ -190,9 +189,10 @@ class Helper
     }
 
     /**
-     * Get the short name of a class (class name without namespace)
+     * Get the short name of a class (class name without namespace).
      *
-     * @param  mixed  $class
+     * @param mixed $class
+     *
      * @return string
      */
     public static function getClassShortName($class)
@@ -200,7 +200,7 @@ class Helper
         $name = '';
 
         if ($class) {
-            $reflect  = new \ReflectionClass($class);
+            $reflect = new \ReflectionClass($class);
             $name = $reflect->getShortName();
         }
 

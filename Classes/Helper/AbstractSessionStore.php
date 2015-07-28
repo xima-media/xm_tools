@@ -1,12 +1,11 @@
 <?php
+
 namespace Xima\XmTools\Classes\Helper;
 
 /**
  * Abstract class for storing session data.
  *
- * @package xm_tools
  * @author Wolfram Eberius <woe@xima.de>
- *
  */
 abstract class AbstractSessionStore
 {
@@ -15,8 +14,9 @@ abstract class AbstractSessionStore
     /**
      * Write data into session.
      *
-     * @param  string $key
-     * @param  mixed  $value
+     * @param string $key
+     * @param mixed  $value
+     *
      * @return bool
      */
     abstract public function set($key, $value);

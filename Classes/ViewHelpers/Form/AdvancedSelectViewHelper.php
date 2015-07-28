@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Classes\ViewHelpers\Form;
 
 use TYPO3\CMS\Fluid\ViewHelpers\Form\SelectViewHelper;
@@ -6,14 +7,12 @@ use TYPO3\CMS\Fluid\ViewHelpers\Form\SelectViewHelper;
 /**
  * Extends SelectViewHelper of Fluid by providing the arguments to prepend a selectable value at the first position.
  *
- * @package xm_tools
  * @author Sebastian Gierth <sgi@xima.de>
  *
  * @return string
  */
 class AdvancedSelectViewHelper extends SelectViewHelper
 {
-
     public function initializeArguments()
     {
         parent::initializeArguments();

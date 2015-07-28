@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Classes\Typo3\Extension;
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -7,16 +8,15 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ExtensionHelper
 {
-
     /**
-     *
      * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
      * @inject
      */
     protected $configurationManagerInterface;
 
     /**
-     * @param  string                                      $extensionName
+     * @param string $extensionName
+     *
      * @return \Xima\XmTools\Classes\Typo3\Model\Extension
      */
     public function getExtension($extensionName = null)
@@ -39,7 +39,7 @@ class ExtensionHelper
 
         //now create the demanded extension
         if (!is_null($extensionName)) {
-            $extensionKey = ExtensionHelper::getExtensionKeyByExtensionName($extensionName);
+            $extensionKey = self::getExtensionKeyByExtensionName($extensionName);
             if (in_array($extensionKey, ExtensionManagementUtility::getLoadedExtensionListArray())) {
                 $extension = new Extension();
 
@@ -47,8 +47,8 @@ class ExtensionHelper
                 $extension->setName($extensionName);
                 $extension->setKey($extensionKey);
                 $extension->setConfiguration($configuration);
-                if (isset($configuration["settings"])) {
-                    $extension->setSettings($configuration["settings"]);
+                if (isset($configuration['settings'])) {
+                    $extension->setSettings($configuration['settings']);
                 }
                 $extension->setRelPath(ExtensionManagementUtility::siteRelPath($extension->getKey()));
                 $extension->setExtPath(ExtensionManagementUtility::extPath($extension->getKey()));
@@ -68,9 +68,9 @@ class ExtensionHelper
         $extensionKey = '';
 
         for ($i = 0; $i < strlen($extensionName); $i++) {
-            $chr = mb_substr($extensionName, $i, 1, "UTF-8");
+            $chr = mb_substr($extensionName, $i, 1, 'UTF-8');
 
-            if ((mb_strtolower($chr, "UTF-8") != $chr) && $i>0) {
+            if ((mb_strtolower($chr, 'UTF-8') != $chr) && $i > 0) {
                 $extensionKey .= '_';
             }
 
@@ -97,7 +97,7 @@ class ExtensionHelper
         $config = $arrOfObj["\0*\0typoScriptSetupCache"];
 
         $setup = $service->convertTypoScriptArrayToPlainArray(array_pop($config));
-        $configuration = $setup["plugin"]["tx_".\strtolower($extensionName)];
+        $configuration = $setup['plugin']['tx_'.\strtolower($extensionName)];
 
         return $configuration;
     }
@@ -109,7 +109,7 @@ class ExtensionHelper
         $service = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
 
         $setup = $service->convertTypoScriptArrayToPlainArray($manager->getTypoScriptSetup());
-        $configuration = $setup["plugin"]["tx_".\strtolower($extensionName)];
+        $configuration = $setup['plugin']['tx_'.\strtolower($extensionName)];
 
         return $configuration;
     }

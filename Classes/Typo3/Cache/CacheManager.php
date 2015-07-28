@@ -1,12 +1,11 @@
 <?php
+
 namespace Xima\XmTools\Classes\Typo3\Cache;
 
 /**
  * Stores and retrieves data in a file.
  *
- * @package xm_tools
  * @author Wolfram Eberius <woe@xima.de>
- *
  */
 class CacheManager
 {
@@ -20,14 +19,15 @@ class CacheManager
 
     public function __construct()
     {
-        $this->path = CacheManager::BASE_PATH;
+        $this->path = self::BASE_PATH;
     }
 
     /**
      * Returns file contents. If file is younger than one day returns its value, otherwise false.
      *
-     * @param  string         $filename
-     * @return string|boolean
+     * @param string $filename
+     *
+     * @return string|bool
      */
     public function get($fileName)
     {
@@ -49,7 +49,7 @@ class CacheManager
 
     public function setPath($path)
     {
-        $this->path = CacheManager::BASE_PATH.$path.'/';
+        $this->path = self::BASE_PATH.$path.'/';
 
         if (!is_dir($this->getAbsolutePath())) {
             return mkdir($this->getAbsolutePath(), 0777, true);
@@ -61,7 +61,7 @@ class CacheManager
     protected function clearCache()
     {
         //check if the files to be deleted are in the temp folder but path is not the temp folder itself
-        if (0 === strpos($this->path, CacheManager::BASE_PATH) && $this->path != CacheManager::BASE_PATH) {
+        if (0 === strpos($this->path, self::BASE_PATH) && $this->path != self::BASE_PATH) {
             // get all file names
             $files = glob($this->getAbsolutePath().'*', GLOB_BRACE);
             foreach ($files as $file) {
@@ -80,7 +80,8 @@ class CacheManager
     /**
      * Creates file name by replacing special chars.
      *
-     * @param  string $filename
+     * @param string $filename
+     *
      * @return string
      */
     public function getFilePath($fileName)

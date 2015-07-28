@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Classes\ViewHelpers;
 
 /***************************************************************
@@ -28,7 +29,6 @@ namespace Xima\XmTools\Classes\ViewHelpers;
 
 class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
 {
-
     public function initializeArguments()
     {
         $this->registerArgument('image', 'mixed', '', true)
@@ -38,7 +38,7 @@ class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
     }
 
     /**
-     * Erzeugt Bildvarianten für verschiedene Medientypen
+     * Erzeugt Bildvarianten für verschiedene Medientypen.
      *
      * @return string
      */

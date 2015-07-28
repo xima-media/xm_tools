@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Classes\API\REST;
 
 use Xima\XmTools\Classes\Helper\Helper;
@@ -6,27 +7,22 @@ use Xima\XmTools\Classes\Helper\Helper;
 /**
  * The Api facade. The API configuration must be done through the TYPO3 constant editor for the concrete extension.
  *
- * @package xm_tools
  * @author Wolfram Eberius <woe@xima.de>
- *
  */
 class Connector
 {
-
     /**
      * @var \Xima\XmTools\Classes\Typo3\Model\Extension
      */
     protected $extension;
 
     /**
-     *
      * @var \Xima\XmTools\Classes\Typo3\Services
      * @inject
      */
     protected $typo3Services;
 
     /**
-     *
      * @var \Xima\XmTools\Classes\Typo3\Cache\ApiCacheManager
      * @inject
      */
@@ -41,9 +37,10 @@ class Connector
      * -name_de, name_en...
      * Calls cache or calls API and stores result in cache if older than one day.
      *
-     * @param  string                                                          $url
-     * @param  \Xima\XmTools\Classes\API\REST\Repository\AbstractApiRepository $repository
-     * @param  array                                                           $params
+     * @param string                                                          $url
+     * @param \Xima\XmTools\Classes\API\REST\Repository\AbstractApiRepository $repository
+     * @param array                                                           $params
+     *
      * @return array
      */
     public function get($url, \Xima\XmTools\Classes\API\REST\Repository\ApiRepository $repository, $params = array())
@@ -90,7 +87,7 @@ class Connector
             $response ['result'] = Helper::translate($response ['result'], $targetLanguage, $fallbackLanguage);
 
             // if it is a single result and a single result was queried we still want to return an array of arrays
-            if (! is_int(array_shift(array_keys($response ['result']))) && isset($response ['result'] ['id'])) {
+            if (!is_int(array_shift(array_keys($response ['result']))) && isset($response ['result'] ['id'])) {
                 $response ['result'] = array(
                     $response ['result'] ['id'] => $response ['result'], );
             }

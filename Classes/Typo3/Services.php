@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Classes\Typo3;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -11,10 +12,8 @@ use Xima\XmTools\Classes\Typo3\Extension\ExtensionManager;
  * Static and non static helper functions for TYPO3. Context of current extension used.
  * Include it by dependency injection, the rest is done for you.
  *
- * @package xm_tools
  * @author Steve Lenz <sle@xima.de>
  * @author Wolfram Eberius <woe@xima.de>
- *
  */
 class Services implements \TYPO3\CMS\Core\SingletonInterface
 {
@@ -27,7 +26,7 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
     protected $extensionManager;
 
     /**
-     * The current extension
+     * The current extension.
      *
      * @var \Xima\XmTools\Classes\Typo3\Model\Extension
      */
@@ -37,14 +36,14 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
     protected $lang = null;
 
     /**
-     * The site parameters from parameters.yml
+     * The site parameters from parameters.yml.
      *
      * @var array
      */
     protected $parameters = array();
 
     /**
-     * The settings of the xm_tools extension
+     * The settings of the xm_tools extension.
      *
      * @var array
      */
@@ -94,10 +93,10 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
             if (!is_readable($jsFilePath) || $this->extensionManager->getXmTools()->getSettings()['devModeIsEnabled']) {
                 $content = "if (typeof xmTools != \"undefined\")\n";
                 $content .= "{\n";
-                $content .= "  parameters=".json_encode($this->parameters).";\n";
+                $content .= '  parameters='.json_encode($this->parameters).";\n";
                 $content .= "  xmTools.setParameters(parameters);\n";
                 $content .= "  delete parameters;\n";
-                $content .= "};";
+                $content .= '};';
 
                     //open and write to file
                     $cacheManager->write($fileName, $content);
@@ -109,7 +108,8 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
     }
 
     /**
-     * Fügt HTML-Code zum &lt;head&gt; hinzu
+     * Fügt HTML-Code zum &lt;head&gt; hinzu.
+     *
      * @param string $html
      */
     public function addToHead($html)
@@ -118,7 +118,7 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
     }
 
     /**
-     * Binds JavaScript files in the HTML head of the page (TYPO3)
+     * Binds JavaScript files in the HTML head of the page (TYPO3).
      *
      * @param array $files file names, starting with http or relative
      * @param \Xima\XmTools\Classes\Typo3\Model\Extension from which extension
@@ -141,7 +141,7 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
     }
 
     /**
-     * Binds JavaScript files by Typoscript config in the HTML head of the page (TYPO3)
+     * Binds JavaScript files by Typoscript config in the HTML head of the page (TYPO3).
      *
      * @param array $config
      *                      Key value array with path to file
@@ -162,7 +162,7 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
     }
 
     /**
-     * Binds CSS files in the HTML head of the page (TYPO3)
+     * Binds CSS files in the HTML head of the page (TYPO3).
      *
      * @param array $files file names, starting with http or relative
      * @param \Xima\XmTools\Classes\Typo3\Model\Extension from which extension
@@ -185,7 +185,7 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
     }
 
     /**
-     * Binds CSS files by Typoscript config in the HTML head of the page (TYPO3)
+     * Binds CSS files by Typoscript config in the HTML head of the page (TYPO3).
      *
      * @param array $config
      *                      Key value array with path to file
@@ -206,10 +206,11 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
     }
 
     /**
-     * Gibt die Real-Url oder die PageID (?id=[PID]) zurück
+     * Gibt die Real-Url oder die PageID (?id=[PID]) zurück.
      *
-     * @param  int     $pageId
-     * @param  boolean $idAsGet
+     * @param int  $pageId
+     * @param bool $idAsGet
+     *
      * @return string
      */
     public function getUrlByPid($pageId, $idAsGet = false)
@@ -220,7 +221,7 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
         }
 
         $sql = 'SELECT page_id, pagepath, language_id'.' FROM tx_realurl_pathcache WHERE page_id='.intval($pageId).' AND language_id='.intval($this->langId).' LIMIT 1';
-        if (! ($res = $GLOBALS ['TYPO3_DB']->sql_query($sql))) {
+        if (!($res = $GLOBALS ['TYPO3_DB']->sql_query($sql))) {
             return;
         }
 
@@ -229,7 +230,7 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
             $results [] = $row;
         }
 
-        if (! empty($results) && isset($results [0]) && isset($results [0] ['pagepath'])) {
+        if (!empty($results) && isset($results [0]) && isset($results [0] ['pagepath'])) {
             return $results [0] ['pagepath'];
         } else {
             return $_SERVER ['PHP_SELF'].'?id='.$pageId;
@@ -237,10 +238,11 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
     }
 
     /**
-     * Returns the base URL for GET-Request with ending ? od &
+     * Returns the base URL for GET-Request with ending ? od &.
      *
-     * @param  int     $pageId
-     * @param  boolean $idAsGet
+     * @param int  $pageId
+     * @param bool $idAsGet
+     *
      * @return string
      */
     public function getBaseUrlForGetRequestByPid($pageId, $idAsGet = false)
@@ -269,7 +271,7 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
     }
 
     /**
-     * Set the title of the single view page to a custom defined title
+     * Set the title of the single view page to a custom defined title.
      *
      * @param string $title
      */
@@ -282,7 +284,7 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
     }
 
     /**
-     * Set the title of the single view page to a custom defined title
+     * Set the title of the single view page to a custom defined title.
      *
      * @param string $title
      */

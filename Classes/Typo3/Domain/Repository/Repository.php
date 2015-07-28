@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Classes\Typo3\Domain\Repository;
 
 class Repository extends \TYPO3\CMS\Extbase\Persistence\Repository

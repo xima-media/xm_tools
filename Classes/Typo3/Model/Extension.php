@@ -1,11 +1,11 @@
 <?php
+
 namespace Xima\XmTools\Classes\Typo3\Model;
 
 use Xima\XmTools\Classes\Typo3\Helper\Localization;
 
 class Extension
 {
-
     protected $name = null;
     protected $key = null;
     protected $relPath = null;

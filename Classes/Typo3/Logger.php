@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Classes\Typo3;
 
 class Logger implements \TYPO3\CMS\Core\SingletonInterface
@@ -10,8 +11,7 @@ class Logger implements \TYPO3\CMS\Core\SingletonInterface
     protected $extensionManager;
 
     /**
-     *
-     * @var $logger \TYPO3\CMS\Core\Log\Logger
+     * @var \TYPO3\CMS\Core\Log\Logger
      */
     protected $logger;
 

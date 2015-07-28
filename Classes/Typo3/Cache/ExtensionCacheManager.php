@@ -1,12 +1,11 @@
 <?php
+
 namespace Xima\XmTools\Classes\Typo3\Cache;
 
 /**
  * Stores and retrieves api data in a file.
  *
- * @package xm_tools
  * @author Wolfram Eberius <woe@xima.de>
- *
  */
 class ExtensionCacheManager extends CacheManager
 {

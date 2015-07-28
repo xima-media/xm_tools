@@ -1,17 +1,21 @@
 <?php
+
 namespace Xima\XmTools\Tests\Unit\API\REST;
 
 use TYPO3\CMS\Extbase\Tests\Unit\BaseTestCase;
+
 /**
- * The Api facade test
+ * The Api facade test.
  *
  * @author Wolfram Eberius <woe@xima.de>
+ *
  * @version 1.0.0
  */
 class ConnectorTest extends BaseTestCase
 {
     /**
-     * Fixture
+     * Fixture.
+     *
      * @var \Xima\XmTools\Classes\API\REST\Connector
      */
     protected $fixture;

@@ -3,18 +3,16 @@
 namespace Xima\XmTools\Classes\Typo3;
 
 /**
- * Helper for FeUser
+ * Helper for FeUser.
  *
- * @package xm_tools
  * @author Steve Lenz <sle@xima.de>, Sebastian Gierth <sgi@xima.de>
  */
 class FeUser
 {
-
     /**
-     * Checks if fe_user is authenticated
+     * Checks if fe_user is authenticated.
      *
-     * @return boolean
+     * @return bool
      */
     public function feUserIsAuthenticated()
     {
@@ -26,10 +24,11 @@ class FeUser
     }
 
     /**
-     * Checks if fe_user is authenticated and has given role
+     * Checks if fe_user is authenticated and has given role.
      *
-     * @param  string  $role
-     * @return boolean
+     * @param string $role
+     *
+     * @return bool
      */
     public function feUserHasRole($role)
     {
@@ -41,10 +40,11 @@ class FeUser
     }
 
     /**
-     * Checks if fe_user is authenticated and has given role id
+     * Checks if fe_user is authenticated and has given role id.
      *
-     * @param  integer $role
-     * @return boolean
+     * @param int $role
+     *
+     * @return bool
      */
     public function feUserHasRoleId($role)
     {

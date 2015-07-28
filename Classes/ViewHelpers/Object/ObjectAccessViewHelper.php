@@ -1,24 +1,24 @@
 <?php
+
 namespace Xima\XmTools\Classes\ViewHelpers\Object;
 
 /**
  * Allows accessing an array's value by its key or object's property or method by its name
  * in order to achieve a "dynamic" path in Fluid, kind of
  * {fooarray.{dynamic}}, which is not possible yet, can be replaced
- * with {my:objectAccess(haystack: fooarray, needle: key)}
+ * with {my:objectAccess(haystack: fooarray, needle: key)}.
  *
- * @package xm_tools
  * @author Wolfram Eberius <woe@xima.de>
  *
  * @return mixed|false
  */
 class ObjectAccessViewHelper extends AbstractViewHelper
 {
-
     /**
-     * @param  mixed  $haystack
-     * @param  string $needle
-     * @param  string $methodPrefix
+     * @param mixed  $haystack
+     * @param string $needle
+     * @param string $methodPrefix
+     *
      * @return mixed
      */
     public function render($haystack, $needle, $methodPrefix = null)

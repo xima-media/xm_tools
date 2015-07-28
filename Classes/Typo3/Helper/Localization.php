@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Classes\Typo3\Helper;
 
 use Xima\XmTools\Classes\Typo3\Services;
@@ -34,7 +35,7 @@ class Localization
         //lang is the locale
         $lang = is_null($lang) ? $services->getLang() : $lang;
         //langKey is the lcoale, 'default' if 'en'
-        $langKey = Localization::getLangKey($lang);
+        $langKey = self::getLangKey($lang);
 
         //execute the extensions in the following order, global translations first, then local translations to allow for overriding
         array_push($extensions, $services->getExtensionManager()->getXmTools());
@@ -75,10 +76,10 @@ class Localization
 
                     $content = "if (typeof xmTools != \"undefined\")\n";
                     $content .= "{\n";
-                    $content .= "  translations = {".implode(",", $translationStrings)."};\n";
+                    $content .= '  translations = {'.implode(',', $translationStrings)."};\n";
                     $content .= "  xmTools.addTranslations(translations);\n";
                     $content .= "  delete translations;\n";
-                    $content .= "};";
+                    $content .= '};';
 
                     //open and write to file
                     $cacheManager->write($filename, $content);
@@ -99,7 +100,7 @@ class Localization
      */
     public static function printDictionary($additionalExtensionNames = array())
     {
-        $translations = Localization::getDictionary($additionalExtensionNames);
+        $translations = self::getDictionary($additionalExtensionNames);
         asort($translations);
         print_r($translations);
     }
@@ -121,7 +122,7 @@ class Localization
         //lang is the locale
         $lang = is_null($lang) ? $services->getLang() : $lang;
         //langKey is the lcoale, 'default' if 'en'
-        $langKey = Localization::getLangKey($lang);
+        $langKey = self::getLangKey($lang);
 
         //try to get xliff
         $filename = $extension->getExtPath().'Resources/Private/Language/locallang.xlf';
@@ -165,14 +166,14 @@ class Localization
 
     /**
      * Returns the current lang key, 'default' if 'en'
-     * Specific return value for the XliffParser
+     * Specific return value for the XliffParser.
      *
      * @return string
      */
     public function getLangKey($lang)
     {
         $langKey = $lang;
-        if ($lang == Localization::XLIFF_DEFAULT_LANG) {
+        if ($lang == self::XLIFF_DEFAULT_LANG) {
             $langKey = Services::DEFAULT_LANG_STRING;
         }
 

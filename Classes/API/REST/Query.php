@@ -1,9 +1,9 @@
 <?php
+
 namespace Xima\XmTools\Classes\API\REST;
 
 class Query extends \TYPO3\CMS\Extbase\Persistence\Generic\Query
 {
-
     protected $repository;
 
     public function __construct(\Xima\XmTools\Classes\API\REST\Repository\AbstractApiRepository $repository)

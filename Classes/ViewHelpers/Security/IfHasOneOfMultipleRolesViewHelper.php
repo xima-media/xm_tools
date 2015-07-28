@@ -5,20 +5,20 @@ namespace Xima\XmTools\Classes\ViewHelpers\Security;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionViewHelper;
 
 /**
- * Checks whether the user has one of given roles
+ * Checks whether the user has one of given roles.
  *
  * @author Steve Lenz <steve.lenz@xima.de>
- * @package xm_tools
+ *
  * @version 1.0.0
- * @return boolean
+ *
+ * @return bool
  */
 class IfHasOneOfMultipleRolesViewHelper extends AbstractConditionViewHelper
 {
-
     /**
+     * @param string $rolesCsv Role-IDs as csv
      *
-     * @param  string  $rolesCsv Role-IDs as csv
-     * @return boolean
+     * @return bool
      */
     public function render($rolesCsv)
     {
@@ -32,9 +32,9 @@ class IfHasOneOfMultipleRolesViewHelper extends AbstractConditionViewHelper
     }
 
     /**
+     * @param string $role
      *
-     * @param  string  $role
-     * @return boolean
+     * @return bool
      */
     protected function frontendUserHasRole($role)
     {

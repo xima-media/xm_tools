@@ -8,28 +8,28 @@ namespace Xima\XmTools\Classes\Extensions\KeSearch\VO;
 class IndexLog
 {
     /**
-     * count
+     * count.
      *
      * @var int
      */
     protected $countTotal = 0;
 
     /**
-     * page
+     * page.
      *
      * @var int
      */
     protected $page = 1;
 
     /**
-     * languageUid
+     * languageUid.
      *
      * @var int
      */
     protected $languageUid = 0;
 
     /**
-     * lang
+     * lang.
      *
      * @var string
      */

@@ -1,7 +1,6 @@
 <?php
-namespace Xima\XmTools\Classes\Typo3\Controller;
 
-use Xima\XmTools\Classes\Typo3\Services;
+namespace Xima\XmTools\Classes\Typo3\Controller;
 
 /***************************************************************
  *
@@ -29,7 +28,7 @@ use Xima\XmTools\Classes\Typo3\Services;
  ***************************************************************/
 
 /**
- * AbstractController
+ * AbstractController.
  */
 abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
@@ -54,7 +53,8 @@ abstract class AbstractController extends \TYPO3\CMS\Extbase\Mvc\Controller\Acti
     /**
      * Adds stylesheets and javascripts to page head by action.
      *
-     * @param  string $action The current action.
+     * @param string $action The current action.
+     *
      * @return bool
      */
     protected function addAssets($action)

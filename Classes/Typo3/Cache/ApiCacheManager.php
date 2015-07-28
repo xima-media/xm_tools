@@ -1,13 +1,13 @@
 <?php
+
 namespace Xima\XmTools\Classes\Typo3\Cache;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Stores and retrieves api data in a file, file name is created using md5.
  *
- * @package xm_tools
  * @author Wolfram Eberius <woe@xima.de>
- *
  */
 class ApiCacheManager extends ExtensionCacheManager
 {
@@ -33,7 +33,8 @@ class ApiCacheManager extends ExtensionCacheManager
     /**
      * Creates file name by replacing special chars.
      *
-     * @param  string $filename
+     * @param string $filename
+     *
      * @return string
      */
     public function getFilePath($fileName)

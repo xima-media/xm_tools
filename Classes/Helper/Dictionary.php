@@ -1,18 +1,14 @@
 <?php
+
 namespace Xima\XmTools\Classes\Helper;
 
 /**
- *
- *
- * @package xm_tools
  * @author Wolfram Eberius <woe@xima.de>
- *
  */
 class Dictionary
 {
-
     /**
-     * translations
+     * translations.
      *
      * @var array
      */

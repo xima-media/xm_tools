@@ -1,23 +1,21 @@
 <?php
+
 namespace Xima\XmTools\Classes\Helper;
 
 use Xima\XmTools\Classes\Typo3\Helper\Localization;
+
 /**
- *
- *
- * @package xm_tools
  * @author Steve Lenz <sle@xima.de>
- *
  */
 class Paginator
 {
-
     /**
-     * @param  int      $count
-     * @param  int      $limit
-     * @param  int      $currentPage
-     * @param  string   $url
-     * @param  int      $showLinksForBrowse
+     * @param int    $count
+     * @param int    $limit
+     * @param int    $currentPage
+     * @param string $url
+     * @param int    $showLinksForBrowse
+     *
      * @return Ambigous <unknown, multitype:, boolean, multitype:number >
      */
     public function getPageBrowser($count, $limit, $currentPage, $url, $showLinksForBrowse = 4)
@@ -34,10 +32,11 @@ class Paginator
     }
 
     /**
-     * @param  int   $countItems
-     * @param  int   $itemsPerPage
-     * @param  int   $currentPage
-     * @param  int   $showLinksForBrowse
+     * @param int $countItems
+     * @param int $itemsPerPage
+     * @param int $currentPage
+     * @param int $showLinksForBrowse
+     *
      * @return array
      */
     private function create($countItems, $itemsPerPage, $currentPage, $showLinksForBrowse)
@@ -98,7 +97,7 @@ class Paginator
                     $end = (($currentPage + $itemsBeforAfterCurrentPage) > $countPages) ? $countPages : $currentPage + $itemsBeforAfterCurrentPage;
             } // switch
 
-/**
+/*
  * build pagination
  */
             // first
@@ -110,7 +109,7 @@ class Paginator
                 $pager ['prev'] = $currentPage - 1;
             }
             // pages
-            for ($i = $start; $i <= $end; $i ++) {
+            for ($i = $start; $i <= $end; $i++) {
                 $pager ['pages'] [$i] ['current'] = ($i == $currentPage) ? true : false;
                 $pager ['pages'] [$i] ['notFirstItem'] = ($i != $start) ? true : false;
             }
@@ -126,7 +125,7 @@ class Paginator
 
             // total number of pages
             $pager ['countPages'] = $countPages;
-            $pager ['penUltimatePage'] = $countPages-1;
+            $pager ['penUltimatePage'] = $countPages - 1;
         }
 
         //get the display text for the result information

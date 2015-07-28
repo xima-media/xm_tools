@@ -1,10 +1,10 @@
 <?php
+
 namespace Xima\XmTools\Classes\ViewHelpers\Control;
 
 /**
  * Combines two conditions with AND or OR.
  *
- * @package xm_tools
  * @author Wolfram Eberius <woe@xima.de>
  *
  * @return function to render corresponding fluid child.
@@ -17,8 +17,9 @@ class IfViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractConditionVie
     /**
      * renders <f:then> child if $conditions and/or combined is true, otherwise renders <f:else> child.
      *
-     * @param  array  $conditions    View helper conditions
-     * @param  string $conditionType
+     * @param array  $conditions    View helper conditions
+     * @param string $conditionType
+     *
      * @return string the rendered string
      */
     public function render($conditions, $conditionType = 'OR')
