@@ -14,3 +14,4 @@ composer.lock
 Resources/Private/Language/*.xlf
 parameters.yml
 vendor/
+.idea/
