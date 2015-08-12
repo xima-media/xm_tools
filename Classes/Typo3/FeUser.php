@@ -64,7 +64,7 @@ class FeUser
      */
     public function feUserIsAuthenticated()
     {
-        if (null == empty($this->getUid())) {
+        if (null == $this->getUid()) {
             return false;
         }
         return true;
