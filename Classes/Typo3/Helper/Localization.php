@@ -69,14 +69,9 @@ class Localization
 
                 if (!is_readable($filePath) || $services->getExtensionManager()->getXmTools()->getSettings()['devModeIsEnabled']) {
                     //generate js file
-                    $translationStrings = array();
-                    foreach ($extension->getTranslations($lang) as $key => $translation) {
-                        $translationStrings[] = $key.':"'.$translation.'"';
-                    }
-
                     $content = "if (typeof xmTools != \"undefined\")\n";
                     $content .= "{\n";
-                    $content .= '  translations = {'.implode(',', $translationStrings)."};\n";
+                    $content .= '  translations = ' . json_encode($extension->getTranslations($lang)) . ";\n";
                     $content .= "  xmTools.addTranslations(translations);\n";
                     $content .= "  delete translations;\n";
                     $content .= '};';
