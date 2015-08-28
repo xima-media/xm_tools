@@ -87,46 +87,64 @@ class Helper
     }
 
     /**
-     * Convert the date result by current language.
+     * Translate all translatable fields of a stdObject.
+     *
+     * @param $objectToTranslate
+     * @param string $lang
+     * @param string $fallbackLang
+     * @return mixed
      */
     public static function translate($objectToTranslate, $lang, $fallbackLang = '')
     {
-        foreach ($objectToTranslate as $key => $value) {
-
+        $properties = get_object_vars($objectToTranslate);
+        foreach ($properties as $key => $value) {
             //knplabs translatables
-            if ('translations' === $key && is_array($value)) {
+            if ('translations' === $key) {
                 //fill fallback language first
-                if (isset($value[$fallbackLang])) {
-                    self::mergeTranslations($objectToTranslate, $value[$fallbackLang]);
+                if (isset($objectToTranslate->$key->$fallbackLang)) {
+                    self::mergeTranslations($objectToTranslate, $objectToTranslate->$key->$fallbackLang);
                 }
-                if (isset($value[$lang])) {
-                    self::mergeTranslations($objectToTranslate, $value[$lang]);
+                if (isset($objectToTranslate->$key->$lang)) {
+                    self::mergeTranslations($objectToTranslate, $objectToTranslate->$key->$lang);
                 }
-
-                unset($objectToTranslate['translations']);
-            } elseif (is_array($value)) {
-                $objectToTranslate[$key] = self::translate($value, $lang, $fallbackLang);
+                unset($objectToTranslate->$key);
+            } elseif (is_array($objectToTranslate->$key)) {
+                $translatedObjects = array();
+                foreach ($objectToTranslate->$key as $untranslatedObject) {
+                    $translatedObjects[] = self::translate($untranslatedObject, $lang, $fallbackLang);
+                }
+                $objectToTranslate->$key = $translatedObjects;
+            } elseif (is_object($objectToTranslate->$key)) {
+                $objectToTranslate->$key = self::translate($objectToTranslate->$key, $lang, $fallbackLang);
             } else {
                 //pattern: nameDe, nameEn...
                 $langUcFirst = ucfirst($lang);
                 if (preg_match('~'.$langUcFirst.'$~', $key)) {
-                    if (empty($value)) {
-                        $fallbackLangUcFirst = ucfirst($fallbackLang);
-                        $value = $objectToTranslate[preg_replace('~'.$langUcFirst.'$~', $fallbackLangUcFirst, $key)];
-                    }
+                    //the property name without the language code
+                    $langProperty = preg_replace('~'.$langUcFirst.'$~', '', $key);
+                    $objectToTranslate->$langProperty = $objectToTranslate->$key;
 
-                    $objectToTranslate[preg_replace('~'.$langUcFirst.'$~', '', $key)] = $value;
+                    //it is a translation but it is empty, fall back
+                    if (empty($objectToTranslate->$langProperty)) {
+                        $fallbackLangUcFirst = ucfirst($fallbackLang);
+                        $fallbackLangProperty = preg_replace('~'.$langUcFirst.'$~', $fallbackLangUcFirst, $key);
+                        $objectToTranslate->$langProperty = $objectToTranslate->$fallbackLangProperty;
+                    }
                 }
 
                 //pattern: name_de, name_en...
                 $langUnderscored = '_'.$lang;
                 if (preg_match('~'.$langUnderscored.'$~', $key)) {
-                    if (empty($value)) {
-                        $fallbackLangUnderscored = '_'.$fallbackLang;
-                        $value = $objectToTranslate[preg_replace('~'.$langUnderscored.'$~', $fallbackLangUnderscored, $key)];
-                    }
+                    //the property name without the language code
+                    $langProperty = preg_replace('~'.$langUnderscored.'$~', '', $key);
+                    $objectToTranslate->$langProperty = $objectToTranslate->$key;
 
-                    $objectToTranslate[preg_replace('~'.$langUnderscored.'$~', '', $key)] = $value;
+                    //it is a translation but it is empty, fall back
+                    if (empty($objectToTranslate->$langProperty)) {
+                        $fallbackLangUnderscored = '_'.$fallbackLang;
+                        $fallbackLangProperty = preg_replace('~'.$langUnderscored.'$~', $fallbackLangUnderscored, $key);
+                        $objectToTranslate->$langProperty = $objectToTranslate->$fallbackLangProperty;
+                    }
                 }
             }
         }
@@ -134,11 +152,15 @@ class Helper
         return $objectToTranslate;
     }
 
-    private function mergeTranslations(&$objectToTranslate, $translations)
+    /**
+     * @param $object
+     * @param $translations
+     */
+    private function mergeTranslations($object, $translations)
     {
-        foreach ($translations as $key => $translation) {
+        foreach (get_object_vars($translations) as $key => $value) {
             if ($key != 'id') {
-                $objectToTranslate[$key] = $translation;
+                $object->$key = $value;
             }
         }
     }

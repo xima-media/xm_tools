@@ -47,7 +47,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
     protected $apiRouteCreate;
     protected $apiRouteUpdate;
 
-    protected $lastReponse = array();
+    protected $lastReponse;
 
     /**
      * Retrieves the calling extension through the package name of the inheriting repository class. Configures the repository with the extensions' settings.
@@ -78,7 +78,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
      *
      * @param $id
      *
-     * @return Xima\XmTools\Classes\API\REST\Model\AbstractEntity|array The model class or array with the given id.
+     * @return \Xima\XmTools\Classes\API\REST\Model\AbstractEntity|array The model class or array with the given id.
      */
     public function findByUid($id)
     {
@@ -88,7 +88,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
 
         $this->lastReponse = $this->connector->get($apiUrl, $this);
 
-        return array_pop($this->lastReponse['result']);
+        return array_pop($this->lastReponse->result);
     }
 
     /**
@@ -106,7 +106,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
 
         $this->lastReponse = $this->connector->get($apiUrl, $this);
 
-        return $this->lastReponse['result'];
+        return $this->lastReponse->result;
     }
 
     /**
@@ -126,7 +126,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
 
         $this->lastReponse = $this->connector->get($apiUrl, $this);
 
-        return $this->lastReponse['result'];
+        return $this->lastReponse->result;
     }
 
     /**

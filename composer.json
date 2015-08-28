@@ -10,7 +10,7 @@
     },
 	"require" : {
 		"symfony/yaml" : "2.7.2",
-		"netresearch/jsonmapper" : "0.7.0",
+		"netresearch/jsonmapper" : "0.9.0",
 		"jms/serializer" : "1.0.0"
 	}
 }

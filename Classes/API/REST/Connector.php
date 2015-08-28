@@ -40,12 +40,12 @@ class Connector
      * Calls cache or calls API and stores result in cache if older than one day.
      *
      * @param string                                                          $url
-     * @param \Xima\XmTools\Classes\API\REST\Repository\AbstractApiRepository $repository
+     * @param \Xima\XmTools\Classes\API\REST\Repository\ApiRepository $repository
      * @param array                                                           $params
      *
      * @return array
      */
-    public function get($url, \Xima\XmTools\Classes\API\REST\Repository\ApiRepository $repository, $params = array())
+    public function get($url, \Xima\XmTools\Classes\API\REST\Repository\ApiRepository $repository)
     {
         $repositoryClassName = get_class($repository);
         $modelClassName = str_replace('\Repository', '\Model', $repositoryClassName);
@@ -75,7 +75,7 @@ class Connector
             $responseJson = file_get_contents($url);
         }
 
-        $response = json_decode($responseJson, true);
+        $response = json_decode($responseJson);
 
         if (array_key_exists('result', $response)) {
             $logger->log('Success.');
@@ -85,21 +85,25 @@ class Connector
                 $this->cacheManager->write($url, $responseJson);
             }
 
-            $targetLanguage = (isset($response ['metadata']['lang'])) ? ($response ['metadata']['lang']) : $this->typo3Services->getLang();
-            $response ['result'] = Helper::translate($response ['result'], $targetLanguage, $fallbackLanguage);
+            //translate the result
+            $targetLanguage = (isset($response->metadata->lang)) ? ($response->metadata->lang) : $this->typo3Services->getLang();
 
-            // if it is a single result and a single result was queried we still want to return an array of arrays
-            if (!is_int(array_shift(array_keys($response ['result']))) && isset($response ['result'] ['id'])) {
-                $response ['result'] = array(
-                    $response ['result'] ['id'] => $response ['result'], );
+            if (is_array($response->result)) {
+                foreach ($response->result as $key => $result) {
+                    $response->result[$key] = Helper::translate($result, $targetLanguage, $fallbackLanguage);
+                }
+            } else if (isset($response->result->id)) {
+                // if it is a single result and a single result was queried we still want to return an array of arrays
+                $response->result = array(
+                    $response->result->id => $response->result);
             }
 
             //map json data to objects if a class exists
             if (class_exists($modelClassName)) {
                 $mapper = new \JsonMapper();
 
-                $objectsJson = $response ['result'];
-                $response ['result'] = array();
+                $objectsJson = $response->result;
+                $response->result = array();
 
                 foreach ($objectsJson as $objectJson) {
                     $object = $mapper->map($objectJson, new $modelClassName());
@@ -117,7 +121,7 @@ class Connector
                         $object->postMapping();
                     }
 
-                    $response ['result'][] = $object;
+                    $response->result[] = $object;
                 }
             }
         } else {
@@ -125,7 +129,7 @@ class Connector
             trigger_error($errorMessage, E_USER_WARNING);
             $logger->log($errorMessage);
 
-            $response ['result'] = array();
+            $response->result = array();
         }
 
         return $response;
