@@ -6,6 +6,8 @@ plugin.tx_xmtools {
         devModeIsEnabled = 
         # cat=plugin.tx_xmtools/basic/003; type=boolean; label=Enable javascript support
         jsSupportIsEnabled =
+        # cat=plugin.tx_xmtools/basic/004; type=string; label=Recipient for ErrorHandler
+        errorHandlerRecipient =
         # cat=plugin.tx_xmtools/language/001; type=boolean; label=Enable javascript localization support
         jsL10nIsEnabled =
     }
