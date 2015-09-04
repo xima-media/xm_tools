@@ -1,7 +1,7 @@
 # Xima Tools
 A framework for TYPO3 extensions.
 
-Xima Toola is an extension for the TYPO3 CMS that can facilitate common use cases for your custom extensions.
+Xima Tools is an extension for the TYPO3 CMS that can facilitate common use cases for your custom extensions.
 
 ## Requirements
 
@@ -14,7 +14,7 @@ Install *xm_tools* via the TYPO3 Extension Manager in your TYPO3 installation.
 
 ### Manually
 1. Clone the project.
-2. From the folder *xm_tools*, run `composer install`. 
+2. From the folder *xm_tools*, run `composer install`.
 3. Remove the file "composer.json" (TYPO3 6.2 does currently not seem to support 3rd party composer packages).
 3. Copy the folder *xm_tools* into the folder *typoconf/ext* of your TYPO3 installation.
 
@@ -39,7 +39,7 @@ There are four TypoScript settings which can also be set in the Constants Editor
 * [TYPO3 Extension Repository](http://typo3.org/extensions/repository/view/xm_tools)
 
 ## ErrorHandler and ProductionExceptionHandler - How to?
-1. Go to *Install Tool* switch to *All configurations* 
+1. Go to *Install Tool* switch to *All configurations*
 2. Set *[SYS][errorHandler]=\Xima\XmTools\Typo3\Handler\ErrorHandler*
-2. Set *[SYS][productionExceptionHandler]=\Xima\XmTools\Typo3\Handler\ProductionExceptionHandler*
-2. Set the recipient e-mail address in *TypoScript* (xmTools.errorHandler.recipient = ) or in *Constant Editor* (Multiple mail addresses possible as CSV)
+3. Set *[SYS][productionExceptionHandler]=\Xima\XmTools\Typo3\Handler\ProductionExceptionHandler*
+4. Set the recipient e-mail address in *TypoScript* (xmTools.errorHandler.recipient = ) or in *Constant Editor* (Multiple mail addresses possible as CSV)
