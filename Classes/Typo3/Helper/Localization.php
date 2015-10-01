@@ -165,7 +165,7 @@ class Localization
      *
      * @return string
      */
-    public function getLangKey($lang)
+    public static function getLangKey($lang)
     {
         $langKey = $lang;
         if ($lang == self::XLIFF_DEFAULT_LANG) {
