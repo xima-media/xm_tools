@@ -177,8 +177,10 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
             //support typo3 notation (Ext:Resources/Public/css/xyz.css) and short notation (Ext:xyz.css)
             if (strstr($file, 'EXT:')) {
                 $parts = explode(':', $file);
-                $file = $extension->getRelPath().$extension->getCssRelPath().array_pop(explode('/', $parts[1]));
+                $fileParts = explode('/', $parts[1]);
+                $file = $extension->getRelPath().$extension->getCssRelPath().array_pop($fileParts);
             }
+
 
             if ($this->getPageRenderer()) {
                 $this->getPageRenderer()->addCssFile($file);
