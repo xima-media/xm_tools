@@ -37,9 +37,3 @@ There are four TypoScript settings which can also be set in the Constants Editor
 ## More information
 * [Documentation](http://xm-tools.readthedocs.org)
 * [TYPO3 Extension Repository](http://typo3.org/extensions/repository/view/xm_tools)
-
-## ErrorHandler and ProductionExceptionHandler - How to?
-1. Go to *Install Tool* switch to *All configurations*
-2. Set *[SYS][errorHandler]=\Xima\XmTools\Typo3\Handler\ErrorHandler*
-3. Set *[SYS][productionExceptionHandler]=\Xima\XmTools\Typo3\Handler\ProductionExceptionHandler*
-4. Set the recipient e-mail address in *TypoScript* (xmTools.errorHandler.recipient = ) or in *Constant Editor* (Multiple mail addresses possible as CSV)
