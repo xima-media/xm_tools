@@ -9,8 +9,18 @@
         "issues": "https://github.com/xima-media/xm_tools/issues"
     },
 	"require" : {
-		"symfony/yaml" : "2.7.2",
-		"netresearch/jsonmapper" : "0.9.0",
-		"jms/serializer" : "1.0.0"
-	}
+		"symfony/yaml" : "~2.7",
+		"netresearch/jsonmapper" : "~0.9",
+		"jms/serializer" : "~1.0"
+	},
+    "require-dev": {
+        "mayflower/php-codebrowser": "^1.1",
+        "pdepend/pdepend": "^2.2",
+        "phploc/phploc": "^2.1",
+        "phpmd/phpmd": "^2.3",
+        "phpunit/phpunit": "^4.8",
+        "sebastian/phpcpd": "^2.0",
+        "squizlabs/php_codesniffer": "^2.3",
+        "theseer/phpdox": "0.8.1.1"
+    }
 }
