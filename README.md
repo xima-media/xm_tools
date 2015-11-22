@@ -14,7 +14,7 @@ Install *xm_tools* via the TYPO3 Extension Manager in your TYPO3 installation.
 
 ### Manually
 1. Clone the project.
-2. From the folder *xm_tools*, run `composer install`.
+2. From the folder *xm_tools*, run `composer install --no-dev`.
 3. Remove the file "composer.json" (TYPO3 6.2 does currently not seem to support 3rd party composer packages).
 3. Copy the folder *xm_tools* into the folder *typoconf/ext* of your TYPO3 installation.
 
