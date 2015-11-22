@@ -15,16 +15,16 @@ spl_autoload_register(function ($class) {
         $classFile = str_replace('\\', DIRECTORY_SEPARATOR, $classFile);
         $classPI = pathinfo($classFile);
 
-        if (strstr(PATH_site, 'xm_tools/')) {
+        // when coming from cms
+        $path  = PATH_site.'typo3conf'.DIRECTORY_SEPARATOR.'ext'.DIRECTORY_SEPARATOR.$classPI['dirname'].DIRECTORY_SEPARATOR.$classPI['filename'].'.php';
+        if (file_exists($path)) {
+            $file = $path;
+        } else {
             // in case we are about to run tests we have to remove one 'xm_tools'
             $replaceTimes = 1;
             $classPI['dirname'] = str_replace('xm_tools/', '', $classPI['dirname'], $replaceTimes);
-            $file = PATH_site;
-        } else {
-            // in case we come from the cms
-            $file = PATH_site.'typo3conf'.DIRECTORY_SEPARATOR.'ext'.DIRECTORY_SEPARATOR;
+            $file = PATH_site.$classPI['dirname'].DIRECTORY_SEPARATOR.$classPI['filename'].'.php';
         }
-        $file .= $classPI['dirname'].DIRECTORY_SEPARATOR.$classPI['filename'].'.php';
 
         if ($debug) {
             echo 'Searching for file \''.$file.'\'...';
