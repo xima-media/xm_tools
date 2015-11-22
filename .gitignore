@@ -11,5 +11,21 @@
 # xm_tools
 Resources/Private/Language/*.xlf
 parameters.yml
+
+# vendors
 vendor/
+typo*
+uploads
+fileadmin
+index.php
+
+# phpstorm
 .idea/
+
+# build stuff
+build/*
+!build/phpmd.xml
+!build/phpunit.xml
+
+# jenkins
+cache.properties
