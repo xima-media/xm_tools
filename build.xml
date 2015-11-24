@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="xm_tools Test" default="full-build">
+<project name="XmTools" default="full-build">
     <!-- By default, we assume all tools to be on the $PATH
     <property name="pdepend" value="pdepend"/>
     <property name="phpcpd"  value="phpcpd"/>
