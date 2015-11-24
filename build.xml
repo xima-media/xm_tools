@@ -235,7 +235,7 @@
             <arg value="--configuration"/>
             <arg path="${basedir}/build/phpunit.xml"/>
             <arg line="--coverage-clover ${basedir}/build/logs/clover.xml
-                --coverage-html ${basedir}/build/logs/
+                --coverage-html ${basedir}/build/coverage/
                 --coverage-crap4j ${basedir}/build/logs/crap4j.xml"/>
         </exec>
 
