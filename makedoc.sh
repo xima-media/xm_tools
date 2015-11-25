@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # generate api doc in rst format
-sphpdox.php process --output "docs/source/_static/sphinxcontrib-phpdomain" "Xima\XmTools" Classes
+sphpdox process --output "docs/source/_static/sphinxcontrib-phpdomain" "Xima\XmTools" Classes
 
 # generate api doc in html format
 phpdoc
