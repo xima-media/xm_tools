@@ -7,7 +7,7 @@
     <target>docs/source/_static/api</target>
   </transformer>
   <files>
-    <directory>.</directory>
+    <directory>Classes</directory>
   </files>
   <title>xm_tools apidoc</title>
 </phpdoc>

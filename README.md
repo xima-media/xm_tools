@@ -37,3 +37,14 @@ There are four TypoScript settings which can also be set in the Constants Editor
 ## More information
 * [Documentation](http://xm-tools.readthedocs.org)
 * [TYPO3 Extension Repository](http://typo3.org/extensions/repository/view/xm_tools)
+
+## Developer notes
+
+### Documentation
+
+In order to have Api docs available in HTML as well as RST (to reference in the sphinx documentation), you need to have the following packages available on your PATH:
+- [sphpdox](https://github.com/EdRush/sphpdox) (PHPDoc to sphinxcontrib-phpdomain)
+- [phpDocumentor](http://www.phpdoc.org/)
+- [sphinx](http://sphinx-doc.org/) (documentation generator)
+
+Please run the following command before committing: `. makedoc.sh`
