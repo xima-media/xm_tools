@@ -260,7 +260,7 @@
             unless="phpdox.done"
             depends="phploc-ci,phpcs-ci,phpmd-ci"
             description="Generate project documentation using phpDox">
-        <exec executable="${phpdox}" taskname="phpdox"/>
+        <exec executable="${phpdox}" taskname="phpdox" dir="build"/>
 
         <property name="phpdox.done" value="true"/>
     </target>
