@@ -7,7 +7,7 @@ namespace Xima\XmTools\Classes\API\REST\Repository;
  *
  * @author Wolfram Eberius <woe@xima.de>
  */
-class SortableRepository extends AbstractApiRepository
+class SortableRepository extends ApiRepository
 {
     /**
      * apiRoute.
