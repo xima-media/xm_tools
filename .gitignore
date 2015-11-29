@@ -22,10 +22,5 @@ index.php
 # phpstorm
 .idea/
 
-# build stuff
-build/*
-!build/phpmd.xml
-!build/phpunit.xml
-
 # jenkins
 cache.properties

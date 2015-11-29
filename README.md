@@ -3,6 +3,10 @@ A framework for TYPO3 extensions.
 
 Xima Tools is an extension for the TYPO3 CMS that can facilitate common use cases for your custom extensions.
 
+## Documentation
+
+http://xm-tools.readthedocs.org
+
 ## Requirements
 
 * PHP 5.3 is supported, PHP 5.4 suggested
@@ -35,7 +39,6 @@ There are four TypoScript settings which can also be set in the Constants Editor
 * plugin.tx_xmtools.settings.jsL10nIsEnabled: use global and translations from other extensions in Javascript as well.
 
 ## More information
-* [Documentation](http://xm-tools.readthedocs.org)
 * [TYPO3 Extension Repository](http://typo3.org/extensions/repository/view/xm_tools)
 
 ## Developer notes
