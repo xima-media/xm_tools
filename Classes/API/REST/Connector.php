@@ -73,17 +73,17 @@ class Connector
         if (!$responseJson) {
             $logger->log('Try to get data from api.');
             $responseJson = file_get_contents($url);
+
+            //write to api
+            if ($isApiCacheEnabled) {
+                $this->cacheManager->write($url, $responseJson);
+            }
         }
 
         $response = json_decode($responseJson);
 
         if (array_key_exists('result', $response)) {
             $logger->log('Success.');
-
-            //write to api
-            if ($isApiCacheEnabled) {
-                $this->cacheManager->write($url, $responseJson);
-            }
 
             //translate the result
             $targetLanguage = (isset($response->metadata->lang)) ? ($response->metadata->lang) : $this->typo3Services->getLang();
