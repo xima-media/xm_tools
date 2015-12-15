@@ -3,6 +3,10 @@ A framework for TYPO3 extensions.
 
 Xima Tools is an extension for the TYPO3 CMS that can facilitate common use cases for your custom extensions.
 
+## Documentation
+
+http://xm-tools.readthedocs.org
+
 ## Requirements
 
 * PHP 5.3 is supported, PHP 5.4 suggested
@@ -14,7 +18,7 @@ Install *xm_tools* via the TYPO3 Extension Manager in your TYPO3 installation.
 
 ### Manually
 1. Clone the project.
-2. From the folder *xm_tools*, run `composer install`.
+2. From the folder *xm_tools*, run `composer install --no-dev`.
 3. Remove the file "composer.json" (TYPO3 6.2 does currently not seem to support 3rd party composer packages).
 3. Copy the folder *xm_tools* into the folder *typoconf/ext* of your TYPO3 installation.
 
@@ -35,11 +39,15 @@ There are four TypoScript settings which can also be set in the Constants Editor
 * plugin.tx_xmtools.settings.jsL10nIsEnabled: use global and translations from other extensions in Javascript as well.
 
 ## More information
-* [Documentation](http://xm-tools.readthedocs.org)
 * [TYPO3 Extension Repository](http://typo3.org/extensions/repository/view/xm_tools)
 
-## ErrorHandler and ProductionExceptionHandler - How to?
-1. Go to *Install Tool* switch to *All configurations*
-2. Set *[SYS][errorHandler]=\Xima\XmTools\Typo3\Handler\ErrorHandler*
-3. Set *[SYS][productionExceptionHandler]=\Xima\XmTools\Typo3\Handler\ProductionExceptionHandler*
-4. Set the recipient e-mail address in *TypoScript* (xmTools.errorHandler.recipient = ) or in *Constant Editor* (Multiple mail addresses possible as CSV)
+## Developer notes
+
+### Documentation
+
+In order to have Api docs available in HTML as well as RST (to reference in the sphinx documentation), you need to have the following packages available on your PATH:
+- [sphpdox](https://github.com/EdRush/sphpdox) (PHPDoc to sphinxcontrib-phpdomain)
+- [phpDocumentor](http://www.phpdoc.org/)
+- [sphinx](http://sphinx-doc.org/) (documentation generator)
+
+Please run the following command before committing: `. makedoc.sh`

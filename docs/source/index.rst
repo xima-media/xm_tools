@@ -6,6 +6,8 @@
 Welcome to xm_tools's documentation!
 ====================================
 
+A framework for TYPO3 extensions.
+
 Contents:
 
 .. toctree::
