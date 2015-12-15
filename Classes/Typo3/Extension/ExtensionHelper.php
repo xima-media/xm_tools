@@ -46,7 +46,8 @@ class ExtensionHelper
                 /* @var $extension \Xima\XmTools\Classes\Typo3\Model\Extension */
                 $extension->setName($extensionName);
                 $extension->setKey($extensionKey);
-                $extension->setConfiguration($configuration);
+                $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extensionKey]);
+                $extension->setConfiguration($extConf);
                 if (isset($configuration['settings'])) {
                     $extension->setSettings($configuration['settings']);
                 }
