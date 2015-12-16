@@ -22,6 +22,6 @@
         "sebastian/phpcpd": "^2.0",
         "squizlabs/php_codesniffer": "^2.3",
         "theseer/phpdox": "0.8.1.1",
-        "typo3/cms": "^6.2.15"
+        "typo3/cms": "^7.6.1"
     }
 }
