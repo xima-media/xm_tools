@@ -2,7 +2,18 @@
 
 <f:if condition="{parameter}">
     <f:then>
-        <v:if stack="{0: '{v:math.round(a: parameter)}', 1: '>', 2: 0, 3: 'OR', 4: '{v:condition.string.contains(haystack: parameter, needle: \'file:\')}', 5: '>=', 6: 0, 7: 'OR', 8: '{v:condition.string.contains(haystack: parameter, needle: \'@\')}', 9: '>=', 10: 0}">
+        <f:comment>todo: refactor!</f:comment>
+        <f:if condition="{parameter -> v:math.round()} > 0">
+            <v:variable.set name="isInternal" value="true"/>
+        </f:if>
+        <v:condition.string.contains haystack="{parameter}" needle="file:">
+            <v:variable.set name="isInternal" value="true"/>
+        </v:condition.string.contains>
+        <v:condition.string.contains haystack="{parameter}" needle="@">
+            <v:variable.set name="isInternal" value="true"/>
+        </v:condition.string.contains>
+
+        <f:if condition="{isInternal}">
             <f:then>
                 <f:comment>if it is an internal link, use the Link\TypolinkViewHelper</f:comment>
                 <f:link.typolink parameter="{parameter}" class="{class}" title="{title}">
@@ -15,7 +26,7 @@
                     <f:format.htmlentitiesDecode>{linkHtml}</f:format.htmlentitiesDecode>
                 </f:link.external>
             </f:else>
-        </v:if>
+        </f:if>
     </f:then>
     <f:else>
         <div><i>Error: no parameter for link given.</i></div>

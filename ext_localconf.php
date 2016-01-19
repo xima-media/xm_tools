@@ -4,7 +4,7 @@ $TYPO3_CONF_VARS['BE']['AJAX']['xm_tools::clearCache'] = 'EXT:xm_tools/Classes/T
 
 //register the autoloader for xm_tools classes
 spl_autoload_register(function ($class) {
-    $debug = true;
+    $debug = false;
     if ($debug) {
         echo 'Trying to autoload \'' . $class . '\'...';
     }
