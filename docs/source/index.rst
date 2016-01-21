@@ -14,9 +14,10 @@ Contents:
    :maxdepth: 3
    
    install
+   architecture
    tools
    viewhelper
-   architecture
+   templates
 
 
 
