@@ -16,7 +16,7 @@ class ObjectStorageSortUtility
     /**
      * @var String
      */
-    protected $property;
+    protected static $property;
 
     /**
      * Sorts objects by given property
@@ -25,15 +25,15 @@ class ObjectStorageSortUtility
      * @param $property
      * @return bool|\TYPO3\CMS\Extbase\Persistence\ObjectStorage - Result or false if sorting fails
      */
-    public function sortByProperty(ObjectStorage $objectStorage, $property)
+    public static function sortByProperty(ObjectStorage $objectStorage, $property)
     {
-        $this->property = 'get' . ucfirst(strtolower($property));
+        self::$property = 'get' . ucfirst(strtolower($property));
 
         $array = $objectStorage->toArray();
         $sample = $array[0];
 
-        if (method_exists($sample, $this->property)) {
-            usort($array, array($this, 'compare'));
+        if (method_exists($sample, self::$property)) {
+            usort($array, array(self, 'compare'));
         } else {
             return false;
         }
@@ -52,9 +52,9 @@ class ObjectStorageSortUtility
      * @param $orange object
      * @return int
      */
-    private function compare($apple, $orange)
+    protected static function compare($apple, $orange)
     {
-        return strcoll($apple->{$this->property}(), $orange->{$this->property}());
+        return strcoll($apple->{self::$property}(), $orange->{self::$property}());
     }
 
 }
