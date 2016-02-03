@@ -1,0 +1,34 @@
+{namespace v = FluidTYPO3\Vhs\ViewHelpers}
+
+<f:if condition="{parameter}">
+    <f:then>
+        <f:comment>todo: refactor!</f:comment>
+        <f:if condition="{parameter -> v:math.round()} > 0">
+            <v:variable.set name="isInternal" value="true"/>
+        </f:if>
+        <v:condition.string.contains haystack="{parameter}" needle="file:">
+            <v:variable.set name="isInternal" value="true"/>
+        </v:condition.string.contains>
+        <v:condition.string.contains haystack="{parameter}" needle="@">
+            <v:variable.set name="isInternal" value="true"/>
+        </v:condition.string.contains>
+
+        <f:if condition="{isInternal}">
+            <f:then>
+                <f:comment>if it is an internal link, use the Link\TypolinkViewHelper</f:comment>
+                <f:link.typolink parameter="{parameter}" class="{class}" title="{title}">
+                    <f:format.htmlentitiesDecode>{linkHtml}</f:format.htmlentitiesDecode>
+                </f:link.typolink>
+            </f:then>
+            <f:else>
+                <f:comment>otherwise use Link\ExternalViewHelper</f:comment>
+                <f:link.external uri="{parameter}" class="{class}" title="{title}">
+                    <f:format.htmlentitiesDecode>{linkHtml}</f:format.htmlentitiesDecode>
+                </f:link.external>
+            </f:else>
+        </f:if>
+    </f:then>
+    <f:else>
+        <div><i>Error: no parameter for link given.</i></div>
+    </f:else>
+</f:if>

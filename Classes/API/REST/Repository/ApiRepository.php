@@ -60,15 +60,15 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
         }
 
         $extension = $this->extensionManager->getExtensionByName($extensionName);
-        $settings = $extension->getSettings();
+        $apiSettings = (isset($extension->getConfiguration()['api.']) ? $extension->getConfiguration()['api.'] : $extension->getSettings()['api']);
 
-        $this->setApiKey($settings ['api']['key']);
-        $this->setApiUrl($settings ['api']['url']);
-        $this->setApiSchema($settings ['api']['schema']);
-        $this->setApiRouteFindById($settings ['api']['routeFindById']);
-        $this->setApiRouteFindByQuery($settings ['api']['routeFindByQuery']);
-        $this->setApiRouteCreate($settings ['api']['routeCreate']);
-        $this->setApiRouteUpdate($settings ['api']['routeUpdate']);
+        $this->setApiKey($apiSettings['key']);
+        $this->setApiUrl($apiSettings['url']);
+        $this->setApiSchema($apiSettings['schema']);
+        $this->setApiRouteFindById($apiSettings['routeFindById']);
+        $this->setApiRouteFindByQuery($apiSettings['routeFindByQuery']);
+        $this->setApiRouteCreate($apiSettings['routeCreate']);
+        $this->setApiRouteUpdate($apiSettings['routeUpdate']);
 
         $this->connector->setExtension($extension);
     }
@@ -83,7 +83,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
     public function findByUid($id)
     {
         $target = $this->getApiTarget();
-        $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteFindById).'/'.$id;
+        $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteFindById) . '/' . $id;
         $apiUrl = $this->buildUrl($apiRoute);
 
         $this->lastReponse = $this->connector->get($apiUrl, $this);
@@ -167,7 +167,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
                 if (is_array($value)) {
                     $value = implode(',', $value);
                 }
-                $paramsAsString [] = $key.'='.urlencode($value);
+                $paramsAsString [] = $key . '=' . urlencode($value);
             }
             if (!empty($paramsAsString)) {
                 $queryString = implode('&', $paramsAsString);
@@ -193,7 +193,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
         $target = $this->getApiTarget();
 
         if ($entity->getUid()) {
-            $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteUpdate).'/'.$entity->getUid();
+            $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteUpdate) . '/' . $entity->getUid();
         } else {
             $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteCreate);
         }

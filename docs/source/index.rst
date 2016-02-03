@@ -6,15 +6,18 @@
 Welcome to xm_tools's documentation!
 ====================================
 
+A framework for TYPO3 extensions.
+
 Contents:
 
 .. toctree::
    :maxdepth: 3
    
    install
+   architecture
    tools
    viewhelper
-   architecture
+   templates
 
 
 

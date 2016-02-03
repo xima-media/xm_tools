@@ -31,17 +31,16 @@ class Connector
     protected $cacheManager;
 
     /**
-     * Gets called by
-     * repositories inheriting from Xima\XmTools\Classes\API\REST\Repository\AbstractApiRepository, retrieves JSON responses, converts
-     * arrays to objects according to the given repository class name (if existing) or to array of arrays.
+     * Gets called by repositories inheriting from Xima\XmTools\Classes\API\REST\Repository\AbstractApiRepository,
+     * retrieves JSON responses, converts arrays to objects according to the given repository class name (if existing) or to array of arrays.
      * Translates values to the current or fallback language when fields with the following patterns are found:
      * -nameDe, nameEn...
      * -name_de, name_en...
      * Calls cache or calls API and stores result in cache if older than one day.
      *
-     * @param string                                                          $url
+     * @param string $url
      * @param \Xima\XmTools\Classes\API\REST\Repository\ApiRepository $repository
-     * @param array                                                           $params
+     * @param array $params
      *
      * @return array
      */
@@ -57,9 +56,10 @@ class Connector
         $responseJson = false;
         $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
         $logger = $objectManager->get('Xima\XmTools\Classes\Typo3\Logger');
+        /* @var $logger \Xima\XmTools\Classes\Typo3\Logger */
         $session = $objectManager->get('TYPO3\CMS\Extbase\Persistence\Generic\Session');
 
-        $logger->log('Called api url: '.$url);
+        $logger->log('Called api url: ' . $url);
 
         // retrieve data from cache or api
         if ($isApiCacheEnabled) {
@@ -73,17 +73,17 @@ class Connector
         if (!$responseJson) {
             $logger->log('Try to get data from api.');
             $responseJson = file_get_contents($url);
+
+            //write to api
+            if ($isApiCacheEnabled) {
+                $this->cacheManager->write($url, $responseJson);
+            }
         }
 
         $response = json_decode($responseJson);
 
         if (array_key_exists('result', $response)) {
             $logger->log('Success.');
-
-            //write to api
-            if ($isApiCacheEnabled) {
-                $this->cacheManager->write($url, $responseJson);
-            }
 
             //translate the result
             $targetLanguage = (isset($response->metadata->lang)) ? ($response->metadata->lang) : $this->typo3Services->getLang();
@@ -125,7 +125,7 @@ class Connector
                 }
             }
         } else {
-            $errorMessage = 'Api data not available for extension \''.$this->extension->getName().'\'';
+            $errorMessage = 'Api data not available for extension \'' . $this->extension->getName() . '\'';
             trigger_error($errorMessage, E_USER_WARNING);
             $logger->log($errorMessage);
 
