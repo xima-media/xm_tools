@@ -84,7 +84,7 @@ class Typo3Services {
 	 */
     public function includeJavaScript(array $files) {
 
-        $markup = '<script type="text/javascript" src="%s" language="JavaScript"></script>';
+        $markup = '<script type="text/javascript" src="%s"></script>';
 
         $i = 0;
         foreach ( $files as $file ) {
