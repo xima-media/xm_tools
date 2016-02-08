@@ -72,7 +72,7 @@ class Typo3Services {
      * Fügt HTML-Code zum &lt;head&gt; hinzu
      * @param string $html
      */
-    static function addToHead($html) {
+    public function addToHead($html) {
         $GLOBALS['TSFE'] -> additionalHeaderData[$this->extensionKey] .= $html;
     }
 
