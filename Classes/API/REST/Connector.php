@@ -135,27 +135,26 @@ class Connector
         return $response;
     }
 
-    public function post($url, $data)
+    public function post($url, $entity)
     {
-
-        //Initiate cURL.
-        $ch = curl_init($url);
-
-        //Encode the array into JSON.
         $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
-        $jsonData = $serializer->serialize($data, 'json');
+        $jsonData = $serializer->serialize($entity, 'json');
 
-        //Tell cURL that we want to send a POST request.
-        curl_setopt($ch, CURLOPT_POST, 1);
+        try {
+            $client = new \GuzzleHttp\Client();
+            $response = $client->post($url, [
+                'body' => $jsonData
+            ]);
 
-        //Attach our encoded JSON string to the POST fields.
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonData);
+            return json_decode($response->getBody()->getContents(), true);
 
-        //Set the content type to application/json
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        } catch (\Exception $e) {
+            $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Object\ObjectManager');
+            $logger = $objectManager->get('Xima\XmTools\Classes\Typo3\Logger');
+            $logger->log($e->getMessage());
 
-        //Execute the request
-        return curl_exec($ch);
+            return false;
+        }
     }
 
     /**
