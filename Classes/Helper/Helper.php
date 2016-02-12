@@ -22,7 +22,7 @@ class Helper
             'Õ' => 'O', 'Ö' => 'Oe', 'Ø' => 'O', 'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'Ue', 'Ý' => 'Y', 'Þ' => 'B', 'ß' => 'Ss',
             'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'ae', 'å' => 'a', 'æ' => 'a', 'ç' => 'c', 'è' => 'e', 'é' => 'e',
             'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ð' => 'o', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o',
-            'ô' => 'o', 'õ' => 'o', 'ö' => 'oe', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'ý' => 'y', 'þ' => 'b',
+            'ô' => 'o', 'õ' => 'o', 'ö' => 'oe', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'þ' => 'b',
             'ÿ' => 'y', 'Ŕ' => 'R', 'ŕ' => 'r', 'ü' => 'ue',
         );
 
@@ -75,7 +75,7 @@ class Helper
     public static function slugify3($str, $replace = array(), $delimiter = '-')
     {
         if (!empty($replace)) {
-            $str = str_replace((array) $replace, ' ', $str);
+            $str = str_replace((array)$replace, ' ', $str);
         }
 
         $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
@@ -97,6 +97,9 @@ class Helper
     public static function translate($objectToTranslate, $lang, $fallbackLang = '')
     {
         $properties = get_object_vars($objectToTranslate);
+        if (is_null($properties)) {
+            return $objectToTranslate;
+        }
         foreach ($properties as $key => $value) {
             //knplabs translatables
             if ('translations' === $key) {
@@ -119,30 +122,30 @@ class Helper
             } else {
                 //pattern: nameDe, nameEn...
                 $langUcFirst = ucfirst($lang);
-                if (preg_match('~'.$langUcFirst.'$~', $key)) {
+                if (preg_match('~' . $langUcFirst . '$~', $key)) {
                     //the property name without the language code
-                    $langProperty = preg_replace('~'.$langUcFirst.'$~', '', $key);
+                    $langProperty = preg_replace('~' . $langUcFirst . '$~', '', $key);
                     $objectToTranslate->$langProperty = $objectToTranslate->$key;
 
                     //it is a translation but it is empty, fall back
                     if (empty($objectToTranslate->$langProperty)) {
                         $fallbackLangUcFirst = ucfirst($fallbackLang);
-                        $fallbackLangProperty = preg_replace('~'.$langUcFirst.'$~', $fallbackLangUcFirst, $key);
+                        $fallbackLangProperty = preg_replace('~' . $langUcFirst . '$~', $fallbackLangUcFirst, $key);
                         $objectToTranslate->$langProperty = $objectToTranslate->$fallbackLangProperty;
                     }
                 }
 
                 //pattern: name_de, name_en...
-                $langUnderscored = '_'.$lang;
-                if (preg_match('~'.$langUnderscored.'$~', $key)) {
+                $langUnderscored = '_' . $lang;
+                if (preg_match('~' . $langUnderscored . '$~', $key)) {
                     //the property name without the language code
-                    $langProperty = preg_replace('~'.$langUnderscored.'$~', '', $key);
+                    $langProperty = preg_replace('~' . $langUnderscored . '$~', '', $key);
                     $objectToTranslate->$langProperty = $objectToTranslate->$key;
 
                     //it is a translation but it is empty, fall back
                     if (empty($objectToTranslate->$langProperty)) {
-                        $fallbackLangUnderscored = '_'.$fallbackLang;
-                        $fallbackLangProperty = preg_replace('~'.$langUnderscored.'$~', $fallbackLangUnderscored, $key);
+                        $fallbackLangUnderscored = '_' . $fallbackLang;
+                        $fallbackLangProperty = preg_replace('~' . $langUnderscored . '$~', $fallbackLangUnderscored, $key);
                         $objectToTranslate->$langProperty = $objectToTranslate->$fallbackLangProperty;
                     }
                 }
@@ -165,10 +168,10 @@ class Helper
         }
     }
 
-    public static function shortenText($text, $length, $glue = ' ', $finishString = '...')
+    public static function shortenText($text, $length, $glue = '', $finishString = '...')
     {
         $lastPos = strpos($text, ' ', $length) - 1;
-        $shortenedText = ($lastPos > 0) ? substr($text, 0, $lastPos).'...' : $text;
+        $shortenedText = ($lastPos > 0) ? substr($text, 0, $lastPos) . $glue . $finishString : $text;
 
         return $shortenedText;
     }
@@ -176,8 +179,8 @@ class Helper
     /**
      * Convert strings with underscores into CamelCase.
      *
-     * @param string $string          The string to convert
-     * @param bool   $first_char_caps camelCase or CamelCase
+     * @param string $string The string to convert
+     * @param bool $first_char_caps camelCase or CamelCase
      *
      * @return string The converted string
      */

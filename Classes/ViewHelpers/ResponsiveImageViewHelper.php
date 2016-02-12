@@ -32,9 +32,9 @@ class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
     public function initializeArguments()
     {
         $this->registerArgument('image', 'mixed', '', true)
-             ->registerArgument('sizes', 'array', '', false)
-             ->registerArgument('alt', 'string', '', false)
-             ->registerArgument('title', 'string', '', false);
+            ->registerArgument('sizes', 'array', '', false)
+            ->registerArgument('alt', 'string', '', false)
+            ->registerArgument('title', 'string', '', false);
     }
 
     /**
@@ -58,9 +58,8 @@ class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
             $output = '<picture>';
             $output .= '<!--[if IE 9]><video style="display: none;"><![endif]-->';
 
-            $TYPO3BaseDir = \TYPO3\CMS\Core\Utility\PathUtility::getAbsolutePathOfRelativeReferencedFileOrPath(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('xm_tools').'/../../../');
-            $originalFilePath = '/fileadmin'.$this->arguments['image']->getIdentifier();
-            $originalInternalFilePath = $TYPO3BaseDir.$originalFilePath;
+            $originalFilePath = '/fileadmin' . $this->arguments['image']->getIdentifier();
+            $originalInternalFilePath = PATH_site . $originalFilePath;
             $originalFileName = $this->arguments['image']->getName();
             $parts = explode('.', $originalFileName);
             $originalFileNameExt = $parts[count($parts) - 1];
@@ -102,8 +101,8 @@ class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
                     if (!empty($processedFiles)) {
                         foreach ($processedFiles as $file) {
                             if ($file->getProperty('width') == $maxWidth) {
-                                $filePath = '/fileadmin'.$file->getIdentifier();
-                                $filePathAbsolute = PATH_site.'fileadmin'.$file->getIdentifier();
+                                $filePath = '/fileadmin' . $file->getIdentifier();
+                                $filePathAbsolute = PATH_site . 'fileadmin' . $file->getIdentifier();
                             }
                         }
                     }
@@ -128,10 +127,10 @@ class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
                             imagefill($newImg, 0, 0, $color);
 
                             imagecopyresized($newImg, $originalImg, 0, 0, 0, 0, $maxWidth, $newHeight, $originalWidth, $originalHeight);
-                            $newFileName = preg_replace('~\.'.$originalFileNameExt.'$~', '_'.$checksum.'.'.$originalFileNameExt, $originalFileName);
-                            $newIdentifier = '/_processed_/'.$newFileName;
-                            $newFilePath = '/fileadmin'.$newIdentifier;
-                            $newInternalFilePath = $TYPO3BaseDir.$newFilePath;
+                            $newFileName = preg_replace('~\.' . $originalFileNameExt . '$~', '_' . $checksum . '.' . $originalFileNameExt, $originalFileName);
+                            $newIdentifier = '/_processed_/' . $newFileName;
+                            $newFilePath = '/fileadmin' . $newIdentifier;
+                            $newInternalFilePath = PATH_site . $newFilePath;
 
                             switch ($this->arguments['image']->getMimeType()) {
                                 case 'image/jpeg':
@@ -171,7 +170,7 @@ class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
                     }
                 }
 
-                $output .= '<source media="'.$media.'" srcset="'.$filePath.'">';
+                $output .= '<source media="' . $media . '" srcset="' . $filePath . '">';
             }
 
             unset($processedFileRepository);
@@ -183,7 +182,7 @@ class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\Abstrac
             $metadata = $this->arguments['image']->_getMetadata();
 
             $output .= '<!--[if IE 9]></video><![endif]-->';
-            $output .= '<img alt="'.$metadata['alternative'].'" title="'.$metadata['title'].'" srcset="'.$originalFilePath.'">';
+            $output .= '<img alt="' . $metadata['alternative'] . '" title="' . $metadata['title'] . '" srcset="' . $originalFilePath . '">';
             $output .= '</picture>';
         } catch (\Exception $e) {
         }
