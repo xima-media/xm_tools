@@ -8,7 +8,7 @@ Xima Tools is an extension for the TYPO3 CMS that can facilitate common use case
 http://xm-tools.readthedocs.org
 
 ## Requirements
-See *constraints* section in [ext_emconf.php](blob/master/ext_emconf.php)
+See *constraints* section in [ext_emconf.php](ext_emconf.php)
 
 ## Installation
 ### Via TYPO3 Extension Manager
@@ -18,7 +18,7 @@ Install *xm_tools* via the TYPO3 Extension Manager in your TYPO3 installation.
 1. Clone the project.
 2. In the folder *xm_tools*, run `composer install --no-dev`.
 3. Remove *composer.json* (TYPO3 6.2 does currently not seem to support 3rd party composer packages).
-4. (Remove *docs* folder.)
+4. (Remove folder *build* and *docs*, files *build.xml*, *makedoc.sh* .)
 5. Copy the folder *xm_tools* into the *typoconf/ext* folder of your TYPO3 installation.
 6. Activate *Xima Tools* in the Extension Manager.
 
@@ -34,6 +34,9 @@ Adding the static template *Xima Tools* is optional. There are four TypoScript s
 * [TYPO3 Extension Repository](http://typo3.org/extensions/repository/view/xm_tools)
 
 ## Developer notes
+
+* [Changelog](CHANGELOG.md)
+
 
 ### Documentation
 
