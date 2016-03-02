@@ -106,11 +106,10 @@ class ExtensionHelper
     private function getConfigurationFE($extensionName)
     {
         // load configurations
-        $manager = GeneralUtility::makeInstance("TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager");
-        $service = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
-
-        $setup = $service->convertTypoScriptArrayToPlainArray($manager->getTypoScriptSetup());
-        $configuration = $setup['plugin']['tx_'.\strtolower($extensionName)];
+        $feController = $GLOBALS['TSFE'];
+        /* @var $feController \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController */
+        $extensionKey = self::getExtensionKeyByExtensionName($extensionName);
+        $configuration = json_decode($feController->TYPO3_CONF_VARS['EXT'][$extensionKey]);
 
         return $configuration;
     }
