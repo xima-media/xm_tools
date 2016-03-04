@@ -31,10 +31,10 @@ class ExtensionHelper
                 $configuration = $this->configurationManagerInterface->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
                 $extensionName = $configuration ['extensionName'];
             } else {
-                $configuration = $this->getConfigurationFE($extensionName);
+                $configuration = array_merge($this->getConfigurationFE($extensionName), $this->getExtensionConfiguration($extensionName));
             }
         } elseif (TYPO3_MODE === 'BE' && !is_null($extensionName)) {
-            $configuration = $this->getConfigurationBE($extensionName);
+            $configuration = array_merge($this->getConfigurationBE($extensionName), $this->getExtensionConfiguration($extensionName));
         }
 
         //now create the demanded extension
@@ -83,8 +83,16 @@ class ExtensionHelper
         return $extensionKey;
     }
 
+    /**
+     * Gets the extension's configuration.
+     *
+     * @param $extensionName
+     * @return mixed
+     */
     private function getConfigurationBE($extensionName)
     {
+        $configuration = array();
+
         // load configurations before accessing ypoScriptSetupCache!
         $this->configurationManagerInterface->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
 
@@ -92,18 +100,52 @@ class ExtensionHelper
         $service = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
 
         // access the typoscript cache
-        $arrOfObj = (array) $manager;
+        $arrOfObj = (array)$manager;
 
-        //$arrKeys = array_keys($arrOfObj);
-        $config = $arrOfObj["\0*\0typoScriptSetupCache"];
+        if (is_array($arrOfObj) && isset($arrOfObj["\0*\0typoScriptSetupCache"])) {
+            //$arrKeys = array_keys($arrOfObj);
+            $config = $arrOfObj["\0*\0typoScriptSetupCache"];
 
-        $setup = $service->convertTypoScriptArrayToPlainArray(array_pop($config));
-        $configuration = $setup['plugin']['tx_'.\strtolower($extensionName)];
+            $setup = $service->convertTypoScriptArrayToPlainArray(array_pop($config));
+            $configuration = $setup['plugin']['tx_' . \strtolower($extensionName)];
+        }
 
         return $configuration;
     }
 
+    /**
+     * Gets the current plugin's settings.
+     *
+     * @param $extensionName
+     * @return mixed
+     *
+     * @fixme: this way is very slow.
+     */
     private function getConfigurationFE($extensionName)
+    {
+        $configuration = array();
+
+        // load configurations
+        $manager = GeneralUtility::makeInstance("TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager");
+        /* @var $manager \TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager */
+        $service = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
+
+        $tsSetup = $manager->getTypoScriptSetup();
+        if (is_array($tsSetup)) {
+            $setup = $service->convertTypoScriptArrayToPlainArray($manager->getTypoScriptSetup());
+            $configuration = $setup['plugin']['tx_' . \strtolower($extensionName)];
+        }
+
+        return $configuration;
+    }
+
+    /**
+     * Gets the backend configuration.
+     *
+     * @param $extensionName
+     * @return mixed
+     */
+    private function getExtensionConfiguration($extensionName)
     {
         // load configurations
         $feController = $GLOBALS['TSFE'];
