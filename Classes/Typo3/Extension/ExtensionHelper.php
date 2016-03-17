@@ -46,9 +46,7 @@ class ExtensionHelper
                 $extension->setKey($extensionKey);
                 $extension->setRelPath(ExtensionManagementUtility::siteRelPath($extension->getKey()));
                 $extension->setExtPath(ExtensionManagementUtility::extPath($extension->getKey()));
-
-                $settings = $this->getSettings();
-                $extension->setSettings($settings);
+                $extension->setSettings($this->getSettings());
 
                 $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extensionKey];
                 if (is_string($extensionConfiguration)) {
@@ -88,12 +86,28 @@ class ExtensionHelper
         return $extensionKey;
     }
 
+    public static function getTyposcriptSetup()
+    {
+        $tsSetup = array();
+
+        $manager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager');
+        /* @var $manager \TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager */
+        $service = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
+        /* @var $service \TYPO3\CMS\Extbase\Service\TypoScriptService */
+
+        if (!is_null($manager->getTypoScriptSetup())) {
+            $tsSetup = $service->convertTypoScriptArrayToPlainArray($manager->getTypoScriptSetup());
+        }
+
+        return $tsSetup;
+    }
+
     /**
-     * Gets plugin settings - when there is a plugin named like the extension.
+     * Gets the extension settings.
      *
      * @return array
      */
-    public function getSettings()
+    protected function getSettings()
     {
         $settings = array();
 
@@ -111,28 +125,39 @@ class ExtensionHelper
     }
 
     /**
-     * Gets the current plugin's settings.
-     *
      * @return array
-     *
-     * @fixme: this way is very slow.
      */
-    private function getFESettings()
+    protected function getFESettings()
     {
         $settings = array();
+        $tsSetup = self::getTyposcriptSetup();
 
-        // load configurations
-        $manager = GeneralUtility::makeInstance("TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager");
-        /* @var $manager \TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager */
-        $service = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
+        $extensionKey = self::getExtensionKeyByExtensionName($this->extensionName);
+        if (isset($tsSetup['config'][$extensionKey])) {
+            $settings = $tsSetup['config'][$extensionKey];
+        }
 
-        $tsSetup = $manager->getTypoScriptSetup();
-        if (is_array($tsSetup)) {
-            $setup = $service->convertTypoScriptArrayToPlainArray($manager->getTypoScriptSetup());
-            $txExtensionName = 'tx_' . \strtolower($this->extensionName);
-            if (isset($setup['plugin'][$txExtensionName])) {
-                $settings = $setup['plugin'][$txExtensionName];
-            }
+        $extensionSignature = 'tx_' . strtolower($this->extensionName);
+        if (isset($tsSetup['plugin'][$extensionSignature])) {
+            $settings = array_merge($settings, $tsSetup['config'][$extensionSignature]);
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Gets the plugin's settings.
+     *
+     * @return array
+     */
+    public static function getPluginSettings($extensionName, $pluginName)
+    {
+        $settings = array();
+        $tsSetup = self::getTyposcriptSetup();
+
+        $pluginSignature = 'tx_' . strtolower($extensionName . '_' . $pluginName);
+        if (isset($tsSetup['plugin'][$pluginSignature])) {
+            $settings = $tsSetup['plugin'][$pluginSignature];
         }
 
         return $settings;
@@ -143,7 +168,7 @@ class ExtensionHelper
      *
      * @return array
      */
-    private function getBESettings()
+    protected function getBESettings()
     {
         $settings = array();
 
@@ -169,19 +194,5 @@ class ExtensionHelper
         return $settings;
     }
 
-    /**
-     * Gets the extension configuration.
-     *
-     * @return array
-     */
-//    private function getExtensionConfiguration()
-//    {
-//        // load configurations
-//        $feController = $GLOBALS['TSFE'];
-//        /* @var $feController \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController */
-//        $extensionKey = self::getExtensionKeyByExtensionName($this->extensionName);
-//        $configuration = json_decode($feController->TYPO3_CONF_VARS['EXT'][$extensionKey]);
-//
-//        return $configuration;
-//    }
+
 }
