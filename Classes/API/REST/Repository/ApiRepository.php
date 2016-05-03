@@ -202,6 +202,9 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
             $url .= $queryString;
         }
 
+        // testing...
+        // var_dump(str_replace($this->apiKey, 'key-replacement', $url));
+
         return $url;
     }
 
