@@ -124,8 +124,9 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
      *
      * @param array $files file names, starting with http or relative
      * @param \Xima\XmTools\Classes\Typo3\Model\Extension from which extension
+     * @param bool $footer includes the scripts at the footer if set to true
      */
-    public function includeJavaScript(array $files, Extension $extension = null)
+    public function includeJavaScript(array $files, Extension $extension = null, $footer = false)
     {
         $extension = (is_null($extension)) ? $this->extension : $extension;
         foreach ($files as $file) {
@@ -137,7 +138,11 @@ class Services implements \TYPO3\CMS\Core\SingletonInterface
             }
 
             if ($this->getPageRenderer()) {
-                $this->getPageRenderer()->addJsFile($file);
+                if ($footer == false){
+                    $this->getPageRenderer()->addJsFile($file);
+                } else {
+                    $this->getPageRenderer()->addJsFooterFile($file);
+                }
             }
         }
     }
