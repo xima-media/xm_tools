@@ -12,9 +12,9 @@ Contents:
 
 .. toctree::
    :maxdepth: 3
-   
-   install
-   architecture
+
+   overview
+   config
    tools
    viewhelper
    templates

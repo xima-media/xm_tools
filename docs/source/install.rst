@@ -1,4 +1,0 @@
-Installation and configuration
-==============================
-
-...
