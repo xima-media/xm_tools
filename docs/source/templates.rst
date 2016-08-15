@@ -1,5 +1,5 @@
 Templates
-============
+=========
 
 **Pake-Link (workaround for internal and external Links in TYPO3 7 < 7.6.3)**
 

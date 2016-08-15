@@ -1,5 +1,5 @@
 Overview
---------
+========
 
 xm_tools was built to facilitate common use cases a TYPO3 extension developer runs into. It is an extension for extension developers, so you will not find any frontend
 or backend plugin in it. The purpose was to generalize certain workflows and so outsource commonly used source code.

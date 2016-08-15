@@ -1,5 +1,5 @@
-Small&Smart
-===========
+More tools
+----------
 
 * If you want to share a global dictionary with all your extensions, rename any *Resources\\Private\\Language\\locallang.xlf.dist* file to \*.xlf.
 * If you want to share global parameters with all your extensions, rename *parameters.yml.dist* to *parameters.yml*. Add any configuration in [YAML](http://yaml.org/) style.

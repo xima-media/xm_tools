@@ -1,5 +1,5 @@
 Configuration
--------------
+=============
 
 Adding the static template *Xima Tools* makes four configuration settings available:
 

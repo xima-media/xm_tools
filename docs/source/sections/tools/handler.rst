@@ -1,5 +1,5 @@
 ErrorHandler and ProductionExceptionHandler
-===========================================
+-------------------------------------------
 
 TYPO3 allows to change handlers for Errors and Exceptions. Configure the following handlers and set up your email address to receive mails about these events:
 

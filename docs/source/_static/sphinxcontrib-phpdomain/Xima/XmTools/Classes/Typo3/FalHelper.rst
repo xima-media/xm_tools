@@ -14,4 +14,3 @@ Xima\\XmTools\\Classes\\Typo3\\FalHelper
 
         :type $uid: int
         :param $uid: uid of originalFile (originalResource.originalFile.properties.uid)
-        :returns: bool|\Xima\XmBildarchiv\Controller\Exception

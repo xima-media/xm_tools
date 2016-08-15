@@ -13,10 +13,12 @@ Xima\\XmTools\\Classes\\Typo3
    FalHelper
    FeUser
    FlexFormHelper
+   Handler/index
    Helper/index
    Logger
    Model/index
    Query/index
+   Service/index
    Services
    SessionManager
    SessionStore

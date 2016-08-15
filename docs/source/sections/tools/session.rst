@@ -1,7 +1,7 @@
 Session handling
-================
+----------------
 
-To write data to and retrieve data from the session, use the :php:class:`SessionManager`:
+xm_tools provides a convient interface to the wer server's session. To write data to and retrieve data from the session, use the :php:class:`SessionManager`:
 
 ::
 
@@ -24,8 +24,8 @@ To write data to and retrieve data from the session, use the :php:class:`Session
         }
     }
 
-This session is kept for the current extension on for the current page. If you want to store data somewhere specific to be able to use it on other pages and/or by 
-another extensions, you can do (see :php:meth:`SessionManager::set`):
+This session is kept for the current extension and the current page. If you want to store data somewhere specific to be able to use it on other pages and/or by
+another extensions, you can use (see :php:meth:`SessionManager::set`) with key of your choice:
 
 ::
 
