@@ -1,7 +1,7 @@
 I10n
 ----
 
-Translating extensions is often needed for frontend plugins. One challenge is to offer those translations for javascript functions, another is to share
+Translating extensions is often needed for frontend plugins. One challenge is to offer those translations for Javascript functions, another is to share
 translations between extensions, so that common labels are stored in one place. The :php:class:`Localization` class tries to accomplish all those goals, while
 additionally offering a quick access to translations from fluid templates. Translations are to be stored in the common xliff files.
 
@@ -22,11 +22,11 @@ By default, the returns all translations from your current extension. You can pa
     {dict.subject}: {post.subject}
     ...
 
-Use the dictionary in javascript
+Use the dictionary in Javascript
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you want to have your translations available in javascript as well, enable it by configuring it (see :doc:`Configuration </config>`). This will
-generate a javascript file and make it load. Your translations are available in javascript through:
+If you want to have your translations available in Javascript as well, enable it by configuring xm_tools to do so (see :doc:`Configuration </config>`). This will
+generate a Javascript file and make it load. Your translations are available in Javascript through:
 
 ::
 
