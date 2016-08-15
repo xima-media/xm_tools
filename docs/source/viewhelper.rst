@@ -43,7 +43,7 @@ Object
         </f:for>
 
 - ArrayImplodeViewHelper
-    :php:class:`ArrayImplodeViewHelper` encapsulates PHP's `implode() <http://php.net/manual/en/function.implode.php>`_ function and displays the output. You can specify a key if the array is an array
+    The :php:class:`ArrayImplodeViewHelper` encapsulates PHP's `implode() <http://php.net/manual/en/function.implode.php>`_ function and displays the output. You can specify a key if the array is an array
     or a property or function if the array is an array of objects.
     Usage example:
     ::
