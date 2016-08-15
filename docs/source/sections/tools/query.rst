@@ -20,7 +20,7 @@ In order to set up a query object specific for your domain, create your custom q
 
 ::
 
-    class PostQuery
+    class BlogQuery
     {
         use \Xima\XmTools\Classes\Typo3\Query\QueryTrait
         {

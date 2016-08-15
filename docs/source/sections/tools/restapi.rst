@@ -49,8 +49,8 @@ You can then use your new extension's repositories just the same way as native E
 ::
 
     ...
-    $repository = $objectManager->get('\Xima\BlogExampleExtension\Domain\Repository\CountryRepository');
-    $countries = $repository->findAll();
+    $repository = $objectManager->get('\Xima\BlogExampleExtension\Domain\Repository\BlogRepository');
+    $blogs = $repository->findAll();
     ...
 
 This wil retrieve all country entites from the API (considering the API offers a corresponding route, meaning the demanded entity's name e.g. `http://your.api/country/query?&api_key=your_key`).

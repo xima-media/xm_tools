@@ -3,7 +3,8 @@ I10n
 
 Translating extensions is often needed for frontend plugins. One challenge is to offer those translations for Javascript functions, another is to share
 translations between extensions, so that common labels are stored in one place. The :php:class:`Localization` class tries to accomplish all those goals, while
-additionally offering a quick access to translations from fluid templates. Translations are to be stored in the common xliff files.
+additionally offering a quick access to translations from fluid templates. Translations are to be stored in the common xliff files. If you want to share a global dictionary with all your extensions,
+rename any *Resources\\Private\\Language\\locallang.xlf.dist* file to \*.xlf and/or add more languages.
 
 Retrieve a dictionary and assign it to the view
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

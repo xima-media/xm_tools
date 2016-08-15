@@ -6,7 +6,7 @@ and calling it's method :php:meth:`ExtensionManager::getExtensionByName`:
 
 ::
 
-    class PostController
+    class BlogController
     {
         /**
          * @var \Xima\XmTools\Classes\Typo3\Extension\ExtensionManager

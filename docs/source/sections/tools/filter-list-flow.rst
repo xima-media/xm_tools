@@ -46,7 +46,7 @@ the filter you want to show to your user.
         }
     }
 
-    class PostQueryController extends AbstractController
+    class BlogQueryController extends AbstractController
     {
 
         /**
@@ -56,7 +56,7 @@ the filter you want to show to your user.
          */
         public function newAction()
         {
-            $this->initializeQuery('Xima\BlogExampleExtension\Domain\Model\Query\PostQuery');
+            $this->initializeQuery('Xima\BlogExampleExtension\Domain\Model\Query\BlogQuery');
 
             //example form data: get tags to allow for filtering on them
             $tags = $this->objectManager->get('Xima\BlogExampleExtension\Domain\Repository\TagRepository')->findAll();
@@ -70,12 +70,12 @@ the filter you want to show to your user.
         /**
          * action create
          *
-         * @param \Xima\BlogExampleExtension\Domain\Model\Query\PostQuery $newPostQuery
+         * @param \Xima\BlogExampleExtension\Domain\Model\Query\BlogQuery $newBlogQuery
          * @return void
          */
-        public function createAction(\Xima\XmDwiDb\Domain\Model\Query\PostQuery $newPostQuery)
+        public function createAction(\Xima\XmDwiDb\Domain\Model\Query\BlogQuery $newBlogQuery)
         {
-            $this->session->set('query', $newPostQuery);
+            $this->session->set('query', $newBlogQuery);
             $this->redirect('new');
         }
 
@@ -89,7 +89,7 @@ In your list action, retrieve the query from the session and let your entity rep
 
 ::
 
-    class PostController extends AbstractController
+    class BlogController extends AbstractController
     {
 
         ...
@@ -101,7 +101,7 @@ In your list action, retrieve the query from the session and let your entity rep
          */
         public function listAction()
         {
-            $this->initializeQuery('Xima\BlogExampleExtension\Domain\Model\Query\PostQuery');
+            $this->initializeQuery('Xima\BlogExampleExtension\Domain\Model\Query\BlogQuery');
 
             $items = $this->repository->findAllByQuery($query);
             $this->view->assign('items', $items);

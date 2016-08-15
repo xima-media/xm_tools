@@ -1,13 +1,17 @@
 More tools
 ----------
 
-* If you want to share a global dictionary with all your extensions, rename any *Resources\\Private\\Language\\locallang.xlf.dist* file to \*.xlf.
-* If you want to share global parameters with all your extensions, rename *parameters.yml.dist* to *parameters.yml*. Add any configuration in [YAML](http://yaml.org/) style.
-* FalHelper
-* FEUser
-* Helper functions in `API documentation: Helper <../../_static/api/classes/Xima.XmTools.Classes.Helper.Helper.html>`_
-* Helper functions in `API documentation: Services <../../_static/api/classes/Xima.XmTools.Classes.Helper.Services.html>`_
-* FlexFormHelper
-* Asset management
-* Logger
-* Base classes: controller, model, repository, query
+- Helper functions in `API documentation: Helper <../../_static/api/classes/Xima.XmTools.Classes.Helper.Helper.html>`_
+- Logger: The :php:class:`Logger` class uses the *\\TYPO3\CMS\\Core\\Log\\LogManager* to log data. It must be enabled, see :doc:`Configuration </config>`.
+
+    ::
+
+        $logger = $objectManager->get('Xima\XmTools\Classes\Typo3\Logger');
+        /* @var $logger \Xima\XmTools\Classes\Typo3\Logger */
+        $logger->log('Usefull log information...');
+
+- FalHelper: ...
+- FEUser: ...
+- FlexFormHelper: ...
+
+
