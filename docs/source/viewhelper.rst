@@ -3,7 +3,8 @@ ViewHelper
 
 - ResponsiveImageViewHelper
     The :php:class:`ResponsiveImageViewHelper` can be used to process and render images with *<picture>* and subsequent *<source>* tags for images fitting the device loading the image.
-- URLSafeViewViewHelper
+- URLSafeViewHelper
+    The :php:class:`URLSafeViewHelper` renders links, be it internal or external (workaround for https://forge.typo3.org/issues/72818).
 
 Control
 """""""
