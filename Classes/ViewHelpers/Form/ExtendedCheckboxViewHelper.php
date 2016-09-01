@@ -1,6 +1,6 @@
 <?php
 
-namespace XIMA\XmIbsdb\ViewHelpers;
+namespace Xima\XmTools\ViewHelpers;
 
 use TYPO3\CMS\Fluid\ViewHelpers\Form\CheckboxViewHelper;
 

@@ -26,18 +26,21 @@ Xima\\XmTools\\Classes\\Helper\\Helper
 
     .. php:method:: translate($objectToTranslate, $lang, $fallbackLang = '')
 
-        Convert the date result by current language.
+        Translate all translatable fields of a stdObject.
 
         :param $objectToTranslate:
+        :type $lang: string
         :param $lang:
+        :type $fallbackLang: string
         :param $fallbackLang:
+        :returns: mixed
 
-    .. php:method:: mergeTranslations($objectToTranslate, $translations)
+    .. php:method:: mergeTranslations($object, $translations)
 
-        :param $objectToTranslate:
+        :param $object:
         :param $translations:
 
-    .. php:method:: shortenText($text, $length, $glue = ' ', $finishString = '...')
+    .. php:method:: shortenText($text, $length, $glue = '', $finishString = '...')
 
         :param $text:
         :param $length:
@@ -50,7 +53,8 @@ Xima\\XmTools\\Classes\\Helper\\Helper
 
         :type $string: string
         :param $string: The string to convert
-        :param $first_char_caps:
+        :type $first_char_caps: bool
+        :param $first_char_caps: camelCase or CamelCase
         :returns: string The converted string
 
     .. php:method:: getClassPackageName($class)

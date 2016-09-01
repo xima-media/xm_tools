@@ -6,7 +6,23 @@ Xima\\XmTools\\Classes\\Typo3\\FeUser
 
 .. php:class:: FeUser
 
-    Helper for FeUser.
+    Helper for FeUser
+
+    .. php:method:: __construct()
+
+        Constructor
+
+    .. php:method:: getUid()
+
+        :returns: int
+
+    .. php:method:: getUser()
+
+        :returns: array
+
+    .. php:method:: getGroupData()
+
+        :returns: array
 
     .. php:method:: feUserIsAuthenticated()
 
@@ -22,10 +38,10 @@ Xima\\XmTools\\Classes\\Typo3\\FeUser
         :param $role:
         :returns: bool
 
-    .. php:method:: feUserHasRoleId($role)
+    .. php:method:: feUserHasRoleId($roleId)
 
         Checks if fe_user is authenticated and has given role id.
 
-        :type $role: int
-        :param $role:
+        :type $roleId: int
+        :param $roleId:
         :returns: bool

@@ -11,10 +11,6 @@ Xima\\XmTools\\Classes\\Typo3\\Services
     Initialises common settings such as current language and extension, global site parameters and managers. Includes static and non static helper functions for TYPO3.
     Include it by dependency injection.
 
-    .. php:const:: DEFAULT_LANG_STRING
-
-        TYPO3's name for the default language.
-
     .. php:attr:: extensionManager
 
         protected \Xima\XmTools\Classes\Typo3\Extension\ExtensionManager
@@ -27,15 +23,11 @@ Xima\\XmTools\\Classes\\Typo3\\Services
 
     .. php:attr:: langId
 
-        protected int
-
-        The current language id.
+        protected
 
     .. php:attr:: lang
 
-        protected string
-
-        The current locale (e.g. de, en).
+        protected
 
     .. php:attr:: parameters
 
@@ -50,11 +42,6 @@ Xima\\XmTools\\Classes\\Typo3\\Services
         The settings of the xm_tools extension.
 
     .. php:method:: initializeObject()
-
-        Initialises the current language settings and, if in frontend mode, the
-        currently used extension.
-        Fetches and caches settings of parameters.yml and provides them as
-        javascript.
 
     .. php:method:: addToHead($html)
 

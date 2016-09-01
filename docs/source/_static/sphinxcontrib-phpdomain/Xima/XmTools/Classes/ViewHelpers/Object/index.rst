@@ -10,5 +10,6 @@ Xima\\XmTools\\Classes\\ViewHelpers\\Object
    ArrayExplodeViewHelper
    ArrayImplodeViewHelper
    ObjectAccessViewHelper
+   StrReplaceViewHelper
    StrtolowerViewHelper
    StrtoupperViewHelper

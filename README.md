@@ -1,52 +1,37 @@
-# Xima Tools
+# xm_tools
 A framework for TYPO3 extensions.
 
-Xima Tools is an extension for the TYPO3 CMS that can facilitate common use cases for your custom extensions.
+xm_tools is an extension for the TYPO3 CMS that can facilitate common use cases for your custom extensions.
 
 ## Documentation
 
 http://xm-tools.readthedocs.org
 
 ## Requirements
-
-* PHP 5.3 is supported, PHP 5.4 suggested
-* TYPO3 CMS 6.2.*
+See *constraints* section in [ext_emconf.php](ext_emconf.php)
 
 ## Installation
 ### Via TYPO3 Extension Manager
 Install *xm_tools* via the TYPO3 Extension Manager in your TYPO3 installation.
 
-### Manually
+### From source
 1. Clone the project.
-2. From the folder *xm_tools*, run `composer install --no-dev`.
-3. Remove the file "composer.json" (TYPO3 6.2 does currently not seem to support 3rd party composer packages).
-3. Copy the folder *xm_tools* into the folder *typoconf/ext* of your TYPO3 installation.
+2. In the folder *xm_tools*, run `composer install --no-dev`.
+3. Remove *composer.json* (TYPO3 6.2 does currently not seem to support 3rd party composer packages).
+4. (Remove folder *build* and *docs*, files *build.xml*, *makedoc.sh* .)
+5. Copy the folder *xm_tools* into the *typoconf/ext* folder of your TYPO3 installation.
+6. Activate *Xima Tools* in the Extension Manager.
 
-## Activation
-1. Activate *Xima Tools* in the Extension Manager.
-2. From the *Template* module, add the static template *Xima Tools*.
-
-## Configuration
-### Share translations
-If you want to share a global dictionary with all your extensions, rename any *Resources\Private\Language\locallang.xlf.dist* file to *.xlf*.
-### Share parameters
-If you want to share global parameters with all your extensions, rename *parameters.yml.dist* to *parameters.yml*. Add any configuration in [YAML](http://yaml.org/) style.
-### TypoScript settings
-There are four TypoScript settings which can also be set in the Constants Editor:
-* plugin.tx_xmtools.settings.loggingIsEnabled: enable some logging through the *\TYPO3\CMS\Core\Log\Logger*
-* plugin.tx_xmtools.settings.devModeIsEnabled: currently not in use
-* plugin.tx_xmtools.settings.jsSupportIsEnabled: use the integrated Javascript functions, e.g. serve parameters in Javascript.
-* plugin.tx_xmtools.settings.jsL10nIsEnabled: use global and translations from other extensions in Javascript as well.
-
-## More information
-* [TYPO3 Extension Repository](http://typo3.org/extensions/repository/view/xm_tools)
+## xm_tools in the TYPO3 Extension Repository 
+* [xm_tools](http://typo3.org/extensions/repository/view/xm_tools)
 
 ## Developer notes
+* [Changelog](CHANGELOG.md)
+
 
 ### Documentation
-
 In order to have Api docs available in HTML as well as RST (to reference in the sphinx documentation), you need to have the following packages available on your PATH:
-- [sphpdox](https://github.com/EdRush/sphpdox) (PHPDoc to sphinxcontrib-phpdomain)
+- [sphpdox](https://github.com/varspool/sphpdox) (PHPDoc to sphinxcontrib-phpdomain)
 - [phpDocumentor](http://www.phpdoc.org/)
 - [sphinx](http://sphinx-doc.org/) (documentation generator)
 

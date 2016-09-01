@@ -13,12 +13,11 @@ class FalHelper
      * Download a FAL-File.
      *
      * @param int $uid uid of originalFile (originalResource.originalFile.properties.uid)
-     *
-     * @return bool|\Xima\XmBildarchiv\Controller\Exception
      */
     public function downloadFile($uid)
     {
         $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
+        /* @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
         $entity = $fileRepository->findByUid($uid);
 
         if (!$entity) {
@@ -30,7 +29,6 @@ class FalHelper
         $headers = array(
             'Pragma' => 'public',
             'Expires' => 0,
-            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Cache-Control' => 'public',
             'Content-Description' => 'File Transfer',
             'Content-Type' => $properties['mime_type'],
@@ -48,7 +46,7 @@ class FalHelper
             $response->sendHeaders();
             echo $entity->getContents();
             exit;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $e;
         }
     }

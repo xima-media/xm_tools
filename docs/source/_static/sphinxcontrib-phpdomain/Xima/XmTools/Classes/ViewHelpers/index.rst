@@ -10,4 +10,5 @@ Xima\\XmTools\\Classes\\ViewHelpers
    Form/index
    Object/index
    ResponsiveImageViewHelper
+   Security/index
    URLSafeViewHelper

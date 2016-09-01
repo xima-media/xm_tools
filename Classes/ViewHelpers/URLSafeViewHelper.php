@@ -2,7 +2,7 @@
 
 namespace Xima\XmTools\Classes\ViewHelpers;
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelper;
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Make a string URL safe.
@@ -11,7 +11,7 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\ViewHelper;
  *
  * @return string
  */
-class URLSafeViewHelper extends ViewHelper
+class URLSafeViewHelper extends AbstractViewHelper
 {
     /**
      * @param string $string

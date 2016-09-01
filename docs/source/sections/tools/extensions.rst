@@ -1,5 +1,5 @@
 Extensions
-==========
+----------
 
 Some relief for some extensions...
 
