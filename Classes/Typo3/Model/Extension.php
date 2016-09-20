@@ -12,8 +12,19 @@ class Extension
     protected $extPath = null;
     protected $jsRelPath = 'Resources/Public/js/';
     protected $cssRelPath = 'Resources/Public/css/';
+
+    /**
+     * Contains plugin and it's flexform settings - when there is a plugin named like the extension.
+     *
+     * @var array
+     */
     protected $settings = array();
-    protected $translations = array();
+
+    /**
+     * Contains the extension configuration.
+     *
+     * @var array
+     */
     protected $configuration = array();
 
     public function getName()

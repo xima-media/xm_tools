@@ -39,6 +39,13 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
      */
     protected $typo3Services;
 
+    /**
+     * Allows for overriding the route if differs from schema configured in extension settings.
+     *
+     * @var string
+     */
+    protected $apiRoute;
+
     protected $apiKey;
     protected $apiUrl;
     protected $apiSchema;
@@ -83,7 +90,9 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
     public function findByUid($id)
     {
         $target = $this->getApiTarget();
-        $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteFindById) . '/' . $id;
+        $apiRoute = !is_null($this->apiRoute) ? $this->apiRoute : str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteFindById);
+        // @todo: id can be anywhere - support me! acrib-it! :)
+        $apiRoute .= '/' . $id;
         $apiUrl = $this->buildUrl($apiRoute);
 
         $this->lastReponse = $this->connector->get($apiUrl, $this);
@@ -101,7 +110,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
     public function findAll()
     {
         $target = $this->getApiTarget();
-        $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteFindByQuery);
+        $apiRoute = !is_null($this->apiRoute) ? $this->apiRoute : str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteFindByQuery);
         $apiUrl = $this->buildUrl($apiRoute, array('lang' => $this->typo3Services->getLang()));
 
         $this->lastReponse = $this->connector->get($apiUrl, $this);
@@ -142,6 +151,22 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
         return $query;
     }
 
+    public function persist(\Xima\XmTools\Classes\API\REST\Model\AbstractEntity $entity)
+    {
+        $target = $this->getApiTarget();
+
+        if ($entity->getUid()) {
+            $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteUpdate) . '/' . $entity->getUid();
+        } else {
+            $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteCreate);
+        }
+
+        $apiUrl = $this->buildUrl($apiRoute);
+        $result = $this->connector->post($apiUrl, $entity);
+
+        return $result;
+    }
+
     /**
      * Builds the URL to API. The API schema must be definedin the TYPO3 constant editor to something like:
      * -[Api-URL]/[Api-Key][Api-Route]
@@ -153,7 +178,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
      *
      * @return string
      */
-    private function buildUrl($route, $params = array())
+    protected function buildUrl($route, $params = array())
     {
         $placeHolders = array(self::PLACEHOLDER_API_URL, self::PLACEHOLDER_API_ROUTE, self::PLACEHOLDER_API_KEY);
         $replace = array($this->apiUrl, $route, $this->apiKey);
@@ -177,31 +202,18 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
             $url .= $queryString;
         }
 
+        // testing...
+        // var_dump(str_replace($this->apiKey, 'key-replacement', $url));
+
         return $url;
     }
 
-    private function getApiTarget()
+    protected function getApiTarget()
     {
         $reflect = new \ReflectionClass($this);
         $route = strtolower(str_replace('Repository', '', $reflect->getShortName()));
 
         return $route;
-    }
-
-    public function persist(\Xima\XmTools\Classes\API\REST\Model\AbstractEntity $entity)
-    {
-        $target = $this->getApiTarget();
-
-        if ($entity->getUid()) {
-            $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteUpdate) . '/' . $entity->getUid();
-        } else {
-            $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteCreate);
-        }
-
-        $apiUrl = $this->buildUrl($apiRoute);
-        $result = $this->connector->post($apiUrl, $entity);
-
-        return $result;
     }
 
     public function getApiKey()

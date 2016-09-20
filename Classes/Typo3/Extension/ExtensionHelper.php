@@ -14,6 +14,8 @@ class ExtensionHelper
      */
     protected $configurationManagerInterface;
 
+    protected $extensionName;
+
     /**
      * @param string $extensionName
      *
@@ -22,37 +24,36 @@ class ExtensionHelper
     public function getExtension($extensionName = null)
     {
         $extension = null;
-        $configuration = array();
+        $this->extensionName = $extensionName;
 
-        if (TYPO3_MODE === 'FE') {
-            if (is_null($extensionName)) {
-                //do this only for frontend extensions that call directly (in $configuration ['extensionName'])
-                //get the extensions name that causes the call
-                $configuration = $this->configurationManagerInterface->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
-                $extensionName = $configuration ['extensionName'];
-            } else {
-                $configuration = $this->getConfigurationFE($extensionName);
+        if (is_null($this->extensionName)) {
+            switch (TYPO3_MODE) {
+                case 'FE':
+                    //get the extensions name that causes the call - do this only for frontend plugins that call directly, e.g. ajax
+                    $configuration = $this->configurationManagerInterface->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+                    $this->extensionName = $configuration ['extensionName'];
+                    break;
             }
-        } elseif (TYPO3_MODE === 'BE' && !is_null($extensionName)) {
-            $configuration = $this->getConfigurationBE($extensionName);
         }
 
-        //now create the demanded extension
-        if (!is_null($extensionName)) {
-            $extensionKey = self::getExtensionKeyByExtensionName($extensionName);
+        if ($this->extensionName) {
+            $extensionKey = self::getExtensionKeyByExtensionName($this->extensionName);
             if (in_array($extensionKey, ExtensionManagementUtility::getLoadedExtensionListArray())) {
                 $extension = new Extension();
 
                 /* @var $extension \Xima\XmTools\Classes\Typo3\Model\Extension */
-                $extension->setName($extensionName);
+                $extension->setName($this->extensionName);
                 $extension->setKey($extensionKey);
-                $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extensionKey]);
-                $extension->setConfiguration($extConf);
-                if (isset($configuration['settings'])) {
-                    $extension->setSettings($configuration['settings']);
-                }
                 $extension->setRelPath(ExtensionManagementUtility::siteRelPath($extension->getKey()));
                 $extension->setExtPath(ExtensionManagementUtility::extPath($extension->getKey()));
+                $extension->setSettings($this->getSettings());
+
+                $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extensionKey];
+                if (is_string($extensionConfiguration)) {
+                    $configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extensionKey]);
+                    $extension->setConfiguration($configuration);
+                }
+
             }
         }
 
@@ -60,9 +61,11 @@ class ExtensionHelper
     }
 
     /**
+     * Converts a TYPO3 extension name to the extension key.
+     *
      * @param string $extensionName
      *
-     * converts a Typo3 extension name to the extension key
+     * @return string
      */
     public static function getExtensionKeyByExtensionName($extensionName)
     {
@@ -83,8 +86,92 @@ class ExtensionHelper
         return $extensionKey;
     }
 
-    private function getConfigurationBE($extensionName)
+    public static function getTyposcriptSetup()
     {
+        $tsSetup = array();
+
+        $manager = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager');
+        /* @var $manager \TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager */
+        $service = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
+        /* @var $service \TYPO3\CMS\Extbase\Service\TypoScriptService */
+
+        if (!is_null($manager->getTypoScriptSetup())) {
+            $tsSetup = $service->convertTypoScriptArrayToPlainArray($manager->getTypoScriptSetup());
+        }
+
+        return $tsSetup;
+    }
+
+    /**
+     * Gets the extension settings.
+     *
+     * @return array
+     */
+    protected function getSettings()
+    {
+        $settings = array();
+
+        // TYPO3 mode dependent retrieval of extension's settings
+        switch (TYPO3_MODE) {
+            case 'FE':
+                $settings = $this->getFESettings();
+                break;
+            case 'BE':
+                $settings = $this->getBESettings();
+                break;
+        }
+
+        return $settings;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getFESettings()
+    {
+        $settings = array();
+        $tsSetup = self::getTyposcriptSetup();
+
+        $extensionKey = self::getExtensionKeyByExtensionName($this->extensionName);
+        if (isset($tsSetup['config'][$extensionKey])) {
+            $settings = $tsSetup['config'][$extensionKey];
+        }
+
+        $extensionSignature = 'tx_' . strtolower($this->extensionName);
+        if (isset($tsSetup['plugin'][$extensionSignature])) {
+            $settings = array_merge($settings, $tsSetup['plugin'][$extensionSignature]);
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Gets the plugin's settings.
+     *
+     * @return array
+     */
+    public static function getPluginSettings($extensionName, $pluginName)
+    {
+        $settings = array();
+        $tsSetup = self::getTyposcriptSetup();
+
+        $pluginSignature = 'tx_' . strtolower($extensionName . '_' . $pluginName);
+        if (isset($tsSetup['plugin'][$pluginSignature])) {
+            $settings = $tsSetup['plugin'][$pluginSignature];
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Gets the extension's backend settings.
+     *
+     * @return array
+     */
+    protected function getBESettings()
+    {
+        $settings = array();
+
         // load configurations before accessing ypoScriptSetupCache!
         $this->configurationManagerInterface->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
 
@@ -92,26 +179,20 @@ class ExtensionHelper
         $service = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
 
         // access the typoscript cache
-        $arrOfObj = (array) $manager;
+        $arrOfObj = (array)$manager;
 
-        //$arrKeys = array_keys($arrOfObj);
-        $config = $arrOfObj["\0*\0typoScriptSetupCache"];
+        $tsKey = "\0*\0typoScriptSetupCache";
+        if (is_array($arrOfObj) && isset($arrOfObj[$tsKey])) {
+            $config = $arrOfObj[$tsKey];
+            $setup = $service->convertTypoScriptArrayToPlainArray(array_pop($config));
+            $txExtensionName = 'tx_' . \strtolower($this->extensionName);
+            if (isset($setup['plugin'][$txExtensionName])) {
+                $settings = $setup['plugin'][$txExtensionName];
+            }
+        }
 
-        $setup = $service->convertTypoScriptArrayToPlainArray(array_pop($config));
-        $configuration = $setup['plugin']['tx_'.\strtolower($extensionName)];
-
-        return $configuration;
+        return $settings;
     }
 
-    private function getConfigurationFE($extensionName)
-    {
-        // load configurations
-        $manager = GeneralUtility::makeInstance("TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager");
-        $service = GeneralUtility::makeInstance('TYPO3\CMS\Extbase\Service\TypoScriptService');
 
-        $setup = $service->convertTypoScriptArrayToPlainArray($manager->getTypoScriptSetup());
-        $configuration = $setup['plugin']['tx_'.\strtolower($extensionName)];
-
-        return $configuration;
-    }
 }

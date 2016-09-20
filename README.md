@@ -1,7 +1,7 @@
-# xm_tools
+# Xima Tools
 A framework for TYPO3 extensions.
 
-xm_tools is an extension for the TYPO3 CMS that can facilitate common use cases for your custom extensions.
+Xima Tools is an extension for the TYPO3 CMS that can facilitate common use cases for your custom extensions.
 
 ## Documentation
 
@@ -22,16 +22,26 @@ Install *xm_tools* via the TYPO3 Extension Manager in your TYPO3 installation.
 5. Copy the folder *xm_tools* into the *typoconf/ext* folder of your TYPO3 installation.
 6. Activate *Xima Tools* in the Extension Manager.
 
-## xm_tools in the TYPO3 Extension Repository 
-* [xm_tools](http://typo3.org/extensions/repository/view/xm_tools)
+### Optional
+Adding the static template *Xima Tools* is optional. There are four TypoScript settings, which can also be set in the Constants Editor:
+* plugin.tx_xmtools.settings.loggingIsEnabled: enable some logging through the *\TYPO3\CMS\Core\Log\Logger*
+* plugin.tx_xmtools.settings.devModeIsEnabled: currently not in use
+* plugin.tx_xmtools.settings.jsSupportIsEnabled: use the integrated Javascript functions, e.g. serve parameters in Javascript.
+* plugin.tx_xmtools.settings.jsL10nIsEnabled: use global and translations from other extensions in Javascript as well.
+
+
+## More information
+* [TYPO3 Extension Repository](http://typo3.org/extensions/repository/view/xm_tools)
 
 ## Developer notes
+
 * [Changelog](CHANGELOG.md)
 
 
 ### Documentation
+
 In order to have Api docs available in HTML as well as RST (to reference in the sphinx documentation), you need to have the following packages available on your PATH:
-- [sphpdox](https://github.com/varspool/sphpdox) (PHPDoc to sphinxcontrib-phpdomain)
+- [sphpdox](https://github.com/EdRush/sphpdox) (PHPDoc to sphinxcontrib-phpdomain)
 - [phpDocumentor](http://www.phpdoc.org/)
 - [sphinx](http://sphinx-doc.org/) (documentation generator)
 
