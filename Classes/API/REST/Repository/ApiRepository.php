@@ -51,6 +51,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
     protected $apiSchema;
     protected $apiRouteFindById;
     protected $apiRouteFindByQuery;
+    protected $apiRouteFindLatestById;
     protected $apiRouteCreate;
     protected $apiRouteUpdate;
 
@@ -73,6 +74,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
         $this->setApiUrl($apiSettings['url']);
         $this->setApiSchema($apiSettings['schema']);
         $this->setApiRouteFindById($apiSettings['routeFindById']);
+        $this->setApiRouteFindLatestById($apiSettings['routeFindLatestById']);
         $this->setApiRouteFindByQuery($apiSettings['routeFindByQuery']);
         $this->setApiRouteCreate($apiSettings['routeCreate']);
         $this->setApiRouteUpdate($apiSettings['routeUpdate']);
@@ -309,4 +311,24 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getApiRouteFindLatestById()
+    {
+        return $this->apiRouteFindLatestById;
+    }
+
+    /**
+     * @param mixed $apiRouteFindLatestById
+     * @return ApiRepository
+     */
+    public function setApiRouteFindLatestById($apiRouteFindLatestById)
+    {
+        $this->apiRouteFindLatestById = $apiRouteFindLatestById;
+
+        return $this;
+    }
+
 }
