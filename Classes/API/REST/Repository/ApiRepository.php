@@ -16,6 +16,7 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
     const PLACEHOLDER_API_ROUTE = '[Api-Route]';
     const PLACEHOLDER_API_KEY = '[Api-Key]';
     const PLACEHOLDER_TARGET = '[Target]';
+    const PLACEHOLDER_ENTITY_ID = '[Id]';
 
     /**
      * @var \Xima\XmTools\Classes\Typo3\Extension\ExtensionManager
@@ -85,16 +86,30 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
     /**
      * Find an entity by id.
      *
-     * @param $id
+     * @param int $id
      *
-     * @return \Xima\XmTools\Classes\API\REST\Model\AbstractEntity|array The model class or array with the given id.
+     * @param bool $latest If set to TRUE it returns the latest revision instead of the public one. When no revision exists it returns the public one.
+     * @return array|\Xima\XmTools\Classes\API\REST\Model\AbstractEntity The model class or array with the given id.
      */
-    public function findByUid($id)
+    public function findByUid($id, $latest = false)
     {
         $target = $this->getApiTarget();
-        $apiRoute = !is_null($this->apiRoute) ? $this->apiRoute : str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteFindById);
-        // @todo: id can be anywhere - support me! acrib-it! :)
-        $apiRoute .= '/' . $id;
+
+        if (is_null($this->apiRoute)){
+
+            if ($latest === false){
+                $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteFindById);
+            }
+            else {
+                $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteFindLatestById);
+            }
+            $apiRoute = str_replace(self::PLACEHOLDER_ENTITY_ID, $id, $apiRoute);
+        }
+        else {
+            $apiRoute = $this->apiRoute;
+            $apiRoute .= '/' . $id;
+        }
+
         $apiUrl = $this->buildUrl($apiRoute);
 
         $this->lastReponse = $this->connector->get($apiUrl, $this);
