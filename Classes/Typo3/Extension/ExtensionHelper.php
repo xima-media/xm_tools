@@ -139,7 +139,7 @@ class ExtensionHelper
 
         $extensionSignature = 'tx_' . strtolower($this->extensionName);
         if (isset($tsSetup['plugin'][$extensionSignature])) {
-            $settings = array_merge($settings, $tsSetup['plugin'][$extensionSignature]);
+            $settings = array_merge($settings, $tsSetup['plugin'][$extensionSignature]['settings']);
         }
 
         return $settings;
@@ -187,7 +187,7 @@ class ExtensionHelper
             $setup = $service->convertTypoScriptArrayToPlainArray(array_pop($config));
             $txExtensionName = 'tx_' . \strtolower($this->extensionName);
             if (isset($setup['plugin'][$txExtensionName])) {
-                $settings = $setup['plugin'][$txExtensionName];
+                $settings = $setup['plugin'][$txExtensionName]['settings'];
             }
         }
 
