@@ -168,14 +168,24 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
         return $query;
     }
 
-    public function persist(\Xima\XmTools\Classes\API\REST\Model\AbstractEntity $entity)
+    /**
+     * @param \Xima\XmTools\Classes\API\REST\Model\AbstractEntity $entity
+     * @param bool $asRevision
+     * @return bool|mixed
+     */
+    public function persist(\Xima\XmTools\Classes\API\REST\Model\AbstractEntity $entity, $asRevision = false)
     {
         $target = $this->getApiTarget();
 
-        if ($entity->getUid()) {
-            $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteUpdate) . '/' . $entity->getUid();
-        } else {
-            $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteCreate);
+        if ($asRevision != true) {
+            if ($entity->getUid()) {
+                $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteUpdate) . '/' . $entity->getUid();
+            } else {
+                $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteCreate);
+            }
+        }
+        else {
+            $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteUpdate);
         }
 
         $apiUrl = $this->buildUrl($apiRoute);
