@@ -28,6 +28,13 @@ trait QueryTrait
     protected $sort = null;
 
     /**
+     * order
+     *
+     * @var string
+     */
+    protected $order = null;
+
+    /**
      * limit.
      *
      * @var int
@@ -183,4 +190,24 @@ trait QueryTrait
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    /**
+     * @param string $order
+     * @return QueryTrait
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+
+        return $this;
+    }
+
 }
