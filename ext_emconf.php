@@ -11,8 +11,8 @@
 ########################################################################
 
 $EM_CONF[$_EXTKEY] = array(
-    'title'            => 'Xima Tools',
-    'description'      => 'Xima helper tools.',
+    'title'            => 'XIMA Tools',
+    'description'      => 'TYPO3 toolbox by XIMA MEDIA GmbH',
     'category'         => 'misc',
     'author'           => 'Sebastian Gierth, Steve Lenz',
     'author_email'     => 'sgi@xima.de, sle@xima.de',
