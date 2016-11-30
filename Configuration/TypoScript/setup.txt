@@ -1,10 +1,5 @@
 plugin.tx_xmtools {
     settings {
-        loggingIsEnabled = {$plugin.tx_xmtools.settings.loggingIsEnabled}
-        devModeIsEnabled = {$plugin.tx_xmtools.settings.devModeIsEnabled}
-        jsSupportIsEnabled = {$plugin.tx_xmtools.settings.jsSupportIsEnabled}
-        jsL10nIsEnabled = {$plugin.tx_xmtools.settings.jsL10nIsEnabled}
-  }
-}
 
-xmTools.errorHandler.recipient = {$plugin.tx_xmtools.settings.errorHandlerRecipient}
+    }
+}

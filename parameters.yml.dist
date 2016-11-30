@@ -1,9 +1,0 @@
-languages:
-  0: de
-  1: en
-format:
-    date:
-        de: 
-            datepicker: dd.mm.YYYY
-        en: 
-            datepicker: mm/dd/yyyy

@@ -1,14 +1,5 @@
 plugin.tx_xmtools {
     settings {
-        # cat=plugin.tx_xmtools/basic/001; type=boolean; label=Enable logging
-        loggingIsEnabled =
-        # cat=plugin.tx_xmtools/basic/002; type=boolean; label=Enable dev mode
-        devModeIsEnabled = 
-        # cat=plugin.tx_xmtools/basic/003; type=boolean; label=Enable javascript support
-        jsSupportIsEnabled =
-        # cat=plugin.tx_xmtools/basic/004; type=string; label=Recipient for ErrorHandler
-        errorHandlerRecipient =
-        # cat=plugin.tx_xmtools/language/001; type=boolean; label=Enable javascript localization support
-        jsL10nIsEnabled =
+        
     }
 }

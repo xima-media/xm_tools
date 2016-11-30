@@ -11,34 +11,29 @@
 ########################################################################
 
 $EM_CONF[$_EXTKEY] = array(
-    'title' => 'Xima Tools',
-    'description' => 'Xima helper tools.',
-    'category' => 'misc',
-    'author' => 'Sebastian Gierth, Steve Lenz, Wolfram Eberius',
-    'author_email' => 'sgi@xima.de, sle@xima.de, woe@xima.de',
-    'author_company' => 'XIMA MEDIA GmbH, XIMA MEDIA GmbH, XIMA MEDIA GmbH',
-    'shy' => '',
-    'priority' => '',
-    'module' => '',
-    'state' => 'beta',
-    'internal' => '',
-    'uploadfolder' => '0',
-    'createDirs' => '',
-    'modify_tables' => '',
+    'title'            => 'Xima Tools',
+    'description'      => 'Xima helper tools.',
+    'category'         => 'misc',
+    'author'           => 'Sebastian Gierth, Steve Lenz',
+    'author_email'     => 'sgi@xima.de, sle@xima.de',
+    'author_company'   => 'XIMA MEDIA GmbH',
+    'shy'              => '',
+    'priority'         => '',
+    'module'           => '',
+    'state'            => 'stable',
+    'internal'         => '',
+    'uploadfolder'     => '0',
+    'createDirs'       => '',
+    'modify_tables'    => '',
     'clearCacheOnLoad' => 1,
-    'lockType' => '',
-    'version' => '0.3.4',
-    'constraints' => array(
-        'depends' => array(
-            'php' => '5.2.0-',
-            'typo3' => '6.2.0-7.6.99',
-            'extbase' => '6.2.0-',
-            'fluid' => '6.2.0-',
-            'vhs' => '2.4.0-'
+    'lockType'         => '',
+    'version'          => 'rc-1.0.0',
+    'constraints'      => array(
+        'depends'   => array(
+            'php'   => '5.6.0-7.0.99',
+            'typo3' => '7.6.00-7.6.99',
         ),
-        'conflicts' => array(
-        ),
-        'suggests' => array(
-        ),
+        'conflicts' => array(),
+        'suggests'  => array(),
     ),
 );
