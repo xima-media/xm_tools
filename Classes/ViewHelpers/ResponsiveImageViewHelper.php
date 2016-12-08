@@ -1,12 +1,11 @@
 <?php
-
 namespace Xima\XmTools\Classes\ViewHelpers;
 
 /***************************************************************
  *
  *  Copyright notice
  *
- *  (c) 2015 Kevin Kojtschke <kko@xima.de>, XIMA MEDIA GmbH
+ *  (c) 2015 OpenSource Team, XIMA MEDIA GmbH, osdev@xima.de
  *
  *  All rights reserved
  *
@@ -27,166 +26,85 @@ namespace Xima\XmTools\Classes\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class ResponsiveImageViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Core\Utility\DebugUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
+use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
+use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Extbase\Domain\Model\AbstractFileFolder;
+
+/**
+ * Erstellt ein <img /> mit "data-srcset"-Attribut für den responsiven Ansatz mit JavaScript.
+ *
+ * @author Sebastian Gierth <sgi@xima.de>
+ */
+class ResponsiveImageViewHelper extends ImageViewHelper
 {
-    public function initializeArguments()
-    {
-        $this->registerArgument('image', 'mixed', '', true)
-            ->registerArgument('sizes', 'array', '', false)
-            ->registerArgument('alt', 'string', '', false)
-            ->registerArgument('title', 'string', '', false);
-    }
-
     /**
-     * Erzeugt Bildvarianten für verschiedene Medientypen.
-     *
+     * @param null $src Pfad zu der Datei. Hier kann auch mit EXT: gearbeitet werden, da es sich hier um ein IMG_RESOURCE handelt.
+     * @param array $sizes Größenangaben zur Erstellung verschiedener Bildgrößen der Form {width: {0: 100, 1: 200}}.
+     * @param bool $treatIdAsReference Wenn TRUE, dann wird die Angabe bei src als sys_file_reference interpretiert. Wenn FALSE als sys_file oder Dateipfad.
+     * @param FileInterface|AbstractFileFolder $image Ein FAL-Objekt.
+     * @param null $crop Wenn FALSE, dann wird das Cropping-Verhalten, das in FileReference definiert ist, überschrieben.
+     * @param bool $absolute Absoluter Pfad zum Bild.
      * @return string
+     * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception
      */
-    public function render()
+    public function render($src = null, $sizes = array(), $treatIdAsReference = false, $image = null, $crop = null, $absolute = false)
     {
-        $output = '';
-
-        if (!$this->arguments['image'] || is_null($this->arguments['image'])) {
-            return '';
+        if (is_null($src) && is_null($image) || !is_null($src) && !is_null($image)) {
+            throw new Exception('You must either specify a string src or a File object.', 1450184864);
         }
 
-        try {
-            if (!isset($this->arguments['sizes']) || empty($this->arguments['sizes'])) {
-                $this->arguments['sizes'] = $this->templateVariableContainer->get('settings')['responsiveSizes'];
-            }
-
-            $output = '<picture>';
-            $output .= '<!--[if IE 9]><video style="display: none;"><![endif]-->';
-
-            $originalFilePath = '/fileadmin' . $this->arguments['image']->getIdentifier();
-            $originalInternalFilePath = PATH_site . $originalFilePath;
-            $originalFileName = $this->arguments['image']->getName();
-            $parts = explode('.', $originalFileName);
-            $originalFileNameExt = $parts[count($parts) - 1];
-
-            list($originalWidth, $originalHeight) = getimagesize($originalInternalFilePath);
-
-            switch ($this->arguments['image']->getMimeType()) {
-                case 'image/jpeg':
-                    $originalImg = imagecreatefromjpeg($originalInternalFilePath);
-                    break;
-                case 'image/png':
-                    $originalImg = imagecreatefrompng($originalInternalFilePath);
-                    break;
-                case 'image/gif':
-                    $originalImg = imagecreatefromgif($originalInternalFilePath);
-                    break;
-                default:
-                    $originalImg = null;
-            }
-
-            $processedFileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\ProcessedFileRepository');
-
-            foreach ($this->arguments['sizes'] as $size) {
-                if (count($size) != 2) {
-                    continue;
-                }
-
-                list($media, $maxWidth) = $size;
-
-                if ($originalWidth <= $maxWidth) {
-                    // Breite des Bildes passt in die angegebene Maximalbreite
-                    $filePath = $originalFilePath;
-                } else {
-                    $processedFiles = $processedFileRepository->findAllByOriginalFile($this->arguments['image']);
-
-                    $filePath = null;
-                    $filePathAbsolute = null;
-
-                    if (!empty($processedFiles)) {
-                        foreach ($processedFiles as $file) {
-                            if ($file->getProperty('width') == $maxWidth) {
-                                $filePath = '/fileadmin' . $file->getIdentifier();
-                                $filePathAbsolute = PATH_site . 'fileadmin' . $file->getIdentifier();
-                            }
-                        }
-                    }
-
-                    if (!is_readable($filePathAbsolute)) {
-                        // neue Bildvariante anlegen
-                        if (null != $originalImg) {
-                            $newHeight = $originalHeight * $maxWidth / $originalWidth;
-
-                            $newFile = new \TYPO3\CMS\Core\Resource\ProcessedFile($this->arguments['image'], 'Image.CropScaleMask', array(
-                                'fileExtension' => $originalFileNameExt,
-                                'width' => $maxWidth,
-                                'height' => $newHeight,
-                            ));
-
-                            $checksum = $newFile->calculateChecksum();
-
-                            $newImg = imagecreatetruecolor($maxWidth, $newHeight);
-
-                            imagesavealpha($newImg, true);
-                            $color = imagecolorallocatealpha($newImg, 0x00, 0x00, 0x00, 127);
-                            imagefill($newImg, 0, 0, $color);
-
-                            imagecopyresized($newImg, $originalImg, 0, 0, 0, 0, $maxWidth, $newHeight, $originalWidth, $originalHeight);
-                            $newFileName = preg_replace('~\.' . $originalFileNameExt . '$~', '_' . $checksum . '.' . $originalFileNameExt, $originalFileName);
-                            $newIdentifier = '/_processed_/' . $newFileName;
-                            $newFilePath = '/fileadmin' . $newIdentifier;
-                            $newInternalFilePath = PATH_site . $newFilePath;
-
-                            switch ($this->arguments['image']->getMimeType()) {
-                                case 'image/jpeg':
-                                    imagejpeg($newImg, $newInternalFilePath);
-                                    break;
-                                case 'image/png':
-                                    imagepng($newImg, $newInternalFilePath);
-                                    break;
-                                case 'image/gif':
-                                    imagegif($newImg, $newInternalFilePath);
-                                    break;
-                            }
-                            imagedestroy($newImg);
-
-                            // neuen Datensatz in sys_file_processedfile einfügen
-                            $GLOBALS['TYPO3_DB']->exec_INSERTquery('sys_file_processedfile', array(
-                                'tstamp' => time(),
-                                'storage' => 1,
-                                'original' => $this->arguments['image']->getUid(),
-                                'identifier' => $newIdentifier,
-                                'name' => $newFileName,
-                                'configuration' => 'a:0:{}',
-                                'configurationsha1' => '8739602554c7f3241958e3cc9b57fdecb474d508',
-                                'originalfilesha1' => $this->arguments['image']->getSha1(),
-                                'task_type' => 'Image.CropScaleMask',
-                                'checksum' => $checksum,
-                                'width' => $maxWidth,
-                                'height' => $newHeight,
-                            ));
-
-                            unset($newFile);
-
-                            $filePath = $newFilePath;
-                        } else {
-                            $filePath = $originalFilePath;
-                        }
-                    }
-                }
-
-                $output .= '<source media="' . $media . '" srcset="' . $filePath . '">';
-            }
-
-            unset($processedFileRepository);
-
-            if (null != $originalImg) {
-                imagedestroy($originalImg);
-            }
-
-            $metadata = $this->arguments['image']->_getMetadata();
-
-            $output .= '<!--[if IE 9]></video><![endif]-->';
-            $output .= '<img alt="' . $metadata['alternative'] . '" title="' . $metadata['title'] . '" srcset="' . $originalFilePath . '">';
-            $output .= '</picture>';
-        } catch (\Exception $e) {
+        if (empty($sizes)){
+            throw new Exception('You must specify at least one size. Like sizes="{width: {0: 100}}".', 1450184865);
         }
 
-        return $output;
+        $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getCurrentTypo3Version());
+
+        $image = $this->imageService->getImage($src, $image, $treatIdAsReference);
+
+        if ($crop === null) {
+            $crop = ($image instanceof FileReference && $image->hasProperty('crop')) ? $image->getProperty('crop') : null;
+        }
+
+        $srcset = array();
+        foreach ($sizes['width'] as $width) {
+
+            $processingInstructions = array(
+                'width'  => $width,
+            );
+
+            if ($typo3Version >= 7006000){
+                $processingInstructions['crop'] = $crop;
+            }
+
+            $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
+
+            if ($typo3Version >= 7006000){
+                $imageUri = $this->imageService->getImageUri($processedImage, $absolute);
+            }
+            else {
+                $imageUri = $this->imageService->getImageUri($processedImage);
+            }
+
+            $srcset[] = $imageUri . ' ' . $processedImage->getProperty('width') . 'w';
+        }
+
+        $this->tag->addAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
+        $this->tag->addAttribute('data-srcset', implode(',', $srcset));
+
+        $alt = $image->getProperty('alternative');
+        $title = $image->getProperty('title');
+
+        if (empty($this->arguments['alt'])) {
+            $this->tag->addAttribute('alt', $alt);
+        }
+        if (empty($this->arguments['title']) && $title) {
+            $this->tag->addAttribute('title', $title);
+        }
+
+        return $this->tag->render();
     }
 }

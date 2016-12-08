@@ -16,9 +16,8 @@ class Dictionary
 
     public function __call($method, $args)
     {
-
         //make a property out of the getter
-        $translationKey = strtolower(str_replace('get', '', $method));
+        $translationKey = lcfirst(str_replace('get', '', $method));
         if (isset($this->translations[$translationKey])) {
             return $this->translations[$translationKey];
         }
