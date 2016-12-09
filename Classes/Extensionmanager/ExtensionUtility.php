@@ -17,7 +17,7 @@ class ExtensionUtility
 {
 
     /**
-     *
+     * Returns the version of the given extension
      *
      * @param $extensionKey
      * @return mixed|null
