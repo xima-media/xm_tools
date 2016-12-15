@@ -45,6 +45,8 @@ class ContentElementFlexformProcessor implements DataProcessorInterface
     }
 
     /**
+     * Returns FlexFrom data as associative array
+     *
      * @param array $row
      * @return array
      */
