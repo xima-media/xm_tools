@@ -15,6 +15,7 @@ namespace Xima\XmTools\DataProcessing;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Service\FlexFormService;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
@@ -52,14 +53,11 @@ class ContentElementFlexformProcessor implements DataProcessorInterface
      */
     protected function getOptionsFromFlexFormData(array $row)
     {
-        $options = [];
-        $flexFormAsArray = GeneralUtility::xml2array($row['pi_flexform']);
-        if (!empty($flexFormAsArray['data']['sDEF']['lDEF']) && is_array($flexFormAsArray['data']['sDEF']['lDEF'])) {
-            foreach ($flexFormAsArray['data']['sDEF']['lDEF'] as $optionKey => $optionValue) {
-                $optionParts = explode('.', $optionKey);
-                $options[array_pop($optionParts)] = $optionValue['vDEF'] === '1' ? true : $optionValue['vDEF'];
-            }
-        }
+        // inspiration from: https://github.com/t3kit/t3kit_extension_tools/blob/master/Classes/DataProcessing/FlexFormProcessor.php
+        // parse flexform
+        $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
+        $options = $flexformService->convertFlexFormContentToArray($row['pi_flexform']);
+
         return $options;
     }
 }
