@@ -7,9 +7,17 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 /**
  * Explodes a string by a given delimiter.
  *
- * @author Wolfram Eberius <woe@xima.de>
+ * = Example =
  *
- * @return string
+ * {namespace xmTools = Xima\XmTools\Classes\ViewHelpers}
+ * <f:for each="{xmTools:object.ArrayExplode(delimiter:',',string:someString)}" as="item">
+ *  {item}
+ * </f:for>
+ *
+ * @todo: Move example to external file (ArrayExplodeViewHelper.md) and include as annotation 'example'
+ *
+ * @author Wolfram Eberius <woe@xima.de>
+ * @return array
  */
 class ArrayExplodeViewHelper extends AbstractViewHelper
 {
