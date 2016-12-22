@@ -1,6 +1,6 @@
 <?php
 
-namespace Xima\XmTools\Classes\ViewHelpers\Object;
+namespace Xima\XmTools\ViewHelpers\Object;
 
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
