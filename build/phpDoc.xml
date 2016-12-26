@@ -5,10 +5,11 @@
     <email>steve.lenz@xima.de</email>
     <title>XIMA Tools API Documentation</title>
     <files>
-        <directory>./Classes</directory>
+        <directory>../Classes</directory>
+        <directory>../Tests</directory>
     </files>
     <parser>
-        <target>./Doc/output</target>
+        <target>../Doc/output</target>
         <encoding>utf8</encoding>
         <markers>
             <item>TODO</item>
