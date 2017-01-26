@@ -3,3 +3,19 @@ plugin.tx_xmtools {
 
     }
 }
+
+config.tx_extbase {
+    persistence {
+        # Use our own (extended) model and repository for sys_categories:
+        classes {
+            Xima\XmTools\Domain\Model\Category {
+                mapping {
+                    tableName = sys_category
+                    columns {
+
+                    }
+                }
+            }
+        }
+    }
+}
