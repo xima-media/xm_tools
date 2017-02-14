@@ -4,6 +4,7 @@ languages:
   2: fr
   3: nl
   4: be
+  5: da
 format:
     date:
         de:
@@ -15,4 +16,6 @@ format:
         nl:
             datepicker: dd.mm.yyyy
         be:
+            datepicker: dd.mm.yyyy
+        da:
             datepicker: dd.mm.yyyy
