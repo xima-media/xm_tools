@@ -1,9 +1,18 @@
 languages:
   0: de
   1: en
+  2: fr
+  3: nl
+  4: be
 format:
     date:
-        de: 
-            datepicker: dd.mm.YYYY
-        en: 
+        de:
+            datepicker: dd.mm.yyyy
+        en:
             datepicker: mm/dd/yyyy
+        fr:
+            datepicker: dd.mm.yyyy
+        nl:
+            datepicker: dd.mm.yyyy
+        be:
+            datepicker: dd.mm.yyyy
