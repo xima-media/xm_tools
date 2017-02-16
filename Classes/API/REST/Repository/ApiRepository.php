@@ -96,14 +96,20 @@ class ApiRepository extends \Xima\XmTools\Classes\Typo3\Domain\Repository\Reposi
         $target = $this->getApiTarget();
 
         if (is_null($this->apiRoute)){
-
             if ($latest === false){
                 $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteFindById);
             }
             else {
                 $apiRoute = str_replace(self::PLACEHOLDER_TARGET, $target, $this->apiRouteFindLatestById);
             }
-            $apiRoute = str_replace(self::PLACEHOLDER_ENTITY_ID, $id, $apiRoute);
+
+            /** Nicht alle Extensions haben eine API-Route definiert */
+            if (stripos($apiRoute, self::PLACEHOLDER_ENTITY_ID) !== false){
+                $apiRoute = str_replace(self::PLACEHOLDER_ENTITY_ID, $id, $apiRoute);
+            }
+            else {
+                $apiRoute .= '/' . $id;
+            }
         }
         else {
             $apiRoute = $this->apiRoute;
