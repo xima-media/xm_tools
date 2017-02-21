@@ -1,26 +1,5 @@
-# eclipse settings
-/.buildpath
-/.project
-/.settings/
-
-# documentation
-/docs/build/
-/docs/source/_static/api/cache/
-*.pyc
-
-# xm_tools
-Resources/Private/Language/*.xlf
-parameters.yml
-
 # vendors
 vendor/
-typo*
-uploads
-fileadmin
-index.php
 
 # phpstorm
 .idea/
-
-# jenkins
-cache.properties
