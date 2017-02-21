@@ -8,6 +8,7 @@ use Xima\XmTools\Extensionmanager\ExtensionUtility;
 /**
  * Class ExtensionUserFunc
  *
+ * @author Steve Lenz <steve.lenz@xima.de>
  * @package Xima\XmTools\UserFunc
  */
 class ExtensionUserFunc
