@@ -9,7 +9,7 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * = Example =
  *
- * {namespace xmTools = Xima\XmTools\Classes\ViewHelpers}
+ * {namespace xmTools = Xima\XmTools\ViewHelpers}
  * <f:for each="{xmTools:object.ArrayExplode(delimiter:',',string:someString)}" as="item">
  *  {item}
  * </f:for>

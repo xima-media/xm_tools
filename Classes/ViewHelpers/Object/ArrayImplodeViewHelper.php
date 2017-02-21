@@ -10,7 +10,7 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  *
  * = Example =
  *
- * {namespace xmTools = Xima\XmTools\Classes\ViewHelpers}
+ * {namespace xmTools = Xima\XmTools\ViewHelpers}
  * <xmTools:object.ArrayImplode glue=", " array="{someArray}", functionOrKey="string|int">
  *
  * @todo Move example to external file (ArrayImplodeViewHelper.md) and include as annotation 'example'
