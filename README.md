@@ -3,7 +3,7 @@ A toolbox for TYPO3 extensions.
 
 xm_tools is an extension for the TYPO3 CMS that can facilitate common use cases for your custom extensions.
 
-## Documentation
+## Documentation and Cookbook
 todo
 
 ## Requirements
