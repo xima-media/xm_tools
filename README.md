@@ -1,4 +1,10 @@
 # Xima Tools
+
+This is the **Legacy Branch** with latest Version 0.4.x and is out of support!  
+Stable Version is on **master v1.x**
+
+##
+
 A framework for TYPO3 extensions.
 
 Xima Tools is an extension for the TYPO3 CMS that can facilitate common use cases for your custom extensions.
