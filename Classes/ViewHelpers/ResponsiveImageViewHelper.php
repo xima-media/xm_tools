@@ -42,19 +42,31 @@ class ResponsiveImageViewHelper extends ImageViewHelper
 {
     /**
      * @param null $src Pfad zu der Datei. Hier kann auch mit EXT: gearbeitet werden, da es sich hier um ein IMG_RESOURCE handelt.
-     * @param array $sizes Größenangaben zur Erstellung verschiedener Bildgrößen der Form {width: {0: 100, 1: 200}}.
+     * @param string $width width of the image. This can be a numeric value representing the fixed width of the image in pixels. But you can also perform simple calculations by adding "m" or "c" to the value. See imgResource.width for possible options.
+     * @param string $height height of the image. This can be a numeric value representing the fixed height of the image in pixels. But you can also perform simple calculations by adding "m" or "c" to the value. See imgResource.width for possible options.
+     * @param integer $minWidth minimum width of the image
+     * @param integer $minHeight minimum height of the image
+     * @param integer $maxWidth maximum width of the image
+     * @param integer $maxHeight maximum height of the image
      * @param bool $treatIdAsReference Wenn TRUE, dann wird die Angabe bei src als sys_file_reference interpretiert. Wenn FALSE als sys_file oder Dateipfad.
      * @param FileInterface|AbstractFileFolder $image Ein FAL-Objekt.
+     * @param array $sizes Größenangaben zur Erstellung verschiedener Bildgrößen der Form {width: {0: 100, 1: 200}}.
      * @param null $crop Wenn FALSE, dann wird das Cropping-Verhalten, das in FileReference definiert ist, überschrieben.
      * @param bool $absolute Absoluter Pfad zum Bild.
      * @return string
      * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception
      */
     public function render(
-        $src = null,
+        $src = NULL,
+        $width = NULL,
+        $height = NULL,
+        $minWidth = NULL,
+        $minHeight = NULL,
+        $maxWidth = NULL,
+        $maxHeight = NULL,
+        $treatIdAsReference = FALSE,
+        $image = NULL,
         $sizes = array(),
-        $treatIdAsReference = false,
-        $image = null,
         $crop = null,
         $absolute = false
     ) {
