@@ -21,7 +21,7 @@ class ExtensionUtility
     /**
      * @var array
      */
-    protected static $configurations;
+    protected static $configurations = [];
 
     /**
      * Returns the version of the given extension
