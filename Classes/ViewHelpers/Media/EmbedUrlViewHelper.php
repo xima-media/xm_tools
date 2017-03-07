@@ -26,19 +26,29 @@ namespace Xima\XmTools\ViewHelpers\Media;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Extbase\Domain\Model\AbstractFileFolder;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class EmbedUrlViewHelper extends AbstractViewHelper
 {
-
     /**
      * Return embed URL of a given media file
      *
-     * @param FileInterface|AbstractFileFolder $file
+     * @param FileInterface|AbstractFileFolder|array $file
      * @return string Media URL
      */
     public function render($file)
     {
+        if (is_array($file)) {
+            if (array_key_exists('id', $file)) {
+                $resourceFactory = ResourceFactory::getInstance();
+                $file = $resourceFactory->getFileObjectFromCombinedIdentifier($file['id']);
+            } else {
+                return '';
+            }
+        }
 
         // get Resource Object (non ExtBase version)
         if (is_callable([$file, 'getOriginalResource'])) {
