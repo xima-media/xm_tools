@@ -56,9 +56,10 @@ class ExtensionUtility
      *
      * @param string $extKey
      * @param string $pluginName
+     * @param string $type Options:module|plugin
      * @return array
      */
-    public static function getTypoScriptPluginSetup($extKey, $pluginName = '')
+    public static function getTypoScriptPluginSetup($extKey, $pluginName = '', $type = 'plugin')
     {
         $pluginKey = strtolower(str_replace('_', '', $extKey));
         $pluginKey .= ($pluginName) ? '_' . strtolower($pluginName) : '';
@@ -70,8 +71,8 @@ class ExtensionUtility
         $confMngr = $om->get(ConfigurationManagerInterface::class);
         $tsSetup = $confMngr->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
-        if (array_key_exists($pluginKey, $tsSetup['plugin.'])) {
-            return static::removeDots((array)$tsSetup['plugin.'][$pluginKey]);
+        if (array_key_exists($pluginKey, $tsSetup[$type . '.'])) {
+            return static::removeDots((array)$tsSetup[$type . '.'][$pluginKey]);
         } else {
             return [];
         }
