@@ -162,7 +162,7 @@ class Helper
     private static function mergeTranslations($object, $translations)
     {
         foreach (get_object_vars($translations) as $key => $value) {
-            if ($key != 'id') {
+            if (strtolower($key) != 'id') {
                 $object->$key = $value;
             }
         }
