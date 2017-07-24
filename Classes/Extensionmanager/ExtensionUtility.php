@@ -71,7 +71,7 @@ class ExtensionUtility
         $confMngr = $om->get(ConfigurationManagerInterface::class);
         $tsSetup = $confMngr->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
 
-        if (array_key_exists($pluginKey, $tsSetup[$type . '.'])) {
+        if (is_array($tsSetup) && array_key_exists($pluginKey, $tsSetup[$type . '.'])) {
             return static::removeDots((array)$tsSetup[$type . '.'][$pluginKey]);
         } else {
             return [];
