@@ -25,14 +25,16 @@ class BackgroundPositionViewHelper extends AbstractViewHelper
     /**
      * @param string $focus_point_x
      * @param string $focus_point_y
+     * @param string $orientation one of 'x', 'y' or 'both' (default)
      * @return mixed|string
      */
-    public function render($focus_point_x = '0', $focus_point_y = '0')
+    public function render($focus_point_x = '0', $focus_point_y = '0', $orientation = 'both')
     {
         return static::renderStatic(
             [
                 'focus_point_x' => $focus_point_x,
-                'focus_point_y' => $focus_point_y
+                'focus_point_y' => $focus_point_y,
+                'orientation' => $orientation,
             ],
             $this->buildRenderChildrenClosure(),
             $this->renderingContext
@@ -43,10 +45,23 @@ class BackgroundPositionViewHelper extends AbstractViewHelper
     {
         $focus_point_x = $arguments['focus_point_x'];
         $focus_point_y = $arguments['focus_point_y'];
+        $orientation = $arguments['orientation'];
 
         $xPercent = (100 + intval($focus_point_x))/2;
         $yPercent = (100 + intval($focus_point_y))/2;
 
-        return 'style="background-position: left ' . $xPercent . '% top ' . $yPercent .'%"';
+        switch ($orientation) {
+            case 'x':
+                $style = 'style="background-position-x: ' . $xPercent . '%"';
+                break;
+            case 'y':
+                $style = 'style="background-position-y: ' . $yPercent . '%"';
+                break;
+            case 'both':
+            default:
+                $style = 'style="background-position: ' . $xPercent . '% ' . $yPercent .'%"';
+        }
+
+        return $style;
     }
 }
