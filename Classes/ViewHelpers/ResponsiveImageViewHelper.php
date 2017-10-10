@@ -57,7 +57,7 @@ class ResponsiveImageViewHelper extends ImageViewHelper
             throw new Exception('You must either specify a string src or a File object.', 1450184864);
         }
 
-        if (empty($sizes)){
+        if (empty($sizes) || ! array_key_exists('width', $sizes)){
             throw new Exception('You must specify at least one size. Like sizes="{width: {0: 100}}".', 1450184865);
         }
 
