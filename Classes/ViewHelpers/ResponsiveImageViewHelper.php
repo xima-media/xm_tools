@@ -87,11 +87,56 @@ class ResponsiveImageViewHelper extends ImageViewHelper
         }
 
         $srcset = array();
-        foreach ($sizes['width'] as $width) {
+        $setHeight = false;
+        $correspondingHeights = false;
+        $fixedHeight = null;
+        if (isset($sizes['height']) && is_array($sizes['height']) && !empty($sizes['height'])) {
+            $setHeight = true;
+            if (count($sizes['width']) == count($sizes['height'])) {
+                // we have a corresponding height to each of the widths
+                $correspondingHeights = true;
+            } else {
+                // we assume to have one fixed height for all of the widths
+                $fixedHeight = array_shift($sizes['height']);
+            }
+        }
+
+        foreach ($sizes['width'] as $key => $width) {
+
+            // Default mode is scaling (= m)
+            $mode = 'm';
+            if (isset($sizes['mode']) && in_array($sizes['mode'], ['c','m'])) {
+                $mode = $sizes['mode'];
+            }
 
             $processingInstructions = array(
                 'width' => $width,
             );
+
+            if (isset($sizes['ratio'])) {
+                // calculate the corresponding height
+                $processingInstructions['height'] = round($width/$sizes['ratio']) . $mode;
+            } elseif ($setHeight) {
+                if ($correspondingHeights) {
+                    if ($sizes['height'][$key] != 'auto') { // if set to 'auto' the original ratio will be preserved
+                        // set specified height
+                        $processingInstructions['height'] = $sizes['height'][$key];
+                    }
+                } elseif (!empty($fixedHeight)) {
+                    $processingInstructions['height'] = $fixedHeight;
+                }
+                $processingInstructions['height'] .= $mode;
+            }
+
+            $processingInstructions['width'] .= $mode;
+
+            if ($image instanceof FileInterface && $image->hasProperty('focus_point_x')) {
+                // take the focuspoint into account
+                $focus_point_x = $image->getProperty('focus_point_x');
+                $processingInstructions['width'] .= ((int)$focus_point_x > 0 ? '+' . $focus_point_x : '-' . abs($focus_point_x));
+                $focus_point_y = $image->getProperty('focus_point_y');
+                $processingInstructions['height'] .= ((int)$focus_point_y > 0 ? '-' . $focus_point_y : '+' . abs($focus_point_y));
+            }
 
             if ($typo3Version >= 7006000) {
                 $processingInstructions['crop'] = $crop;
