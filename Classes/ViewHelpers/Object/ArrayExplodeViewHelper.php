@@ -21,17 +21,25 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ArrayExplodeViewHelper extends AbstractViewHelper
 {
+    /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('delimiter', 'string', 'Specifies where to break the String', true);
+        $this->registerArgument('string', 'array', 'The String to split', true);
+    }
 
     /**
      * Basically equal to PHP explode().
      *
-     * @param $delimiter string
-     * @param $string Array
-     *
      * @return array
      */
-    public function render($delimiter, $string)
+    public function render()
     {
+        $delimiter = $this->arguments['delimiter'];
+        $string = $this->arguments['string'];
+
         return explode($delimiter, $string);
     }
 

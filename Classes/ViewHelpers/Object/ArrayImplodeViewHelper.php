@@ -20,18 +20,27 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ArrayImplodeViewHelper extends AbstractViewHelper
 {
+    /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('glue', 'string', 'Specifies what to put between the array elements', true);
+        $this->registerArgument('array', 'array', 'Arrays to join to a string', true);
+        $this->registerArgument('functionOrKey', 'string', 'Key to specify', false, '');
+    }
 
     /**
      * Basically equal to PHP implode(). If array items are array themselves a key ($functionOrKey) can be specified.
      * If array items are objects a function to retrieve a certain value for the implode can be specified ($functionOrKey).
      *
-     * @param $glue string
-     * @param $array array
-     * @param string $functionOrKey string
      * @return string
      */
-    public function render($glue, $array, $functionOrKey = '')
+    public function render()
     {
+        $glue = $this->arguments['glue'];
+        $array = $this->arguments['array'];
+        $functionOrKey = $this->arguments['functionOrKey'];
         $theArray = array();
 
         foreach ($array as $value) {

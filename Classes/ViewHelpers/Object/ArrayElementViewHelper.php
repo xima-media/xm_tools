@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\ViewHelpers\Object;
 
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -22,13 +23,24 @@ class ArrayElementViewHelper extends AbstractViewHelper
 {
 
     /**
-     * @param array $array to search in
-     * @param string $key to search for
-     * @param string $variableName variable name to set
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('array', 'array', 'Array to search in', true);
+        $this->registerArgument('key', 'string', 'Key to search for', true);
+        $this->registerArgument('variableName', 'string', 'Variablename to set', false, 'element');
+    }
+
+    /**
      * @return string content
      */
-    public function render($array, $key, $variableName = 'element')
+    public function render()
     {
+        $array = $this->arguments['array'];
+        $key = $this->arguments['key'];
+        $variableName = $this->arguments['variableName'];
+
         if (!is_array($array) || empty($array) || !array_key_exists($key, $array)) {
             $value = null;
         } else {
