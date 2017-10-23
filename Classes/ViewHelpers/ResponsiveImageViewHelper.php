@@ -40,48 +40,32 @@ use TYPO3\CMS\Extbase\Domain\Model\AbstractFileFolder;
  */
 class ResponsiveImageViewHelper extends ImageViewHelper
 {
+    public function initializeArguments()
+    {
+        parent::initializeArguments();
+
+        $this->registerArgument('sizes', 'array', 'Größenangaben zur Erstellung verschiedener Bildgrößen der Form {width: {0: 100, 1: 200}}', true);
+    }
+
     /**
-     * @param null $src Pfad zu der Datei. Hier kann auch mit EXT: gearbeitet werden, da es sich hier um ein IMG_RESOURCE handelt.
-     * @param string $width width of the image. This can be a numeric value representing the fixed width of the image in pixels. But you can also perform simple calculations by adding "m" or "c" to the value. See imgResource.width for possible options.
-     * @param string $height height of the image. This can be a numeric value representing the fixed height of the image in pixels. But you can also perform simple calculations by adding "m" or "c" to the value. See imgResource.width for possible options.
-     * @param integer $minWidth minimum width of the image
-     * @param integer $minHeight minimum height of the image
-     * @param integer $maxWidth maximum width of the image
-     * @param integer $maxHeight maximum height of the image
-     * @param bool $treatIdAsReference Wenn TRUE, dann wird die Angabe bei src als sys_file_reference interpretiert. Wenn FALSE als sys_file oder Dateipfad.
-     * @param FileInterface|AbstractFileFolder $image Ein FAL-Objekt.
-     * @param array $sizes Größenangaben zur Erstellung verschiedener Bildgrößen der Form {width: {0: 100, 1: 200}}.
-     * @param null $crop Wenn FALSE, dann wird das Cropping-Verhalten, das in FileReference definiert ist, überschrieben.
-     * @param bool $absolute Absoluter Pfad zum Bild.
      * @return string
      * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception
      */
-    public function render(
-        $src = NULL,
-        $width = NULL,
-        $height = NULL,
-        $minWidth = NULL,
-        $minHeight = NULL,
-        $maxWidth = NULL,
-        $maxHeight = NULL,
-        $treatIdAsReference = FALSE,
-        $image = NULL,
-        $sizes = array(),
-        $crop = null,
-        $absolute = false
-    ) {
-        if (is_null($src) && is_null($image) || !is_null($src) && !is_null($image)) {
+    public function render() {
+
+        if (is_null($this->arguments['src']) && is_null($this->arguments['image']) || !is_null($this->arguments['src']) && !is_null($this->arguments['image'])) {
             throw new Exception('You must either specify a string src or a File object.', 1450184864);
         }
 
-        if (empty($sizes)) {
+        if (empty($this->arguments['sizes'])) {
             throw new Exception('You must specify at least one size. Like sizes="{width: {0: 100}}".', 1450184865);
         }
 
         $typo3Version = VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getCurrentTypo3Version());
 
-        $image = $this->imageService->getImage($src, $image, $treatIdAsReference);
+        $image = $this->imageService->getImage($this->arguments['src'], $this->arguments['image'], $this->arguments['treatIdAsReference']);
 
+        $crop = $this->arguments['crop'];
         if ($crop === null) {
             $crop = ($image instanceof FileReference && $image->hasProperty('crop')) ? $image->getProperty('crop') : null;
         }
@@ -90,6 +74,7 @@ class ResponsiveImageViewHelper extends ImageViewHelper
         $setHeight = false;
         $correspondingHeights = false;
         $fixedHeight = null;
+        $sizes = $this->arguments['sizes'];
         if (isset($sizes['height']) && is_array($sizes['height']) && !empty($sizes['height'])) {
             $setHeight = true;
             if (count($sizes['width']) == count($sizes['height'])) {
@@ -145,7 +130,7 @@ class ResponsiveImageViewHelper extends ImageViewHelper
             $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
 
             if ($typo3Version >= 7006000) {
-                $imageUri = $this->imageService->getImageUri($processedImage, $absolute);
+                $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
             } else {
                 $imageUri = $this->imageService->getImageUri($processedImage);
             }
