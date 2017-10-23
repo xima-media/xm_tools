@@ -1,6 +1,9 @@
 <?php
 namespace Xima\XmTools\ViewHelpers;
 
+use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use Xima\XmTools\Domain\Repository\CategoryRepository;
+
 /***************************************************************
  *
  *  Copyright notice
@@ -27,12 +30,11 @@ namespace Xima\XmTools\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-class GetCategoriesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper
+class GetCategoriesViewHelper extends AbstractViewHelper
 {
     /**
-     * @var \Xima\XmTools\Domain\Repository\CategoryRepository
-     * @inject
-     */
+     * @var CategoryRepository
+     * */
     protected $categoryRepository;
 
     public function initializeArguments() {
@@ -40,6 +42,11 @@ class GetCategoriesViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractV
         $this->registerArgument('excludeCategories', 'string', 'Exclude categories (comma separated list of uids)', false);
         $this->registerArgument('firstOptionLabel', 'string', 'What should be the label of the first option (with value = 0)? Possible values: "parent" (the title of parent category), "none" (no option with value = 0 will be rendered), <your_own_string> (any custom string)', false, 'parent');
         $this->registerArgument('as', 'string', 'Name of the template variable that will contain the categories', true);
+    }
+
+    public function injectCategoryRepository(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
