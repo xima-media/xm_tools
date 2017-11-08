@@ -27,7 +27,7 @@ class ArrayExplodeViewHelper extends AbstractViewHelper
     public function initializeArguments()
     {
         $this->registerArgument('delimiter', 'string', 'Specifies where to break the String', true);
-        $this->registerArgument('string', 'array', 'The String to split', true);
+        $this->registerArgument('string', 'string', 'The String to split', true);
     }
 
     /**
