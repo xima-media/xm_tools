@@ -23,13 +23,24 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 class BackgroundPositionViewHelper extends AbstractViewHelper
 {
     /**
-     * @param string $focus_point_x
-     * @param string $focus_point_y
-     * @param string $orientation one of 'x', 'y' or 'both' (default)
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('focus_point_x', 'string', 'Focuspoint X', false, '0');
+        $this->registerArgument('focus_point_y', 'string', 'Focuspoint Y', false, '0');
+        $this->registerArgument('orientation', 'string', 'One of x, y or both', false, 'both');
+    }
+
+    /**
      * @return mixed|string
      */
-    public function render($focus_point_x = '0', $focus_point_y = '0', $orientation = 'both')
+    public function render()
     {
+        $focus_point_x = $this->arguments['focus_point_x'];
+        $focus_point_y = $this->arguments['focus_point_y'];
+        $orientation = $this->arguments['orientation'];
+
         return static::renderStatic(
             [
                 'focus_point_x' => $focus_point_x,

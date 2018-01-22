@@ -34,13 +34,21 @@ use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 class EmbedUrlViewHelper extends AbstractViewHelper
 {
     /**
+     * @return void
+     */
+    public function initializeArguments()
+    {
+        $this->registerArgument('file', 'FileInterface|AbstractFileFolder|array', 'given media file', true);
+    }
+    /**
      * Return embed URL of a given media file
      *
-     * @param FileInterface|AbstractFileFolder|array $file
      * @return string Media URL
      */
-    public function render($file)
+    public function render()
     {
+        $file = $this->arguments['file'];
+
         if (is_array($file)) {
             if (array_key_exists('id', $file)) {
                 $resourceFactory = ResourceFactory::getInstance();
