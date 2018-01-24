@@ -59,7 +59,7 @@ class Session
     public static function remove($key, $type = 'ses')
     {
         $GLOBALS['TSFE']->fe_user->setKey(self::isType($type), $key, null);
-        $GLOBALS['TSFE']->fe_user->storeSessionData();
+        $GLOBALS['TSFE']->fe_user->removeSessionData();
     }
 
     /**
