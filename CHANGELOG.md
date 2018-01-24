@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.1.0 - 2018-01-24
+- [Feature] Support for multiple crop variants
+
 ## 2.0.1 - 2018-01-24
 - [Doc] Exception annotation added in class Session
 - [Bugfix] Sessions will not be removed from database
