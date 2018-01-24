@@ -1,10 +1,14 @@
 # Change Log
 
+## 2.0.1 - 2018-01-24
+- [Doc] Exception annotation added in class Session
+- [Bugfix] Sessions will not be removed from database
+
 ## 2.0.0 - 2018-01-22
 Compatibility for 8 LTS
 
 ## 1.0.0 - 2017-02-21
-New stable release (without [legacy](https://github.com/xima-media/xm_tools/tree/legacy) code)  
+New stable release (without [legacy](https://github.com/xima-media/xm_tools/tree/legacy) code)
 
 ### Added
 - New ViewHelpers
