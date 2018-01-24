@@ -26,12 +26,11 @@ namespace Xima\XmTools\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Resource\FileReference;
+use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
 use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Extbase\Domain\Model\AbstractFileFolder;
 
 /**
  * Erstellt ein <img /> mit "data-srcset"-Attribut für den responsiven Ansatz mit JavaScript.
@@ -65,9 +64,9 @@ class ResponsiveImageViewHelper extends ImageViewHelper
 
         $image = $this->imageService->getImage($this->arguments['src'], $this->arguments['image'], $this->arguments['treatIdAsReference']);
 
-        $crop = $this->arguments['crop'];
-        if ($crop === null) {
-            $crop = ($image instanceof FileReference && $image->hasProperty('crop')) ? $image->getProperty('crop') : null;
+        $cropString = $this->arguments['crop'];
+        if ($cropString === null && $image->hasProperty('crop') && $image->getProperty('crop')) {
+            $cropString = $image->getProperty('crop');
         }
 
         $srcset = array();
@@ -123,8 +122,15 @@ class ResponsiveImageViewHelper extends ImageViewHelper
                 $processingInstructions['height'] .= ((int)$focus_point_y > 0 ? '-' . $focus_point_y : '+' . abs($focus_point_y));
             }
 
-            if ($typo3Version >= 7006000) {
-                $processingInstructions['crop'] = $crop;
+            if ($typo3Version >= 8006000) {
+                $cropVariantCollection = CropVariantCollection::create((string) $cropString);
+                $cropVariant = $this->arguments['cropVariant'] ?: 'default';
+                $cropArea = $cropVariantCollection->getCropArea($cropVariant);
+
+                $processingInstructions['crop'] = $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($image);
+            }
+            else if ($typo3Version >= 7006000){
+                $processingInstructions['crop'] = $cropString;
             }
 
             $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
@@ -135,7 +141,8 @@ class ResponsiveImageViewHelper extends ImageViewHelper
                 $imageUri = $this->imageService->getImageUri($processedImage);
             }
 
-            $srcset[] = $imageUri . ' ' . $processedImage->getProperty('width') . 'w';
+            $width = $processedImage->getProperty('width') ?: '0';
+            $srcset[] = $imageUri . ' ' . $width . 'w';
         }
 
         $this->tag->addAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
