@@ -51,6 +51,8 @@ class SendMail
      * @param array $variables variables to be passed to the Fluid view
      * @param array $cc cc of the email in the format array('recipient@domain.tld' => 'Recipient Name')
      * @param array $bcc bcc of the email in the format array('recipient@domain.tld' => 'Recipient Name')
+     * @param array $layoutRootPaths
+     * @param array $partialRootPaths
      * @param string $format The desired format, something like "html", "xml", "png", "json" or the like. Can even be something like "rss.xml".
      * @return boolean TRUE on success, otherwise false
      */
@@ -59,15 +61,19 @@ class SendMail
         array $sender,
         $subject,
         $template,
-        array $variables = array(),
-        array $cc = array(),
-        array $bcc = array(),
+        array $variables = [],
+        array $cc = [],
+        array $bcc = [],
+        array $layoutRootPaths = [],
+        array $partialRootPaths = [],
         $format = 'html'
     ) {
         /** @var StandaloneView $emailView */
         $emailView = $this->objectManager->get(StandaloneView::class);
         $emailView->setFormat($format);
         $emailView->setTemplatePathAndFilename($template);
+        $emailView->setLayoutRootPaths($layoutRootPaths);
+        $emailView->setPartialRootPaths($partialRootPaths);
         $emailView->assignMultiple($variables);
         $emailBody = $emailView->render();
 
