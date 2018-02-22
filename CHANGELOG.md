@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.2.0 - 2018-02-22
+- [Task] SendMail should use layoutRootPaths and partialRootPaths
+- [Task] Templat format configuration in SendMail::sendTemplateEmail()
+
 ## 2.1.0 - 2018-01-24
 - [Feature] Support for multiple crop variants
 
