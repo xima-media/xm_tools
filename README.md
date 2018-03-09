@@ -9,6 +9,9 @@ todo
 ## Requirements
 See *constraints* section in [ext_emconf.php](ext_emconf.php)
 
+For ResponsiveImageViewHelper:
+- jQuery: ^1.12.4 || ^2.2.4 || ^3.1.1
+
 ## Installation
 ### Composer
 https://composer.typo3.org/satis.html#!/xm-tools
