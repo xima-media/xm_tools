@@ -7,10 +7,12 @@
  *        jQuery 1.4.1
  *
  */
-if (typeof XIMA.api === "undefined") {
+if (typeof XIMA === "undefined") {
     var XIMA = {
         api: {}
     };
+} else if (typeof XIMA.api === "undefined") {
+    XIMA.api = {};
 }
 
 XIMA.api.responsiveImages = (function (window, document, $, undefined) {
