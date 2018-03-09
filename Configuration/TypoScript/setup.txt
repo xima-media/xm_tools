@@ -19,3 +19,19 @@ config.tx_extbase {
         }
     }
 }
+
+page {
+    ## Make sure to include jQuery, e.g. by uncommenting next lines
+    /*
+    includeJSFooterlibs {
+        jquery = http://code.jquery.com/jquery-1.12.4.min.js
+        jquery {
+            external = 1
+            integrity = sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=
+        }
+    }
+    */
+    includeJSFooter {
+        xm_tools = EXT:xm_tools/Resources/Public/JavaScript/xm_tools.js
+    }
+}
