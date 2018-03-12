@@ -17,6 +17,7 @@ class Session
      * @param string $key
      * @param mixed $data
      * @param string $type - Either "user" (persistent, bound to fe_users profile) or "ses" (temporary, bound to current session cookie)
+     * @throws \Exception
      */
     public static function set($key, $data, $type = 'ses')
     {
@@ -30,6 +31,7 @@ class Session
      * @param string $key
      * @param string $type - Either "user" (persistent, bound to fe_users profile) or "ses" (temporary, bound to current session cookie)
      * @return mixed
+     * @throws \Exception
      */
     public static function get($key, $type = 'ses')
     {
@@ -44,6 +46,7 @@ class Session
      * @param string $key
      * @param string $type - Either "user" (persistent, bound to fe_users profile) or "ses" (temporary, bound to current session cookie)
      * @return boolean
+     * @throws \Exception
      */
     public static function has($key, $type = 'ses')
     {
@@ -55,11 +58,12 @@ class Session
      *
      * @param string $key
      * @param string $type - Either "user" (persistent, bound to fe_users profile) or "ses" (temporary, bound to current session cookie)
+     * @throws \Exception
      */
     public static function remove($key, $type = 'ses')
     {
         $GLOBALS['TSFE']->fe_user->setKey(self::isType($type), $key, null);
-        $GLOBALS['TSFE']->fe_user->storeSessionData();
+        $GLOBALS['TSFE']->fe_user->removeSessionData();
     }
 
     /**
