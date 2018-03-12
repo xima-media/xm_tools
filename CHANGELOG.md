@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.3.0 - 2018-03-12
+### Added
+- Module "responsiveImages" of JavaScript library XIMA.api
+
 ## 2.2.0 - 2018-02-22
 - [Task] SendMail should use layoutRootPaths and partialRootPaths
 - [Task] Templat format configuration in SendMail::sendTemplateEmail()
