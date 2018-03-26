@@ -56,7 +56,7 @@ XIMA.api.responsiveImages = (function(window, document, $, undefined){
 
                 var $this = $(this);
 
-                var regex = /(\S+)\s+(\d+)w/g;
+                var regex = /([^\s,]+)\s+(\d+)w/g;
                 var srcset = $this.data('srcset');
                 var images = [];
                 var data;

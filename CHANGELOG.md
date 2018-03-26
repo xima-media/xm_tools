@@ -1,5 +1,10 @@
 # Change Log
 
+## 1.6.1 - 2018-03-12
+
+### Added
+- [Bugfix] Module "responsiveImages"
+
 ## 1.6.0 - 2018-03-12
 
 ### Added
