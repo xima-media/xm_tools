@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.3.1 - 2018-03-26
+### Added
+- [Bugfix] Several fixes of module "responsiveImages" of JavaScript library XIMA.api
+
 ## 2.3.0 - 2018-03-12
 ### Added
 - Module "responsiveImages" of JavaScript library XIMA.api
