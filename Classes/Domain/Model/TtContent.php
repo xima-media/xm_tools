@@ -60,6 +60,11 @@ class TtContent extends AbstractEntity
     protected $listType;
 
     /**
+     * @var int
+     */
+    protected $sysLanguageUid;
+
+    /**
      * Gets the uid
      *
      * @return string $uid
@@ -157,6 +162,22 @@ class TtContent extends AbstractEntity
     public function getListType()
     {
         return $this->listType;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSysLanguageUid()
+    {
+        return $this->sysLanguageUid;
+    }
+
+    /**
+     * @param int $sysLanguageUid
+     */
+    public function setSysLanguageUid($sysLanguageUid)
+    {
+        $this->sysLanguageUid = $sysLanguageUid;
     }
 
 }

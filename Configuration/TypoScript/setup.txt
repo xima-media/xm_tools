@@ -27,6 +27,7 @@ config.tx_extbase {
                         header.mapOnProperty = header
                         list_type.mapOnProperty = listType
                         pi_flexform.mapOnProperty = piFlexform
+                        sys_language_uid.mapOnProperty = sysLanguageUid
                     }
                 }
             }
