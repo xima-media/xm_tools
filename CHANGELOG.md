@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.4.1 - 2018-05-07
+### Added
+- [Task] TtContent - add property 'sys_language_uid'
+
 ## 2.4.0 - 2018-05-07
 ### Added
 - [Task] Add TtContent to Domain-Model
