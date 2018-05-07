@@ -16,6 +16,20 @@ config.tx_extbase {
                     }
                 }
             }
+            Xima\XmTools\Domain\Model\TtContent {
+                mapping {
+                    tableName = tt_content
+                    columns {
+                        uid.mapOnProperty = uid
+                        pid.mapOnProperty = pid
+                        sorting.mapOnProperty = sorting
+                        CType.mapOnProperty = contentType
+                        header.mapOnProperty = header
+                        list_type.mapOnProperty = listType
+                        pi_flexform.mapOnProperty = piFlexform
+                    }
+                }
+            }
         }
     }
 }
