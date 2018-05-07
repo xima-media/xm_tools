@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.4.0 - 2018-05-07
+### Added
+- [Task] Add TtContent to Domain-Model
+
 ## 2.3.1 - 2018-03-26
 ### Added
 - [Bugfix] Several fixes of module "responsiveImages" of JavaScript library XIMA.api
