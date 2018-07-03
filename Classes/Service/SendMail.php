@@ -33,6 +33,14 @@ class SendMail
      */
     private $mailCharset = 'utf-8';
 
+
+    /**
+     * Path to attachment
+     *
+     * @var string
+     */
+    private $attachment = '';
+
     /**
      * Constructor
      */
@@ -84,11 +92,28 @@ class SendMail
             ->setCc($cc)
             ->setBcc($bcc)
             ->setSubject($subject)
-            ->setBody($emailBody, $this->mailContentType, $this->mailCharset)
-            ->send();
+            ->setBody($emailBody, $this->mailContentType, $this->mailCharset);
+
+        if ($this->attachment != '') {
+            $message->attach(\Swift_Attachment::fromPath($this->attachment));
+            $this->attachment = '';
+        }
+
+        $message->send();
 
         return $message->isSent();
     }
+
+    /**
+     * Sets path to attachment
+     *
+     * @param string $attachment
+     */
+    public function setAttachment($attachment)
+    {
+        $this->attachment = $attachment;
+    }
+
 
     /**
      * @param string $mailContentType Content type like text/plain | text/html | multipart/related; Default: text/plain
