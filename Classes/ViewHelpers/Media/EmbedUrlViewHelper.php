@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\ViewHelpers\Media;
 
 /***************************************************************
@@ -26,9 +27,7 @@ namespace Xima\XmTools\ViewHelpers\Media;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
-use TYPO3\CMS\Extbase\Domain\Model\AbstractFileFolder;
 use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class EmbedUrlViewHelper extends AbstractViewHelper
@@ -38,8 +37,10 @@ class EmbedUrlViewHelper extends AbstractViewHelper
      */
     public function initializeArguments()
     {
-        $this->registerArgument('file', 'FileInterface|AbstractFileFolder|array', 'given media file', true);
+        $this->registerArgument('file', 'TYPO3\CMS\Core\Resource\FileInterface', 'given media file');
+        $this->registerArgument('fileAsArray', 'array', 'given media file as array');
     }
+
     /**
      * Return embed URL of a given media file
      *
@@ -47,7 +48,15 @@ class EmbedUrlViewHelper extends AbstractViewHelper
      */
     public function render()
     {
-        $file = $this->arguments['file'];
+        if ((is_null($this->arguments['file']) && is_null($this->arguments['fileAsArray'])) || (!is_null($this->arguments['file']) && !is_null($this->arguments['fileAsArray']))) {
+            throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('You must either specify an array or a File object.',
+                1535005991);
+        }
+        $file = $this->arguments['file'] ?: $this->arguments['fileAsArray'];
+
+        if (empty($file)) {
+            return '';
+        }
 
         if (is_array($file)) {
             if (array_key_exists('id', $file)) {
@@ -68,7 +77,7 @@ class EmbedUrlViewHelper extends AbstractViewHelper
 
         switch ($file->getExtension()) {
             case 'youtube':
-                $url = sprintf('https://www.youtube.com/embed/%s', $mediaId);
+                $url = sprintf('https://www.youtube-nocookie.com/embed/%s', $mediaId);
                 break;
             case 'vimeo':
                 $url = sprintf('https://player.vimeo.com/video/%s', $mediaId);
