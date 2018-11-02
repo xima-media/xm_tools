@@ -1,5 +1,13 @@
 plugin.tx_xmtools {
     settings {
+#        viewHelpers {
+#            responsiveImage {
+#                ## List of file extensions that do not get regenerated
+#                ## sometimes it might be necessary for animated GIFs
+#                ## !!! Handle with care - it might break the layout !!!
+#                dontRegenerateFileFormats = gif
+#            }
+#        }
 
     }
 }
