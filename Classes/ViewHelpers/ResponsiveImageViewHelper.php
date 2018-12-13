@@ -177,7 +177,10 @@ class ResponsiveImageViewHelper extends ImageViewHelper
                 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
             $this->tag->addAttribute('data-srcset', implode(',', $srcset));
         } else {
-            $this->tag->addAttribute('src', $image->getPublicUrl());
+            $src = $image->getOriginalFile()->getPublicUrl();
+            // Force absolute web path:
+            $src = strpos($src, '/') == 0 ?: '/' . $src;
+            $this->tag->addAttribute('src', $src);
         }
 
         $alt = $image->getProperty('alternative');
