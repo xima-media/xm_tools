@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Domain\Repository;
 
 /***************************************************************
@@ -41,8 +42,10 @@ class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRe
      * @param int $category
      * @param array $excludeCategories
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
-    public function findChildrenByParent($category = 0, $excludeCategories = array()) {
+    public function findChildrenByParent($category = 0, $excludeCategories = array())
+    {
         $constraints = array();
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
@@ -56,5 +59,40 @@ class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRe
         $query->matching($query->logicalAnd($constraints));
 
         return $query->execute();
+    }
+
+    /**
+     * Get categories of a certain record
+     *
+     * @param string $table Table of the record to which categories are attached
+     * @param string $fieldname Filedname where the categories are stored
+     * @param int $uid Uid of the record
+     * @return array
+     */
+    public function findByTableAndFieldname(string $table, string $fieldname, int $uid)
+    {
+        $where = 'AND sys_category_record_mm.fieldname = '
+            . $GLOBALS['TYPO3_DB']->fullQuoteStr($fieldname, 'sys_category_record_mm')
+            . ' AND sys_category_record_mm.uid_foreign = ' . (int)$uid;
+
+        $where .= ' AND (sys_category.sys_language_uid = ' . (int)$GLOBALS['TSFE']->sys_language_uid
+                . ' OR sys_category.sys_language_uid = -1)';
+
+        $res = $GLOBALS['TYPO3_DB']->exec_SELECT_mm_query(
+            'sys_category.*',
+            'sys_category',
+            'sys_category_record_mm',
+            $table,
+            $where,
+            '',
+            'sys_category_record_mm.sorting_foreign'
+        );
+
+        $rows = [];
+        while ($row = $res->fetch_assoc()) {
+            $rows[] = $row;
+        }
+
+        return $rows;
     }
 }
