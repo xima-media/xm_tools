@@ -14,7 +14,8 @@
   },
   "require": {
     "php": "7.2.*",
-    "typo3/cms-core": "9.5.*"
+    "typo3/cms-core": "9.5.*",
+    "typo3/cms-extensionmanager": "9.5.*"
   },
   "require-dev": {
     "typo3/testing-framework": "^4.11.1"
