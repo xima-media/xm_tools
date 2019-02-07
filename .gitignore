@@ -3,3 +3,7 @@ vendor/
 
 # phpstorm
 .idea/
+
+# Testing
+.Build/
+composer.lock
