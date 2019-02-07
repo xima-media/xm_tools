@@ -28,6 +28,7 @@ class ExtensionUtility
      *
      * @param $extensionKey
      * @return mixed|null
+     * @throws \TYPO3\CMS\Core\Package\Exception\UnknownPackageException
      */
     public static function getExtensionVersion($extensionKey)
     {

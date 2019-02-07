@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\Domain\Repository;
 
 /***************************************************************
@@ -41,6 +42,7 @@ class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRe
      * @param int $category
      * @param array $excludeCategories
      * @return array|\TYPO3\CMS\Extbase\Persistence\QueryResultInterface
+     * @throws \TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException
      */
     public function findChildrenByParent($category = 0, $excludeCategories = array()) {
         $constraints = array();

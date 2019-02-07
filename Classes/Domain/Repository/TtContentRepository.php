@@ -18,7 +18,7 @@ class TtContentRepository extends Repository
      */
     public function initializeObject()
     {
-        /** @var  $querySettings */
+        /** @var Typo3QuerySettings $querySettings */
         $querySettings = $this->objectManager->get(Typo3QuerySettings::class);
         $querySettings->setRespectStoragePage(false);
         $this->setDefaultQuerySettings($querySettings);
