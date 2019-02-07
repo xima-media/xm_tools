@@ -1,5 +1,21 @@
 # Change Log
 
+## [Unreleased]
+### Changed
+- [Task] Set TYPO3 CMS 9 LTS compatibility
+- [Task] Update dependencies in ext_emconf.php
+
+### Added
+- [Task] Preparing composer.json for testing
+- [Task] Add typo3/cms-extensionmanager dependency
+
+### Fixed
+- [Bugfix] Invalid composer.json
+- [Refactor] Fix code styling issues
+
+### Remove
+- [Doc] Remove outdated phpDoc
+
 ## 2.4.1 - 2018-05-07
 ### Added
 - [Task] TtContent - add property 'sys_language_uid'
