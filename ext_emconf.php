@@ -10,7 +10,7 @@
 # "version" and "dependencies" must not be touched!
 ########################################################################
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
     'title'            => 'XIMA Tools',
     'description'      => 'TYPO3 toolbox by XIMA MEDIA GmbH',
     'category'         => 'misc',
@@ -27,13 +27,13 @@ $EM_CONF[$_EXTKEY] = array(
     'modify_tables'    => '',
     'clearCacheOnLoad' => 1,
     'lockType'         => '',
-    'version'          => '2.5.1',
-    'constraints'      => array(
-        'depends'   => array(
-            'php'   => '5.6.0-7.1.99',
-            'typo3' => '8.7.0-8.7.99',
-        ),
-        'conflicts' => array(),
-        'suggests'  => array(),
-    ),
-);
+    'version'          => '3.0.0-dev',
+    'constraints'      => [
+        'depends'   => [
+            'php'   => '7.2.0-7.2.99',
+            'typo3' => '9.5.0-9.5.99',
+        ],
+        'conflicts' => [],
+        'suggests'  => [],
+    ],
+];
