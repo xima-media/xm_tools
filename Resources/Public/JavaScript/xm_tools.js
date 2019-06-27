@@ -2,9 +2,7 @@
  * respimg.js - A javascript to choose the best fitting image for responsive design
  *
  * @author Sebastian Gierth <sgi@xima.de>
- * @version 1.0.0
- * @depends
- *        jQuery 1.4.1
+ * @depends jQuery 1.4.1
  *
  */
 if (typeof XIMA === "undefined") {
