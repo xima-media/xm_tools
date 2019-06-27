@@ -33,7 +33,7 @@ XIMA.api.responsiveImages = (function(window, document, $, undefined){
 
         selectors = {
             wrapper: wrapperSelector || 'body',
-            image: imageSelector || 'img'
+            image: imageSelector || 'img[data-srcset]'
         };
     }
 
