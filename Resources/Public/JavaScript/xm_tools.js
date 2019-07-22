@@ -73,18 +73,18 @@ XIMA.api.responsiveImages = (function(window, document, $, undefined){
 
                 // Set the best fitting source as src-attribute
                 var renderWidth = wrapElement.width * window.devicePixelRatio;
-                for (var i=0; i < images.length; i++) {
+                for (var i=0, newWidth=0, newSrc=''; i < images.length; i++) {
+
+                    newWidth = wrapElement.width > 1 ? wrapElement.width : images[i].width;
+                    newSrc = images[i].src;
 
                     if (images[i].width >= renderWidth){
-                        $this.attr('width', wrapElement.width);
-                        $this.attr('src', images[i].src);
                         break;
                     }
-                    else if (i === images.length -1){
-                        $this.attr('width', wrapElement.width);
-                        $this.attr('src', images[i].src);
-                    }
                 }
+
+                $this.attr('width', newWidth);
+                $this.attr('src', newSrc);
             });
         });
     }
