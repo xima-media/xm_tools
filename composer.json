@@ -1,0 +1,40 @@
+{
+  "name": "xima-media/xm_tools",
+  "type": "typo3-cms-extension",
+  "description": "TYPO3 toolbox by XIMA MEDIA GmbH",
+  "homepage": "https://www.xima.de/",
+  "license": [
+    "GPL-2.0-or-later"
+  ],
+  "keywords": [
+    "TYPO3",
+    "TYPO3 CMS",
+    "XIMA",
+    "Tool",
+    "Toolbox",
+    "Extbase",
+    "Fluid"
+  ],
+  "support": {
+    "issues": "https://github.com/xima-media/xm_tools"
+  },
+  "require": {
+    "php": "^5.6 || ^7.0",
+    "typo3/cms": "~7.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "Xima\\XmTools\\": "Classes/"
+    }
+  },
+  "replace": {
+    "typo3-ter/xm_tools": "self.version",
+    "xima-media/xm_tools": "self.version"
+  },
+  "extra": {
+    "typo3/cms": {
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": "web"
+    }
+  }
+}
