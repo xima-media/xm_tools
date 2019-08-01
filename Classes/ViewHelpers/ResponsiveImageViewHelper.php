@@ -26,16 +26,18 @@ namespace Xima\XmTools\ViewHelpers;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\Exception;
-use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 /**
  * Erstellt ein <img /> mit "data-srcset"-Attribut für den responsiven Ansatz mit JavaScript.
  *
  * @author Sebastian Gierth <sgi@xima.de>
+ * @see https://github.com/xima-media/xm_tools/wiki/ResponsiveImageViewHelper
  */
 class ResponsiveImageViewHelper extends ImageViewHelper
 {
@@ -48,7 +50,7 @@ class ResponsiveImageViewHelper extends ImageViewHelper
 
     /**
      * @return string
-     * @throws \TYPO3\CMS\Fluid\Core\ViewHelper\Exception
+     * @throws Exception
      */
     public function render() {
 
@@ -126,8 +128,14 @@ class ResponsiveImageViewHelper extends ImageViewHelper
                 $cropVariantCollection = CropVariantCollection::create((string) $cropString);
                 $cropVariant = $this->arguments['cropVariant'] ?: 'default';
                 $cropArea = $cropVariantCollection->getCropArea($cropVariant);
+                $focusArea = $cropVariantCollection->getFocusArea($cropVariant);
 
                 $processingInstructions['crop'] = $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($image);
+
+                if ($mode === 'c' && !$focusArea->isEmpty()) {
+                    $processingInstructions = $this->applyCropShiftingInstructionsBasedOnFocusArea($processingInstructions,
+                        $image, $cropArea, $focusArea);
+                }
             }
             else if ($typo3Version >= 7006000){
                 $processingInstructions['crop'] = $cropString;
@@ -159,5 +167,84 @@ class ResponsiveImageViewHelper extends ImageViewHelper
         }
 
         return $this->tag->render();
+    }
+
+    /**
+     * Add shifting values to the width and height values of the processing instructions array
+     * to make sure the focus area is within the resulting image
+     * For explanation and examples see:
+     * https://docs.typo3.org/m/typo3/reference-typoscript/master/en-us/Functions/Imgresource.html#width
+     *
+     * @param array $processingInstructions
+     * @param FileInterface $image
+     * @param Area $cropArea
+     * @param Area $focusArea
+     * @return array
+     */
+    protected function applyCropShiftingInstructionsBasedOnFocusArea(
+        array $processingInstructions,
+        FileInterface $image,
+        Area $cropArea,
+        Area $focusArea
+    ) {
+        $cropAreaAbsolute = $cropArea->makeAbsoluteBasedOnFile($image);
+
+        // First the Y dimension:
+
+        $hC = $cropAreaAbsolute->asArray()['height'];       // absolute height of cropping area
+        $yFrel = $focusArea->asArray()['y'];                // relative y position of focus area within cropping area
+        $hZ = substr($processingInstructions['height'], 0, -1);    // target height of responsive image
+
+        $yF = $hC * $yFrel;                                 // absolute y position of focus area within cropping area
+
+        // calculation of the absolute shifting value ($sY) for the cropping instructions
+        if ($yFrel < 0.5) {
+            $direction = '-';
+
+            $sY = $hC / 2 - $hZ / 2 - $yF;
+        } else {
+            $direction = '+';
+            $hF = $focusArea->asArray()['height'] * $cropAreaAbsolute->asArray()['height'];
+            $yFrest = $hC - $yF - $hF;
+
+            $sY = $hC / 2 - $hZ / 2 - $yFrest;
+        }
+
+        // make the shifting value relative
+        $sYrel = round(($sY / ($hC / 2 - $hZ / 2)) * 100);
+
+        if ($sYrel > 0) {
+            $processingInstructions['height'] .= $direction . $sYrel;
+        }
+
+        // Second the X dimension:
+
+        $wC = $cropAreaAbsolute->asArray()['width'];       // absolute width of cropping area
+        $xFrel = $focusArea->asArray()['x'];        // relative x position of focus area within cropping area
+        $wZ = substr($processingInstructions['width'], 0, -1);    // target width of responsive image
+
+        $xF = $wC * $xFrel;                         // absolute x position of focus area within cropping area
+
+        // calculation of the absolute shifting value ($sX) for the cropping instructions
+        if ($xFrel < 0.5) {
+            $direction = '-';
+
+            $sX = $wC / 2 - $wZ / 2 - $xF;
+        } else {
+            $direction = '+';
+            $wF = $focusArea->asArray()['width'] * $cropAreaAbsolute->asArray()['width'];
+            $xFrest = $wC - $xF - $wF;
+
+            $sX = $wC / 2 - $wZ / 2 - $xFrest;
+        }
+
+        // make the shifting value relative
+        $sXrel = round(($sX / ($wC / 2 - $wZ / 2)) * 100);
+
+        if ($sXrel > 0) {
+            $processingInstructions['width'] .= $direction . $sXrel;
+        }
+
+        return $processingInstructions;
     }
 }
