@@ -32,6 +32,7 @@ use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
+use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 
 /**
  * Erstellt ein <img /> mit "data-srcset"-Attribut für den responsiven Ansatz mit JavaScript.
@@ -86,6 +87,8 @@ class ResponsiveImageViewHelper extends ImageViewHelper
                 $fixedHeight = array_shift($sizes['height']);
             }
         }
+
+        $smallestWidth = reset($sizes['width']);
 
         foreach ($sizes['width'] as $key => $width) {
 
@@ -151,10 +154,16 @@ class ResponsiveImageViewHelper extends ImageViewHelper
 
             $width = $processedImage->getProperty('width') ?: '0';
             $srcset[] = $imageUri . ' ' . $width . 'w';
+
+            if ($width < $smallestWidth){
+                $smallestWidth = $width;
+            }
         }
 
+        $dataSrcset = implode(',', $srcset);
+
         $this->tag->addAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
-        $this->tag->addAttribute('data-srcset', implode(',', $srcset));
+        $this->tag->addAttribute('data-srcset', $dataSrcset);
 
         $alt = $image->getProperty('alternative');
         $title = $image->getProperty('title');
@@ -166,7 +175,18 @@ class ResponsiveImageViewHelper extends ImageViewHelper
             $this->tag->addAttribute('title', $title);
         }
 
-        return $this->tag->render();
+        if (preg_match('~([^\s,]+)\s+'. $smallestWidth .'w~', $dataSrcset, $matches) !== false){
+
+            $defaultImgTag = new TagBuilder($this->tagName);
+            $defaultImgTag->addAttribute('src', $matches[1]);
+            $defaultImgTag->addAttribute('alt', $this->tag->getAttribute('alt'));
+            $defaultImgTag->addAttribute('title', $this->tag->getAttribute('title'));
+            $defaultImgTag->addAttribute('style', 'width: 100%; max-width: 100%; height: auto;');
+
+            $noscriptTag = sprintf('<noscript>%s</noscript>', $defaultImgTag->render());
+        }
+
+        return $this->tag->render() . ($noscriptTag ?? '');
     }
 
     /**
