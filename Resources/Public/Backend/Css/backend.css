@@ -1,0 +1,13 @@
+
+.topbar-header-website-info {
+    line-height: 1.2em;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0.6em 1em 0;
+}
+.topbar-header-website-version-title {
+    display: block;
+}
+.topbar-header-website-version {
+    opacity: 0.5;
+}

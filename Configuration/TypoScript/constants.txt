@@ -1,5 +1,10 @@
 plugin.tx_xmtools {
     settings {
-        
+
     }
+}
+
+module.tx_xmtools {
+    # Set to the extension key of your template extension / sitepackage to show its version number within backend's top bar
+    sitepackageExtKey =
 }
