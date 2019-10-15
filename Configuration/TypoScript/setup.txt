@@ -4,6 +4,12 @@ plugin.tx_xmtools {
     }
 }
 
+module.tx_xmtools {
+    settings {
+        sitepackageExtKey = {$module.tx_xmtools.sitepackageExtKey}
+    }
+}
+
 config.tx_extbase {
     persistence {
         # Use our own (extended) model and repository for sys_categories:
