@@ -1,5 +1,8 @@
 <?php
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
+
 if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
@@ -15,3 +18,18 @@ $GLOBALS['TBE_STYLES']['skins']['xm_tools'] = [
         'visual' => 'EXT:xm_tools/Resources/Public/Backend/Css/'
     ]
 ];
+
+$configurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
+$configurationManager->getDefaultBackendStoragePid();
+$typoScriptSetup = $configurationManager->getTypoScriptSetup();
+
+$showBackendMarking = $typoScriptSetup['module.']['tx_xmtools.']['settings.']['contextBackendMarking'];
+
+if ((bool)$showBackendMarking) {
+    $appContext = GeneralUtility::getApplicationContext();
+    if (stristr($appContext, 'staging') || stristr($appContext, 'testing')) {
+        $GLOBALS['TBE_STYLES']['skins']['xm_tools']['stylesheetDirectories'] += ['EXT:xm_tools/Resources/Public/Backend/Css/Staging'];
+    } elseif (stristr($appContext, 'development')) {
+        $GLOBALS['TBE_STYLES']['skins']['xm_tools']['stylesheetDirectories'] += ['EXT:xm_tools/Resources/Public/Backend/Css/Dev'];
+    }
+}

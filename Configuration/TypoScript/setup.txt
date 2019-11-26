@@ -7,6 +7,10 @@ plugin.tx_xmtools {
 module.tx_xmtools {
     settings {
         sitepackageExtKey = {$module.tx_xmtools.sitepackageExtKey}
+
+        # Set this to 1 if you want to color the div.top-header-site of the backend according to the application context
+        # (Development: darkblue, Testing or Staging: darkred)
+        contextBackendMarking = 0
     }
 }
 
