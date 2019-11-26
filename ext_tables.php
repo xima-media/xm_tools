@@ -27,7 +27,7 @@ $showBackendMarking = $typoScriptSetup['module.']['tx_xmtools.']['settings.']['c
 
 if ((bool)$showBackendMarking) {
     $appContext = GeneralUtility::getApplicationContext();
-    if (stristr($appContext, 'staging') || stristr($appContext, 'testing')) {
+    if (stristr($appContext, 'staging') || stristr($appContext, 'stage') || stristr($appContext, 'testing')) {
         $GLOBALS['TBE_STYLES']['skins']['xm_tools']['stylesheetDirectories'] += ['EXT:xm_tools/Resources/Public/Backend/Css/Staging'];
     } elseif (stristr($appContext, 'development')) {
         $GLOBALS['TBE_STYLES']['skins']['xm_tools']['stylesheetDirectories'] += ['EXT:xm_tools/Resources/Public/Backend/Css/Dev'];
