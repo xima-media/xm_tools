@@ -230,7 +230,11 @@ class ResponsiveImageViewHelper extends ImageViewHelper
         }
 
         // make the shifting value relative
-        $sYrel = round(($sY / ($hC / 2 - $hZ / 2)) * 100);
+        $sYrel = 0;
+        // avoid division by zero
+        if ($hC != $hZ) {
+            $sYrel = round(($sY / ($hC / 2 - $hZ / 2)) * 100);
+        }
 
         if ($sYrel > 0) {
             $processingInstructions['height'] .= $direction . $sYrel;
@@ -258,7 +262,11 @@ class ResponsiveImageViewHelper extends ImageViewHelper
         }
 
         // make the shifting value relative
-        $sXrel = round(($sX / ($wC / 2 - $wZ / 2)) * 100);
+        $sXrel = 0;
+        // avoid division by zero
+        if ($sX != $wZ) {
+            $sXrel = round(($sX / ($wC / 2 - $wZ / 2)) * 100);
+        }
 
         if ($sXrel > 0) {
             $processingInstructions['width'] .= $direction . $sXrel;
