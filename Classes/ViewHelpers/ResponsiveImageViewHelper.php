@@ -265,7 +265,7 @@ class ResponsiveImageViewHelper extends ImageViewHelper
         // make the shifting value relative
         $sXrel = 0;
         // avoid division by zero
-        if ($sX != $wZ) {
+        if ($wC != $wZ) {
             $sXrel = round(($sX / ($wC / 2 - $wZ / 2)) * 100);
         }
 
