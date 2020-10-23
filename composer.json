@@ -19,7 +19,7 @@
     "issues": "https://github.com/xima-media/xm_tools"
   },
   "require": {
-    "php": "7.2.*",
+    "php": "7.2.* || 7.3.* || 7.4.*",
     "typo3/cms-core": "9.5.*",
     "typo3/cms-extensionmanager": "9.5.*"
   },
