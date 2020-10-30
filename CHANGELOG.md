@@ -1,5 +1,10 @@
 # Change Log
 
+## 10.4.0 - 2020-10-30
+### Changed
+- [Task] Raise compatibility to TYPO3 CMS 10 LTS
+- [Task] Remove deprecated classes
+
 ## 9.5.12 - 2020-10-30
 ### Changed
 - [Task] Keep backward compatible to old namespace for TtContentRepository
