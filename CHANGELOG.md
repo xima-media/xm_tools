@@ -1,6 +1,14 @@
 # Change Log
 
-## [Unreleased]
+## 9.5.12 - 2020-10-30
+### Changed
+- [Task] Keep backward compatible to old namespace for TtContentRepository
+
+### Fixed
+- [Bugfix] Fix namespace for TtContentRepository
+
+------------------------------------------------------------------------
+## [Released]
 ### Changed
 - [Task] Set TYPO3 CMS 9 LTS compatibility
 - [Task] Update dependencies in ext_emconf.php
