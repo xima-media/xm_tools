@@ -1,5 +1,9 @@
 # Change Log
 
+## 10.4.1 - 2020-12-18
+### Changed
+- [Task] Apply TYPO3-Rector rules
+
 ## 10.4.0 - 2020-10-30
 ### Changed
 - [Task] Raise compatibility to TYPO3 CMS 10 LTS
