@@ -4,7 +4,7 @@ if (!defined('TYPO3_MODE')) {
     die('Access denied.');
 }
 
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'XIMA Tools');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile('xm_tools', 'Configuration/TypoScript', 'XIMA Tools');
 
 /**
  * CSS skins for backend
@@ -23,7 +23,7 @@ $typoScriptSetup = $configurationManager->getTypoScriptSetup();
 $showBackendMarking = $typoScriptSetup['module.']['tx_xmtools.']['settings.']['contextBackendMarking'];
 
 if ((bool)$showBackendMarking) {
-    $appContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
+    $appContext = \TYPO3\CMS\Core\Core\Environment::getContext();
     if (stristr($appContext, 'staging') || stristr($appContext, 'stage') || stristr($appContext, 'testing')) {
         $GLOBALS['TBE_STYLES']['skins']['xm_tools']['stylesheetDirectories'] += ['EXT:xm_tools/Resources/Public/Backend/Css/Staging'];
     } elseif (stristr($appContext, 'development')) {
