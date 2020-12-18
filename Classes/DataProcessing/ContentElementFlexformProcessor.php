@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\DataProcessing;
 
 /*
@@ -14,8 +15,8 @@ namespace Xima\XmTools\DataProcessing;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Service\FlexFormService;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
@@ -56,8 +57,7 @@ class ContentElementFlexformProcessor implements DataProcessorInterface
         // inspiration from: https://github.com/t3kit/t3kit_extension_tools/blob/master/Classes/DataProcessing/FlexFormProcessor.php
         // parse flexform
         $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
-        $options = $flexformService->convertFlexFormContentToArray($row['pi_flexform']);
 
-        return $options;
+        return $flexformService->convertFlexFormContentToArray($row['pi_flexform']);
     }
 }
