@@ -15,20 +15,6 @@ class TtContent extends AbstractEntity
 {
 
     /**
-     * uid
-     *
-     * @var string
-     */
-    protected $uid = '';
-
-    /**
-     * pid
-     *
-     * @var string
-     */
-    protected $pid = '';
-
-    /**
      * header
      *
      * @var string
@@ -63,26 +49,6 @@ class TtContent extends AbstractEntity
      * @var int
      */
     protected $sysLanguageUid;
-
-    /**
-     * Gets the uid
-     *
-     * @return string $uid
-     */
-    public function getUid()
-    {
-        return $this->uid;
-    }
-
-    /**
-     * Gets the pid
-     *
-     * @return string $pid
-     */
-    public function getPid()
-    {
-        return $this->pid;
-    }
 
     /**
      * Returns the header
