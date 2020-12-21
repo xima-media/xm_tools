@@ -2,7 +2,7 @@
 
 namespace Xima\XmTools\ViewHelpers\Object;
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Returns an array element by key

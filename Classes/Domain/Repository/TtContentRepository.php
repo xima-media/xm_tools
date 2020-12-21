@@ -13,9 +13,6 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
 class TtContentRepository extends Repository
 {
 
-    /**
-     *
-     */
     public function initializeObject()
     {
         /** @var Typo3QuerySettings $querySettings */

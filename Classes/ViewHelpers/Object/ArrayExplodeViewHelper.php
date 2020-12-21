@@ -2,7 +2,7 @@
 
 namespace Xima\XmTools\ViewHelpers\Object;
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Explodes a string by a given delimiter.

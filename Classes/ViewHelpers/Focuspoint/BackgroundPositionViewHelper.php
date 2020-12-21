@@ -1,6 +1,7 @@
 <?php
 namespace Xima\XmTools\ViewHelpers\Focuspoint;
 
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -14,7 +15,7 @@ namespace Xima\XmTools\ViewHelpers\Focuspoint;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Class BackgroundPositionViewHelper
@@ -52,7 +53,7 @@ class BackgroundPositionViewHelper extends AbstractViewHelper
         );
     }
 
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, \TYPO3\CMS\Fluid\Core\Rendering\RenderingContextInterface $renderingContext)
+    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext)
     {
         $focus_point_x = $arguments['focus_point_x'];
         $focus_point_y = $arguments['focus_point_y'];

@@ -2,6 +2,9 @@
 
 namespace Xima\XmTools\ViewHelpers\Media;
 
+use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 /***************************************************************
  *
  *  Copyright notice
@@ -28,7 +31,7 @@ namespace Xima\XmTools\ViewHelpers\Media;
  ***************************************************************/
 
 use TYPO3\CMS\Core\Resource\ResourceFactory;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 class EmbedUrlViewHelper extends AbstractViewHelper
 {
@@ -37,7 +40,7 @@ class EmbedUrlViewHelper extends AbstractViewHelper
      */
     public function initializeArguments()
     {
-        $this->registerArgument('file', 'TYPO3\CMS\Core\Resource\FileInterface', 'given media file');
+        $this->registerArgument('file', FileInterface::class, 'given media file');
         $this->registerArgument('fileAsArray', 'array', 'given media file as array');
     }
 
@@ -49,7 +52,7 @@ class EmbedUrlViewHelper extends AbstractViewHelper
     public function render()
     {
         if ((is_null($this->arguments['file']) && is_null($this->arguments['fileAsArray'])) || (!is_null($this->arguments['file']) && !is_null($this->arguments['fileAsArray']))) {
-            throw new \TYPO3\CMS\Fluid\Core\ViewHelper\Exception('You must either specify an array or a File object.',
+            throw new Exception('You must either specify an array or a File object.',
                 1535005991);
         }
         $file = $this->arguments['file'] ?: $this->arguments['fileAsArray'];
@@ -60,7 +63,7 @@ class EmbedUrlViewHelper extends AbstractViewHelper
 
         if (is_array($file)) {
             if (array_key_exists('id', $file)) {
-                $resourceFactory = ResourceFactory::getInstance();
+                $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
                 $file = $resourceFactory->getFileObjectFromCombinedIdentifier($file['id']);
             } else {
                 return '';

@@ -3,7 +3,7 @@
 namespace Xima\XmTools\ViewHelpers\Object;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Implodes array members to string, optionally calls function on members before imploding.

@@ -2,6 +2,7 @@
 
 namespace Xima\XmTools\Domain\Repository;
 
+use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 /***************************************************************
  *
  *  Copyright notice
@@ -27,14 +28,13 @@ namespace Xima\XmTools\Domain\Repository;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-
 /**
  * Class CategoryRepository
  * @package Xima\XmTools\Domain\Repository
  */
 class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository
 {
-    protected $defaultOrderings = array('sorting' => \TYPO3\CMS\Extbase\Persistence\QueryInterface::ORDER_ASCENDING);
+    protected $defaultOrderings = array('sorting' => QueryInterface::ORDER_ASCENDING);
 
     /**
      * Find child categories of a given parent
