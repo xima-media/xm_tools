@@ -55,8 +55,9 @@ class ResponsiveImageViewHelper extends ImageViewHelper
      */
     public function render() {
 
-        if (is_null($this->arguments['src']) && is_null($this->arguments['image']) || !is_null($this->arguments['src']) && !is_null($this->arguments['image'])) {
-            throw new Exception('You must either specify a string src or a File object.', 1450184864);
+        $src = (string)$this->arguments['src'];
+        if (($src === '' && $this->arguments['image'] === null) || ($src !== '' && $this->arguments['image'] !== null)) {
+            throw new Exception('You must either specify a string src or a File object.', 1382284106);
         }
 
         if (empty($this->arguments['sizes'])) {
