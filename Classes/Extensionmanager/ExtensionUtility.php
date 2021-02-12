@@ -5,7 +5,7 @@ namespace Xima\XmTools\Extensionmanager;
 use TYPO3\CMS\Core\Package\Package;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+use TYPO3\CMS\Extbase\Configuration\FrontendConfigurationManager;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extensionmanager\Utility\ListUtility;
 
@@ -66,17 +66,14 @@ class ExtensionUtility
         $pluginKey .= ($pluginName) ? '_' . strtolower($pluginName) : '';
         $pluginKey = 'tx_' . $pluginKey . '.';
 
-        /** @var ObjectManager $om */
-        $om = GeneralUtility::makeInstance(ObjectManager::class);
-        /** @var ConfigurationManagerInterface $confMngr */
-        $confMngr = $om->get(ConfigurationManagerInterface::class);
-        $tsSetup = $confMngr->getConfiguration(ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+        $configurationManager = GeneralUtility::makeInstance(FrontendConfigurationManager::class);
+        $tsSetup = $configurationManager->getTypoScriptSetup();
 
         if (is_array($tsSetup) && array_key_exists($pluginKey, $tsSetup[$type . '.'])) {
             return static::removeDots((array)$tsSetup[$type . '.'][$pluginKey]);
-        } else {
-            return [];
         }
+
+        return [];
     }
 
     /**
