@@ -92,10 +92,10 @@ class SendMail
             ->setCc($cc)
             ->setBcc($bcc)
             ->setSubject($subject)
-            ->setBody($emailBody, $this->mailContentType, $this->mailCharset);
+            ->html($emailBody, $this->mailCharset);
 
         if ($this->attachment != '') {
-            $message->attach(\Swift_Attachment::fromPath($this->attachment));
+            $message->attachFromPath($this->attachment);
             $this->attachment = '';
         }
 
