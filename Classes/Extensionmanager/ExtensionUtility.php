@@ -3,7 +3,6 @@
 namespace Xima\XmTools\Extensionmanager;
 
 use TYPO3\CMS\Core\Package\Package;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Extbase\Object\ObjectManager;
@@ -18,11 +17,6 @@ use TYPO3\CMS\Extensionmanager\Utility\ListUtility;
  */
 class ExtensionUtility
 {
-    /**
-     * @var array
-     */
-    protected static $configurations = [];
-
     /**
      * Returns the version of the given extension
      *
@@ -77,33 +71,6 @@ class ExtensionUtility
     }
 
     /**
-     * Returns configuration for given extension, optionally by the name of the specific configuration.
-     *
-     * @param string $extKey
-     * @param string $confName
-     * @return mixed|null
-     */
-    public static function getConfiguration($extKey, $confName = '')
-    {
-        $config = static::loadConfiguration($extKey, $confName);
-        if ($config !== null){
-            return $config;
-        }
-
-        if ( ! isset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey])){
-            return null;
-        }
-
-        $config = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$extKey]);
-        if (is_array($config)){
-            $config = ArrayUtility::flatten($config);
-        }
-        static::$configurations[$extKey] = $config;
-
-        return static::loadConfiguration($extKey, $confName);
-    }
-
-    /**
      * Removes dots in array keys
      *
      * @param array $array
@@ -118,28 +85,6 @@ class ExtensionUtility
         }
 
         return $conf;
-    }
-
-    /**
-     * Load configuration from internal storage by $extKey and $confName.
-     *
-     * @param string $extKey
-     * @param string $confName
-     * @return mixed|null Returns payload otherwise null if configuration was not found.
-     */
-    private static function loadConfiguration($extKey, $confName = '')
-    {
-        if (array_key_exists($extKey, static::$configurations)){
-            if (array_key_exists($confName, static::$configurations[$extKey])){
-                return static::$configurations[$extKey][$confName];
-            }
-            else {
-                return static::$configurations[$extKey];
-            }
-        }
-        else {
-            return null;
-        }
     }
 
 }
