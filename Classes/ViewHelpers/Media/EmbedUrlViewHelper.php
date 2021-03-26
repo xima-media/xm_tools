@@ -3,6 +3,7 @@
 namespace Xima\XmTools\ViewHelpers\Media;
 
 use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 /***************************************************************
@@ -80,10 +81,15 @@ class EmbedUrlViewHelper extends AbstractViewHelper
 
         switch ($file->getExtension()) {
             case 'youtube':
-                $url = sprintf('https://www.youtube-nocookie.com/embed/%s', $mediaId);
+                $tsConfiguration = GeneralUtility::makeInstance(ConfigurationManager::class)
+                    ->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+                $isNoCookie = $tsConfiguration['lib.']['contentElement.']['settings.']['media.']['additionalConfig.']['no-cookie'] ?? 1;
+                $url = $isNoCookie
+                    ? sprintf('https://www.youtube-nocookie.com/embed/%s', rawurlencode($mediaId))
+                    : sprintf('https://www.youtube.com/embed/%s', rawurlencode($mediaId));
                 break;
             case 'vimeo':
-                $url = sprintf('https://player.vimeo.com/video/%s', $mediaId);
+                $url = sprintf('https://player.vimeo.com/video/%s', rawurlencode($mediaId));
                 break;
             default:
                 $url = '';
