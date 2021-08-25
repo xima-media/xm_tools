@@ -31,10 +31,12 @@ use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 use Xima\XmTools\Service\ImageProcessingService;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 
 /**
  * Erstellt ein <img /> mit "data-srcset"-Attribut für den responsiven Ansatz mit JavaScript.
@@ -44,11 +46,27 @@ use Xima\XmTools\Service\ImageProcessingService;
  */
 class ResponsiveImageViewHelper extends ImageViewHelper
 {
+    /**
+     * @var array
+     */
+    protected $settings = null;
+
     public function initializeArguments()
     {
         parent::initializeArguments();
 
         $this->registerArgument('sizes', 'array', 'Größenangaben zur Erstellung verschiedener Bildgrößen der Form {width: {0: 100, 1: 200}}', true);
+    }
+
+    /**
+     * @throws \TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException
+     */
+    public function initialize()
+    {
+        parent::initialize();
+        $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
+        $this->settings = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS,
+                                                                  'XmTools');
     }
 
     /**
@@ -75,104 +93,112 @@ class ResponsiveImageViewHelper extends ImageViewHelper
             $cropString = $image->getProperty('crop');
         }
 
-        $srcset = array();
-        $setHeight = false;
-        $correspondingHeights = false;
-        $fixedHeight = null;
-        $sizes = $this->arguments['sizes'];
-        if (isset($sizes['height']) && is_array($sizes['height']) && !empty($sizes['height'])) {
-            $setHeight = true;
-            if (count($sizes['width']) == count($sizes['height'])) {
-                // we have a corresponding height to each of the widths
-                $correspondingHeights = true;
-            } else {
-                // we assume to have one fixed height for all of the widths
-                $fixedHeight = array_shift($sizes['height']);
-            }
-        }
-
-        $smallestWidth = reset($sizes['width']);
-
-        foreach ($sizes['width'] as $key => $width) {
-
-            // Default mode is scaling (= m)
-            $mode = 'm';
-            if (isset($sizes['mode']) && in_array($sizes['mode'], ['c','m'])) {
-                $mode = $sizes['mode'];
+        if ($this->isImageRegenerationRequired($image)) {
+            $srcset = array();
+            $setHeight = false;
+            $correspondingHeights = false;
+            $fixedHeight = null;
+            $sizes = $this->arguments['sizes'];
+            if (isset($sizes['height']) && is_array($sizes['height']) && !empty($sizes['height'])) {
+                $setHeight = true;
+                if (count($sizes['width']) == count($sizes['height'])) {
+                    // we have a corresponding height to each of the widths
+                    $correspondingHeights = true;
+                } else {
+                    // we assume to have one fixed height for all of the widths
+                    $fixedHeight = array_shift($sizes['height']);
+                }
             }
 
-            $processingInstructions = array(
-                'width' => $width,
-            );
+            $smallestWidth = reset($sizes['width']);
 
-            if (isset($sizes['ratio'])) {
-                // calculate the corresponding height
-                $processingInstructions['height'] = round($width/$sizes['ratio']) . $mode;
-            } elseif ($setHeight) {
-                if ($correspondingHeights) {
-                    if ($sizes['height'][$key] != 'auto') { // if set to 'auto' the original ratio will be preserved
-                        // set specified height
-                        $processingInstructions['height'] = $sizes['height'][$key];
+            foreach ($sizes['width'] as $key => $width) {
+
+                // Default mode is scaling (= m)
+                $mode = 'm';
+                if (isset($sizes['mode']) && in_array($sizes['mode'], ['c','m'])) {
+                    $mode = $sizes['mode'];
+                }
+
+                $processingInstructions = array(
+                    'width' => $width,
+                );
+
+                if (isset($sizes['ratio'])) {
+                    // calculate the corresponding height
+                    $processingInstructions['height'] = round($width/$sizes['ratio']) . $mode;
+                } elseif ($setHeight) {
+                    if ($correspondingHeights) {
+                        if ($sizes['height'][$key] != 'auto') { // if set to 'auto' the original ratio will be preserved
+                            // set specified height
+                            $processingInstructions['height'] = $sizes['height'][$key];
+                        }
+                    } elseif (!empty($fixedHeight)) {
+                        $processingInstructions['height'] = $fixedHeight;
                     }
-                } elseif (!empty($fixedHeight)) {
-                    $processingInstructions['height'] = $fixedHeight;
+                    $processingInstructions['height'] .= $mode;
                 }
-                $processingInstructions['height'] .= $mode;
-            }
 
-            $processingInstructions['width'] .= $mode;
+                $processingInstructions['width'] .= $mode;
 
-            if ($image instanceof FileInterface && $image->hasProperty('focus_point_x')) {
-                // take the focuspoint into account
-                $focus_point_x = $image->getProperty('focus_point_x');
-                $processingInstructions['width'] .= ((int)$focus_point_x > 0 ? '+' . $focus_point_x : '-' . abs($focus_point_x));
-                $focus_point_y = $image->getProperty('focus_point_y');
-                $processingInstructions['height'] .= ((int)$focus_point_y > 0 ? '-' . $focus_point_y : '+' . abs($focus_point_y));
-            }
+                if ($image instanceof FileInterface && $image->hasProperty('focus_point_x')) {
+                    // take the focuspoint into account
+                    $focus_point_x = $image->getProperty('focus_point_x');
+                    $processingInstructions['width'] .= ((int)$focus_point_x > 0 ? '+' . $focus_point_x : '-' . abs($focus_point_x));
+                    $focus_point_y = $image->getProperty('focus_point_y');
+                    $processingInstructions['height'] .= ((int)$focus_point_y > 0 ? '-' . $focus_point_y : '+' . abs($focus_point_y));
+                }
 
-            if ($typo3Version >= 8006000) {
-                $cropVariantCollection = CropVariantCollection::create((string) $cropString);
-                $cropVariant = $this->arguments['cropVariant'] ?: 'default';
-                $cropArea = $cropVariantCollection->getCropArea($cropVariant);
-                $focusArea = $cropVariantCollection->getFocusArea($cropVariant);
+                if ($typo3Version >= 8006000) {
+                    $cropVariantCollection = CropVariantCollection::create((string) $cropString);
+                    $cropVariant = $this->arguments['cropVariant'] ?: 'default';
+                    $cropArea = $cropVariantCollection->getCropArea($cropVariant);
+                    $focusArea = $cropVariantCollection->getFocusArea($cropVariant);
 
-                $processingInstructions['crop'] = $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($image);
+                    $processingInstructions['crop'] = $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($image);
 
-                if ($mode === 'c' && !$focusArea->isEmpty()) {
-                    $imageProcessingService = GeneralUtility::makeInstance(ImageProcessingService::class);
-                    $processingInstructions = $imageProcessingService
-                        ->applyCropShiftingInstructionsBasedOnFocusArea(
-                            $processingInstructions,
-                            $image,
-                            $cropArea,
-                            $focusArea
-                        );
+                    if ($mode === 'c' && !$focusArea->isEmpty()) {
+                        $imageProcessingService = GeneralUtility::makeInstance(ImageProcessingService::class);
+                        $processingInstructions = $imageProcessingService
+                            ->applyCropShiftingInstructionsBasedOnFocusArea(
+                                $processingInstructions,
+                                $image,
+                                $cropArea,
+                                $focusArea
+                            );
+                    }
+                }
+                else if ($typo3Version >= 7006000){
+                    $processingInstructions['crop'] = $cropString;
+                }
+
+                $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
+
+                if ($typo3Version >= 7006000) {
+                    $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
+                } else {
+                    $imageUri = $this->imageService->getImageUri($processedImage);
+                }
+
+                $width = $processedImage->getProperty('width') ?: '0';
+                $srcset[] = $imageUri . ' ' . $width . 'w';
+
+                if ($width < $smallestWidth){
+                    $smallestWidth = $width;
                 }
             }
-            else if ($typo3Version >= 7006000){
-                $processingInstructions['crop'] = $cropString;
-            }
 
-            $processedImage = $this->imageService->applyProcessingInstructions($image, $processingInstructions);
+            $dataSrcset = implode(',', $srcset);
 
-            if ($typo3Version >= 7006000) {
-                $imageUri = $this->imageService->getImageUri($processedImage, $this->arguments['absolute']);
-            } else {
-                $imageUri = $this->imageService->getImageUri($processedImage);
-            }
-
-            $width = $processedImage->getProperty('width') ?: '0';
-            $srcset[] = $imageUri . ' ' . $width . 'w';
-
-            if ($width < $smallestWidth){
-                $smallestWidth = $width;
-            }
+            $this->tag->addAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
+            $this->tag->addAttribute('data-srcset', $dataSrcset);
+        } else {
+            $src = $image->getOriginalFile()->getPublicUrl();
+            // Force absolute web path:
+            $src = strpos($src, '/') == 0 ?: '/' . $src;
+            $this->tag->addAttribute('src', $src);
+            $this->tag->addAttribute('class', 'xm-responsive-images xm-responsive-images--excluded');
         }
-
-        $dataSrcset = implode(',', $srcset);
-
-        $this->tag->addAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
-        $this->tag->addAttribute('data-srcset', $dataSrcset);
 
         $alt = $image->getProperty('alternative');
         $title = $image->getProperty('title');
@@ -196,5 +222,23 @@ class ResponsiveImageViewHelper extends ImageViewHelper
         }
 
         return $this->tag->render() . ($noscriptTag ?? '');
+    }
+
+    /**
+     * @param FileInterface $image
+     * @return bool
+     */
+    protected function isImageRegenerationRequired($image)
+    {
+        if (method_exists($image,
+                          'getExtension') && isset($this->settings['viewHelpers']['responsiveImage']['dontRegenerateFileFormats'])) {
+            $fileExt = $image->getExtension();
+            $excluded = GeneralUtility::trimExplode(',',
+                                                    $this->settings['viewHelpers']['responsiveImage']['dontRegenerateFileFormats']);
+
+            return !in_array($fileExt, $excluded);
+        }
+
+        return true;
     }
 }
