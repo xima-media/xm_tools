@@ -1,5 +1,14 @@
 # Change Log
 
+## 9.5.14 - 2021-11-01
+### Changed
+- [Improvement] Move configuration for backend visualizations
+- [Task] Move static typoscript registration
+
+## 9.5.13 - 2020-11-03
+### Changed
+- [Task] Extend ResponsiveImageViewHelper to not process certain types of images
+
 ## 9.5.12 - 2020-10-30
 ### Changed
 - [Task] Keep backward compatible to old namespace for TtContentRepository
