@@ -14,13 +14,10 @@ $GLOBALS['TBE_STYLES']['skins']['xm_tools'] = [
     ]
 ];
 
-$configurationManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager::class);
-$configurationManager->getDefaultBackendStoragePid();
-$typoScriptSetup = $configurationManager->getTypoScriptSetup();
+$backendMarkingEnabled = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)
+    ->get('xm_tools', 'backendMarkingEnabled');
 
-$showBackendMarking = $typoScriptSetup['module.']['tx_xmtools.']['settings.']['contextBackendMarking'];
-
-if ((bool)$showBackendMarking) {
+if ((bool)$backendMarkingEnabled) {
     $appContext = \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext();
     if (stristr($appContext, 'staging') || stristr($appContext, 'stage') || stristr($appContext, 'testing')) {
         $GLOBALS['TBE_STYLES']['skins']['xm_tools']['stylesheetDirectories'] += ['EXT:xm_tools/Resources/Public/Backend/Css/Staging'];
