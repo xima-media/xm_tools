@@ -1,0 +1,5 @@
+# cat=Backend; type=boolean; label=Enable backend colorization according to application context
+backendMarkingEnabled = 1
+
+# cat=Backend; type=string; label=Sitepackage extension key: Website version is retrieved from it's ext_emconf.php and shown in header bar
+sitepackageExtensionKey =

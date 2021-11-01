@@ -5,6 +5,7 @@ namespace Xima\XmTools\Backend\ToolbarItems;
 
 
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Package\Exception\UnknownPackageException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
@@ -39,11 +40,16 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
 
     protected function getWebsiteVersion()
     {
-        $configurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
-        $configurationManager->getDefaultBackendStoragePid();
-        $typoScriptSetup = $configurationManager->getTypoScriptSetup();
+        $extKey = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ExtensionConfiguration::class)
+            ->get('xm_tools', 'sitepackageExtensionKey');
 
-        $extKey = $typoScriptSetup['module.']['tx_xmtools.']['settings.']['sitepackageExtKey'];
+        if (empty($extKey)) {
+            // Fallback to (old) typoscript configuration
+            $configurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
+            $configurationManager->getDefaultBackendStoragePid();
+            $typoScriptSetup = $configurationManager->getTypoScriptSetup();
+            $extKey = $typoScriptSetup['module.']['tx_xmtools.']['settings.']['sitepackageExtKey'];
+        }
 
         try {
             return ExtensionUtility::getExtensionVersion($extKey);
