@@ -1,5 +1,54 @@
 # Change Log
 
+## 10.4.10 - 2021-11-02
+### Changed
+- [Task] Move static typoscript registration
+- [Improvement] Move configuration for backend visualizations
+
+## 10.4.9 - 2021-08-25
+### Changed
+- [Task] Extend ResponsiveImageViewHelper to not process certain types of images
+
+## 10.4.8 - 2021-05-20
+### Changed
+- [Task] Add ImageViewHelper and Uri.ImageViewHelper
+
+## 10.4.7 - 2021-03-26
+### Changed
+- [Task] Respect no-cookie setting for YouTube embedding
+
+## 10.4.6 - 2021-02-19
+### Changed
+- [Improvement] Register global namespace "xmt" for ViewHelpers
+- [!!!][Task] Remove method for getting extension configuration
+
+### Fixed
+- [Bugfix] Fix getting TypoScript Plugin Setup via BackendConfigurationManager
+
+## 10.4.5 - 2021-02-12
+### Fixed
+- [Bugfix] Fix getting TypoScript Plugin Setup via BackendConfigurationManager
+
+## 10.4.4 - 2021-02-12
+### Changed
+- [Task] Replace config.persistence.classes typoscript configuration.
+
+### Fixed
+- [Bugfix] Fix getting TypoScript Plugin Setup
+- [Bugfix] Fix SendMail Service
+
+## 10.4.3 - 2021-01-05
+### Fixed
+- [Bugfix] Adapt check for image source in ResponsiveImageViewHelper
+
+## 10.4.2 - 2020-12-21
+### Changed
+- [Task] Apply TYPO3-Rector rules
+
+### Fixed
+- [Bugfix] Use correct namespace for class FlexFormService
+- [Bugfix] Remove unnecessary re-declarations
+
 ## 10.4.1 - 2020-12-18
 ### Changed
 - [Task] Apply TYPO3-Rector rules
