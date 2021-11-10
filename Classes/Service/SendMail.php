@@ -33,13 +33,17 @@ class SendMail
      */
     private $mailCharset = 'utf-8';
 
-
     /**
      * Path to attachment
      *
      * @var string
      */
     private $attachment = '';
+
+    /**
+     * @var array
+     */
+    private $replyTo = [];
 
     /**
      * Constructor
@@ -94,6 +98,12 @@ class SendMail
             ->setSubject($subject)
             ->setBody($emailBody, $this->mailContentType, $this->mailCharset);
 
+        if (!empty($this->replyTo)) {
+            foreach ($this->replyTo as $address => $name) {
+                $message->addReplyTo($address, $name);
+            }
+        }
+
         if ($this->attachment != '') {
             $message->attach(\Swift_Attachment::fromPath($this->attachment));
             $this->attachment = '';
@@ -102,6 +112,19 @@ class SendMail
         $message->send();
 
         return $message->isSent();
+    }
+
+    /**
+     * @param string $address
+     * @param string $name    optional
+     *
+     * @return $this
+     */
+    public function addReplyTo($address, $name = null)
+    {
+        $this->replyTo[$address] = $name;
+
+        return $this;
     }
 
     /**
