@@ -32,8 +32,7 @@
     }
   },
   "replace": {
-    "typo3-ter/xm_tools": "self.version",
-    "xima-media/xm_tools": "self.version"
+    "typo3-ter/xm_tools": "self.version"
   },
   "config": {
     "vendor-dir": ".Build/vendor",
