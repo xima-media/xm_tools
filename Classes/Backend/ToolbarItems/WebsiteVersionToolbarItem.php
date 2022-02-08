@@ -4,15 +4,12 @@
 namespace Xima\XmTools\Backend\ToolbarItems;
 
 
+use Nadar\PhpComposerReader\ComposerReader;
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Core\Package\Exception\UnknownPackageException;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
-use Xima\XmTools\Extensionmanager\ExtensionUtility;
 
 class WebsiteVersionToolbarItem implements ToolbarItemInterface
 {
@@ -33,35 +30,26 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
      */
     public function getItem(): string
     {
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:xm_tools'
-            . '/Resources/Private/Backend/Templates/ToolbarItems/WebsiteVersionToolbarItem.html'));
+        if (GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('xm_tools',
+            'showWebsiteVersionInBackend')) {
+            $view = GeneralUtility::makeInstance(StandaloneView::class);
+            $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:xm_tools'
+                . '/Resources/Private/Backend/Templates/ToolbarItems/WebsiteVersionToolbarItem.html'));
 
-        return $view->assign('websiteVersion', $this->getWebsiteVersion())->render();
+            return $view->assign('websiteVersion', $this->getWebsiteVersion())->render();
+        }
+
+        return '';
     }
 
-    protected function getWebsiteVersion()
+    /**
+     * Returns the version property from the project's composer.json
+     *
+     * @return string
+     */
+    protected function getWebsiteVersion(): string
     {
-        $extKey = '';
-        try {
-            $extKey = GeneralUtility::makeInstance(ExtensionConfiguration::class)
-                ->get('xm_tools', 'sitepackageExtensionKey');
-        } catch (ExtensionConfigurationExtensionNotConfiguredException|ExtensionConfigurationPathDoesNotExistException) {
-        }
-
-        if (empty($extKey)) {
-            // Fallback to (old) typoscript configuration
-            $configurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
-            $configurationManager->getDefaultBackendStoragePid();
-            $typoScriptSetup = $configurationManager->getTypoScriptSetup();
-            $extKey = $typoScriptSetup['module.']['tx_xmtools.']['settings.']['sitepackageExtKey'] ?? '';
-        }
-
-        try {
-            return ExtensionUtility::getExtensionVersion($extKey);
-        } catch (UnknownPackageException) {
-            return '';
-        }
+        return (new ComposerReader(Environment::getProjectPath() . '/composer.json'))->contentSection('version', '');
     }
 
     /**
