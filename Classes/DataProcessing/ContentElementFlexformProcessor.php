@@ -40,7 +40,7 @@ class ContentElementFlexformProcessor implements DataProcessorInterface
         array $contentObjectConfiguration,
         array $processorConfiguration,
         array $processedData
-    ) {
+    ): array {
         $processedData['flexform'] = $this->getOptionsFromFlexFormData($processedData['data']);
 
         return $processedData;
@@ -52,12 +52,10 @@ class ContentElementFlexformProcessor implements DataProcessorInterface
      * @param array $row
      * @return array
      */
-    protected function getOptionsFromFlexFormData(array $row)
+    protected function getOptionsFromFlexFormData(array $row): array
     {
         // inspiration from: https://github.com/t3kit/t3kit_extension_tools/blob/master/Classes/DataProcessing/FlexFormProcessor.php
         // parse flexform
-        $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
-
-        return $flexformService->convertFlexFormContentToArray($row['pi_flexform']);
+        return GeneralUtility::makeInstance(FlexFormService::class)->convertFlexFormContentToArray($row['pi_flexform']);
     }
 }

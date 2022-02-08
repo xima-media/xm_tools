@@ -2,10 +2,10 @@
 
 namespace Xima\XmTools\Extensionmanager;
 
+use TYPO3\CMS\Core\Package\Exception\UnknownPackageException;
 use TYPO3\CMS\Core\Package\Package;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Extensionmanager\Utility\ListUtility;
 
 
@@ -22,15 +22,13 @@ class ExtensionUtility
      *
      * @param $extensionKey
      * @return mixed|null
-     * @throws \TYPO3\CMS\Core\Package\Exception\UnknownPackageException
+     * @throws UnknownPackageException
      */
-    public static function getExtensionVersion($extensionKey)
+    public static function getExtensionVersion($extensionKey): mixed
     {
         $version = null;
-        /** @var ObjectManager $om */
-        $om = GeneralUtility::makeInstance(ObjectManager::class);
         /** @var ListUtility $listUtility */
-        $listUtility = $om->get(ListUtility::class);
+        $listUtility = GeneralUtility::makeInstance(ListUtility::class);
 
         $packages = $listUtility->getAvailableExtensions();
 
@@ -54,7 +52,7 @@ class ExtensionUtility
      * @param string $type Options:module|plugin
      * @return array
      */
-    public static function getTypoScriptPluginSetup($extKey, $pluginName = '', $type = 'plugin')
+    public static function getTypoScriptPluginSetup(string $extKey, string $pluginName = '', string $type = 'plugin'): array
     {
         $pluginKey = strtolower(str_replace('_', '', $extKey));
         $pluginKey .= ($pluginName) ? '_' . strtolower($pluginName) : '';
@@ -63,7 +61,7 @@ class ExtensionUtility
         $configurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
         $tsSetup = $configurationManager->getTypoScriptSetup();
 
-        if (is_array($tsSetup) && array_key_exists($pluginKey, $tsSetup[$type . '.'])) {
+        if (array_key_exists($pluginKey, $tsSetup[$type . '.'])) {
             return static::removeDots((array)$tsSetup[$type . '.'][$pluginKey]);
         }
 
@@ -76,7 +74,7 @@ class ExtensionUtility
      * @param array $array
      * @return array
      */
-    private static function removeDots(array $array)
+    private static function removeDots(array $array): array
     {
         $conf = [];
 

@@ -5,6 +5,8 @@ namespace Xima\XmTools\Backend\ToolbarItems;
 
 
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Package\Exception\UnknownPackageException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -19,7 +21,7 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
      *
      * @return bool TRUE if user has access, FALSE if not
      */
-    public function checkAccess()
+    public function checkAccess(): bool
     {
         return true;
     }
@@ -29,7 +31,7 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
      *
      * @return string Toolbar item HTML
      */
-    public function getItem()
+    public function getItem(): string
     {
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:xm_tools'
@@ -40,20 +42,24 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
 
     protected function getWebsiteVersion()
     {
-        $extKey = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(ExtensionConfiguration::class)
-            ->get('xm_tools', 'sitepackageExtensionKey');
+        $extKey = '';
+        try {
+            $extKey = GeneralUtility::makeInstance(ExtensionConfiguration::class)
+                ->get('xm_tools', 'sitepackageExtensionKey');
+        } catch (ExtensionConfigurationExtensionNotConfiguredException|ExtensionConfigurationPathDoesNotExistException) {
+        }
 
         if (empty($extKey)) {
             // Fallback to (old) typoscript configuration
             $configurationManager = GeneralUtility::makeInstance(BackendConfigurationManager::class);
             $configurationManager->getDefaultBackendStoragePid();
             $typoScriptSetup = $configurationManager->getTypoScriptSetup();
-            $extKey = $typoScriptSetup['module.']['tx_xmtools.']['settings.']['sitepackageExtKey'];
+            $extKey = $typoScriptSetup['module.']['tx_xmtools.']['settings.']['sitepackageExtKey'] ?? '';
         }
 
         try {
             return ExtensionUtility::getExtensionVersion($extKey);
-        } catch (UnknownPackageException $e) {
+        } catch (UnknownPackageException) {
             return '';
         }
     }
@@ -63,7 +69,7 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
      *
      * @return bool
      */
-    public function hasDropDown()
+    public function hasDropDown(): bool
     {
         return false;
     }
@@ -73,7 +79,7 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
      *
      * @return string Drop down HTML
      */
-    public function getDropDown()
+    public function getDropDown(): string
     {
         return '';
     }
@@ -91,7 +97,7 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
      *
      * @return array List item HTML attributes
      */
-    public function getAdditionalAttributes()
+    public function getAdditionalAttributes(): array
     {
         return [];
     }
@@ -105,7 +111,7 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
      *
      * @return int 0 .. 100
      */
-    public function getIndex()
+    public function getIndex(): int
     {
         return 0;
     }
