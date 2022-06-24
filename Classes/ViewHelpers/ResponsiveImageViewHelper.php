@@ -193,10 +193,12 @@ class ResponsiveImageViewHelper extends ImageViewHelper
             $this->tag->addAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
             $this->tag->addAttribute('data-srcset', $dataSrcset);
         } else {
-            $src = $image->getOriginalFile()->getPublicUrl();
-            // Force absolute web path:
-            $src = strpos($src, '/') == 0 ?: '/' . $src;
-            $this->tag->addAttribute('src', $src);
+            if ($typo3Version >= 7006000) {
+                $imageUri = $this->imageService->getImageUri($image, $this->arguments['absolute']);
+            } else {
+                $imageUri = $this->imageService->getImageUri($image);
+            }
+            $this->tag->addAttribute('src', $imageUri);
             $this->tag->addAttribute('class', 'xm-responsive-images xm-responsive-images--excluded');
         }
 
