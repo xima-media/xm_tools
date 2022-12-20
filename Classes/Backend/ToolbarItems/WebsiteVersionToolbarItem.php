@@ -3,11 +3,10 @@
 
 namespace Xima\XmTools\Backend\ToolbarItems;
 
-
-use Nadar\PhpComposerReader\ComposerReader;
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
@@ -49,7 +48,7 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
      */
     protected function getWebsiteVersion(): string
     {
-        return (new ComposerReader(Environment::getProjectPath() . '/composer.json'))->contentSection('version', '');
+        return (GeneralUtility::makeInstance(PackageManager::class)->getComposerManifest(Environment::getProjectPath() . '/', true))->version;
     }
 
     /**
