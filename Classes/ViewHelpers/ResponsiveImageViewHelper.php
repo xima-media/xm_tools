@@ -192,6 +192,17 @@ class ResponsiveImageViewHelper extends ImageViewHelper
 
             $this->tag->addAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
             $this->tag->addAttribute('data-srcset', $dataSrcset);
+
+            if (preg_match('~([^\s,]+)\s+'. $smallestWidth .'w~', $dataSrcset, $matches) !== false){
+
+                $defaultImgTag = new TagBuilder($this->tagName);
+                $defaultImgTag->addAttribute('src', $matches[1] ?? $this->imageService->getImageUri($image, $this->arguments['absolute']));
+                $defaultImgTag->addAttribute('alt', $this->tag->getAttribute('alt'));
+                $defaultImgTag->addAttribute('title', $this->tag->getAttribute('title'));
+                $defaultImgTag->addAttribute('style', 'width: 100%; max-width: 100%; height: auto;');
+
+                $noscriptTag = sprintf('<noscript>%s</noscript>', $defaultImgTag->render());
+            }
         } else {
             if ($typo3Version >= 7006000) {
                 $imageUri = $this->imageService->getImageUri($image, $this->arguments['absolute']);
@@ -210,17 +221,6 @@ class ResponsiveImageViewHelper extends ImageViewHelper
         }
         if (empty($this->arguments['title']) && $title) {
             $this->tag->addAttribute('title', $title);
-        }
-
-        if (preg_match('~([^\s,]+)\s+'. $smallestWidth .'w~', $dataSrcset, $matches) !== false){
-
-            $defaultImgTag = new TagBuilder($this->tagName);
-            $defaultImgTag->addAttribute('src', $matches[1]);
-            $defaultImgTag->addAttribute('alt', $this->tag->getAttribute('alt'));
-            $defaultImgTag->addAttribute('title', $this->tag->getAttribute('title'));
-            $defaultImgTag->addAttribute('style', 'width: 100%; max-width: 100%; height: auto;');
-
-            $noscriptTag = sprintf('<noscript>%s</noscript>', $defaultImgTag->render());
         }
 
         return $this->tag->render() . ($noscriptTag ?? '');
