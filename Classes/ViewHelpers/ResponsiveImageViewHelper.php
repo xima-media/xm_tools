@@ -146,7 +146,9 @@ class ResponsiveImageViewHelper extends ImageViewHelper
                     $focus_point_x = $image->getProperty('focus_point_x');
                     $processingInstructions['width'] .= ((int)$focus_point_x > 0 ? '+' . $focus_point_x : '-' . abs($focus_point_x));
                     $focus_point_y = $image->getProperty('focus_point_y');
-                    $processingInstructions['height'] .= ((int)$focus_point_y > 0 ? '-' . $focus_point_y : '+' . abs($focus_point_y));
+                    if (isset($processingInstructions['height'])) {
+                        $processingInstructions['height'] .= ((int)$focus_point_y > 0 ? '-' . $focus_point_y : '+' . abs($focus_point_y));
+                    }
                 }
 
                 if ($typo3Version >= 8006000) {
