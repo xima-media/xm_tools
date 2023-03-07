@@ -146,26 +146,28 @@ class ResponsiveImageViewHelper extends ImageViewHelper
                     $focus_point_x = $image->getProperty('focus_point_x');
                     $processingInstructions['width'] .= ((int)$focus_point_x > 0 ? '+' . $focus_point_x : '-' . abs($focus_point_x));
                     $focus_point_y = $image->getProperty('focus_point_y');
-                    $processingInstructions['height'] .= ((int)$focus_point_y > 0 ? '-' . $focus_point_y : '+' . abs($focus_point_y));
+                    if (isset($processingInstructions['height'])) {
+                        $processingInstructions['height'] .= ((int)$focus_point_y > 0 ? '-' . $focus_point_y : '+' . abs($focus_point_y));
+                    }
                 }
 
                 if ($typo3Version >= 8006000) {
-                    $cropVariantCollection = CropVariantCollection::create((string) $cropString);
-                    $cropVariant = $this->arguments['cropVariant'] ?: 'default';
-                    $cropArea = $cropVariantCollection->getCropArea($cropVariant);
-                    $focusArea = $cropVariantCollection->getFocusArea($cropVariant);
-
-                    $processingInstructions['crop'] = $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($image);
-
-                    if ($mode === 'c' && !$focusArea->isEmpty()) {
-                        $imageProcessingService = GeneralUtility::makeInstance(ImageProcessingService::class);
-                        $processingInstructions = $imageProcessingService
-                            ->applyCropShiftingInstructionsBasedOnFocusArea(
-                                $processingInstructions,
-                                $image,
-                                $cropArea,
-                                $focusArea
-                            );
+                    if ($image instanceof FileInterface && $image->hasProperty('width')) {
+                        $cropVariantCollection = CropVariantCollection::create((string)$cropString);
+                        $cropVariant = $this->arguments['cropVariant'] ?: 'default';
+                        $cropArea = $cropVariantCollection->getCropArea($cropVariant);
+                        $focusArea = $cropVariantCollection->getFocusArea($cropVariant);
+                        $processingInstructions['crop'] = $cropArea->isEmpty() ? null : $cropArea->makeAbsoluteBasedOnFile($image);
+                        if ($mode === 'c' && !$focusArea->isEmpty()) {
+                            $imageProcessingService = GeneralUtility::makeInstance(ImageProcessingService::class);
+                            $processingInstructions = $imageProcessingService
+                                ->applyCropShiftingInstructionsBasedOnFocusArea(
+                                    $processingInstructions,
+                                    $image,
+                                    $cropArea,
+                                    $focusArea
+                                );
+                        }
                     }
                 }
                 else if ($typo3Version >= 7006000){
