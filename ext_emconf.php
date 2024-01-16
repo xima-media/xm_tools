@@ -18,7 +18,6 @@ $EM_CONF[$_EXTKEY] = [
     'author_email'     => 'sgi@xima.de, sle@xima.de, mha@xima.de',
     'author_company'   => 'XIMA MEDIA GmbH',
     'state'            => 'stable',
-    'clearCacheOnLoad' => true,
     'version'          => '11.5.4',
     'constraints'      => [
         'depends'   => [
