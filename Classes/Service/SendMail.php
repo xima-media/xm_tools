@@ -11,7 +11,6 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
  * Class SendMail
  *
  * @author Steve Lenz <kontakt@steve-lenz.de>
- * @package TYPO3 > 6.2.x
  * @version 1.1.0
  *
  * https://docs.typo3.org/typo3cms/CoreApiReference/ApiOverview/Mail/Index.html
@@ -21,7 +20,7 @@ class SendMail
     /**
      * @var ObjectManager
      */
-    private $objectManager = null;
+    private $objectManager;
 
     /**
      * @var string
@@ -32,7 +31,6 @@ class SendMail
      * @var string
      */
     private $mailCharset = 'utf-8';
-
 
     /**
      * Path to attachment
@@ -62,7 +60,7 @@ class SendMail
      * @param array $layoutRootPaths
      * @param array $partialRootPaths
      * @param string $format The desired format, something like "html", "xml", "png", "json" or the like. Can even be something like "rss.xml".
-     * @return boolean TRUE on success, otherwise false
+     * @return bool TRUE on success, otherwise false
      */
     public function sendTemplateEmail(
         array $recipient,
@@ -114,7 +112,6 @@ class SendMail
         $this->attachment = $attachment;
     }
 
-
     /**
      * @param string $mailContentType Content type like text/plain | text/html | multipart/related; Default: text/plain
      */
@@ -138,7 +135,7 @@ class SendMail
      */
     public function getExplodedEmailAddresses(array $addresses, $delimiter = ';')
     {
-        $result = array();
+        $result = [];
 
         foreach ($addresses as $item) {
             list($address, $name) = explode($delimiter, $item);
@@ -147,5 +144,4 @@ class SendMail
 
         return $result;
     }
-
 }

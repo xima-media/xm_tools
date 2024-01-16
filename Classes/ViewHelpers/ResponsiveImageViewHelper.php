@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\ViewHelpers;
 
 /***************************************************************
@@ -25,18 +26,16 @@ namespace Xima\XmTools\ViewHelpers;
  *
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
-use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
+use TYPO3\CMS\Extbase\Configuration\Exception\InvalidConfigurationTypeException;
 use TYPO3\CMS\Fluid\ViewHelpers\ImageViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 use Xima\XmTools\Service\ImageProcessingService;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 
 /**
  * Erstellt ein <img /> mit "data-srcset"-Attribut für den responsiven Ansatz mit JavaScript.
@@ -49,7 +48,7 @@ class ResponsiveImageViewHelper extends ImageViewHelper
     /**
      * @var array
      */
-    protected $settings = null;
+    protected $settings;
 
     public function initializeArguments()
     {
@@ -65,16 +64,18 @@ class ResponsiveImageViewHelper extends ImageViewHelper
     {
         parent::initialize();
         $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
-        $this->settings = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS,
-                                                                  'XmTools');
+        $this->settings = $configurationManager->getConfiguration(
+            ConfigurationManager::CONFIGURATION_TYPE_SETTINGS,
+            'XmTools'
+        );
     }
 
     /**
      * @return string
      * @throws Exception
      */
-    public function render() {
-
+    public function render()
+    {
         $src = (string)$this->arguments['src'];
         if (($src === '' && $this->arguments['image'] === null) || ($src !== '' && $this->arguments['image'] !== null)) {
             throw new Exception('You must either specify a string src or a File object.', 1382284106);
@@ -94,7 +95,7 @@ class ResponsiveImageViewHelper extends ImageViewHelper
         }
 
         if ($this->isImageRegenerationRequired($image)) {
-            $srcset = array();
+            $srcset = [];
             $setHeight = false;
             $correspondingHeights = false;
             $fixedHeight = null;
@@ -113,16 +114,15 @@ class ResponsiveImageViewHelper extends ImageViewHelper
             $smallestWidth = reset($sizes['width']);
 
             foreach ($sizes['width'] as $key => $width) {
-
                 // Default mode is scaling (= m)
                 $mode = 'm';
-                if (isset($sizes['mode']) && in_array($sizes['mode'], ['c','m'])) {
+                if (isset($sizes['mode']) && in_array($sizes['mode'], ['c', 'm'])) {
                     $mode = $sizes['mode'];
                 }
 
-                $processingInstructions = array(
+                $processingInstructions = [
                     'width' => $width,
-                );
+                ];
 
                 if (isset($sizes['ratio'])) {
                     // calculate the corresponding height
@@ -169,8 +169,7 @@ class ResponsiveImageViewHelper extends ImageViewHelper
                                 );
                         }
                     }
-                }
-                else if ($typo3Version >= 7006000){
+                } elseif ($typo3Version >= 7006000) {
                     $processingInstructions['crop'] = $cropString;
                 }
 
@@ -185,7 +184,7 @@ class ResponsiveImageViewHelper extends ImageViewHelper
                 $width = $processedImage->getProperty('width') ?: '0';
                 $srcset[] = $imageUri . ' ' . $width . 'w';
 
-                if ($width < $smallestWidth){
+                if ($width < $smallestWidth) {
                     $smallestWidth = $width;
                 }
             }
@@ -195,8 +194,7 @@ class ResponsiveImageViewHelper extends ImageViewHelper
             $this->tag->addAttribute('src', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==');
             $this->tag->addAttribute('data-srcset', $dataSrcset);
 
-            if (preg_match('~([^\s,]+)\s+'. $smallestWidth .'w~', $dataSrcset, $matches) !== false){
-
+            if (preg_match('~([^\s,]+)\s+' . $smallestWidth . 'w~', $dataSrcset, $matches) !== false) {
                 $defaultImgTag = new TagBuilder($this->tagName);
                 $defaultImgTag->addAttribute('src', $matches[1] ?? $this->imageService->getImageUri($image, $this->arguments['absolute']));
                 $defaultImgTag->addAttribute('alt', $this->tag->getAttribute('alt'));
@@ -234,11 +232,15 @@ class ResponsiveImageViewHelper extends ImageViewHelper
      */
     protected function isImageRegenerationRequired($image)
     {
-        if (method_exists($image,
-                          'getExtension') && isset($this->settings['viewHelpers']['responsiveImage']['dontRegenerateFileFormats'])) {
+        if (method_exists(
+            $image,
+            'getExtension'
+        ) && isset($this->settings['viewHelpers']['responsiveImage']['dontRegenerateFileFormats'])) {
             $fileExt = $image->getExtension();
-            $excluded = GeneralUtility::trimExplode(',',
-                                                    $this->settings['viewHelpers']['responsiveImage']['dontRegenerateFileFormats']);
+            $excluded = GeneralUtility::trimExplode(
+                ',',
+                $this->settings['viewHelpers']['responsiveImage']['dontRegenerateFileFormats']
+            );
 
             return !in_array($fileExt, $excluded);
         }

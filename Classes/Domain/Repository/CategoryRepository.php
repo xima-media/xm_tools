@@ -2,9 +2,10 @@
 
 namespace Xima\XmTools\Domain\Repository;
 
-use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
 use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3\CMS\Extbase\Persistence\QueryInterface;
+use TYPO3\CMS\Extbase\Persistence\QueryResultInterface;
+
 /***************************************************************
  *
  *  Copyright notice
@@ -32,11 +33,10 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
  ***************************************************************/
 /**
  * Class CategoryRepository
- * @package Xima\XmTools\Domain\Repository
  */
 class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRepository
 {
-    protected $defaultOrderings = array('sorting' => QueryInterface::ORDER_ASCENDING);
+    protected $defaultOrderings = ['sorting' => QueryInterface::ORDER_ASCENDING];
 
     /**
      * Find child categories of a given parent
@@ -46,8 +46,9 @@ class CategoryRepository extends \TYPO3\CMS\Extbase\Domain\Repository\CategoryRe
      * @return array|QueryResultInterface
      * @throws InvalidQueryException
      */
-    public function findChildrenByParent($category = 0, $excludeCategories = array()) {
-        $constraints = array();
+    public function findChildrenByParent($category = 0, $excludeCategories = [])
+    {
+        $constraints = [];
         $query = $this->createQuery();
         $query->getQuerySettings()->setRespectStoragePage(false);
 

@@ -25,7 +25,6 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
  */
 class ContentElementFlexformProcessor implements DataProcessorInterface
 {
-
     /**
      * Process data for the content element "My new content element"
      *

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Xima\XmTools\Backend\ToolbarItems;
 
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
@@ -29,8 +28,10 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
      */
     public function getItem(): string
     {
-        if (GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('xm_tools',
-            'showWebsiteVersionInBackend')) {
+        if (GeneralUtility::makeInstance(ExtensionConfiguration::class)->get(
+            'xm_tools',
+            'showWebsiteVersionInBackend'
+        )) {
             $view = GeneralUtility::makeInstance(StandaloneView::class);
             $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:xm_tools'
                 . '/Resources/Private/Backend/Templates/ToolbarItems/WebsiteVersionToolbarItem.html'));
@@ -48,7 +49,7 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
      */
     protected function getWebsiteVersion(): string
     {
-        return (GeneralUtility::makeInstance(PackageManager::class)->getComposerManifest(Environment::getProjectPath() . '/', true))->version;
+        return GeneralUtility::makeInstance(PackageManager::class)->getComposerManifest(Environment::getProjectPath() . '/', true)->version;
     }
 
     /**

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Xima\XmTools\ViewHelpers\Uri;
-
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
@@ -13,11 +11,6 @@ use Xima\XmTools\Service\ImageProcessingService;
 
 /**
  * Class ImageViewHelper
- * @package Xima\XmTools\ViewHelpers\Uri
- *
- * Extends the Fluid Uri.ImageViewHelper to take focus areas into account while cropping.
- * This means the image is not necessarily cropped from its center. If a focus area is specified then this information
- * is respected when the image is cropped. The content of the focus area is then completely within the processed image!
  */
 class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper
 {

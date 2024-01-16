@@ -10,7 +10,6 @@ namespace Xima\XmTools\Security;
  */
 class FeUser
 {
-
     /**
      * Checks whether fe_user exists
      *
@@ -52,10 +51,8 @@ class FeUser
     {
         if (null == $key) {
             return $GLOBALS['TSFE']->fe_user->user;
-        } else {
-            return (isset($GLOBALS['TSFE']->fe_user->user[$key])) ? $GLOBALS['TSFE']->fe_user->user[$key] : false;
         }
-
+        return (isset($GLOBALS['TSFE']->fe_user->user[$key])) ? $GLOBALS['TSFE']->fe_user->user[$key] : false;
     }
 
     /**
@@ -75,7 +72,7 @@ class FeUser
      */
     public static function isAuthenticated()
     {
-        return (self::isFeUser() && null != self::getUid());
+        return self::isFeUser() && null != self::getUid();
     }
 
     /**
@@ -86,10 +83,10 @@ class FeUser
      */
     public static function hasRole($role)
     {
-        return (self::isFeUser()
+        return self::isFeUser()
             && self::isAuthenticated()
             && in_array($role, $GLOBALS['TSFE']->fe_user->groupData['title'])
-        );
+        ;
     }
 
     /**
@@ -100,10 +97,9 @@ class FeUser
      */
     public static function hasRoleId($role)
     {
-        return (self::isFeUser()
+        return self::isFeUser()
             && self::isAuthenticated()
             && in_array($role, $GLOBALS['TSFE']->fe_user->groupData['uid'])
-        );
+        ;
     }
-
 }

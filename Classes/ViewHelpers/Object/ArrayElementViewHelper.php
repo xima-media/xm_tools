@@ -22,9 +22,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 class ArrayElementViewHelper extends AbstractViewHelper
 {
 
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         $this->registerArgument('array', 'array', 'Array to search in', true);
@@ -53,5 +50,4 @@ class ArrayElementViewHelper extends AbstractViewHelper
 
         return $content;
     }
-
 }

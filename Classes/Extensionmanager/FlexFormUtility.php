@@ -8,7 +8,6 @@
 
 namespace Xima\XmTools\Extensionmanager;
 
-
 use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -24,7 +23,7 @@ class FlexFormUtility
     * @param $addition filename of additional flexform
     *
     */
-    public function mergeFlexFormDefinitions ($base, $extension, $original, $addition)
+    public function mergeFlexFormDefinitions($base, $extension, $original, $addition)
     {
         $old = GeneralUtility::getUrl(
             ExtensionManagementUtility::extPath($base, 'Configuration/FlexForms/' . $original)
@@ -50,7 +49,7 @@ class FlexFormUtility
         }
 
         $flexTools = GeneralUtility::makeInstance(FlexFormTools::class);
-        $new = $flexTools->flexArray2Xml($newValueArray, TRUE);
+        $new = $flexTools->flexArray2Xml($newValueArray, true);
 
         return $new;
     }

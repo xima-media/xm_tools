@@ -10,7 +10,6 @@ namespace Xima\XmTools\Session;
  */
 class Session
 {
-
     /**
      * Write data into fe_user session
      *
@@ -45,7 +44,7 @@ class Session
      *
      * @param string $key
      * @param string $type - Either "user" (persistent, bound to fe_users profile) or "ses" (temporary, bound to current session cookie)
-     * @return boolean
+     * @return bool
      * @throws \Exception
      */
     public static function has($key, $type = 'ses')
@@ -97,11 +96,10 @@ class Session
      */
     protected static function isType($type)
     {
-        if (false == in_array($type, array('ses', 'user'))) {
+        if (false == in_array($type, ['ses', 'user'])) {
             throw new \Exception('Wrong session type "' . $type . '"!');
         }
 
         return $type;
     }
-
 }
