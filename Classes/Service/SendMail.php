@@ -4,7 +4,6 @@ namespace Xima\XmTools\Service;
 
 use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Object\ObjectManager;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -18,34 +17,16 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 class SendMail
 {
     /**
-     * @var ObjectManager
-     */
-    private $objectManager;
-
-    /**
      * @var string
      */
-    private $mailContentType = 'text/plain';
-
-    /**
-     * @var string
-     */
-    private $mailCharset = 'utf-8';
+    private string $mailCharset = 'utf-8';
 
     /**
      * Path to attachment
      *
      * @var string
      */
-    private $attachment = '';
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-    }
+    private string $attachment = '';
 
     /**
      * Sends an e-amil with fluid template
@@ -65,17 +46,17 @@ class SendMail
     public function sendTemplateEmail(
         array $recipient,
         array $sender,
-        $subject,
-        $template,
+        string $subject,
+        string $template,
         array $variables = [],
         array $cc = [],
         array $bcc = [],
         array $layoutRootPaths = [],
         array $partialRootPaths = [],
-        $format = 'html'
-    ) {
+        string $format = 'html'
+    ): bool {
         /** @var StandaloneView $emailView */
-        $emailView = $this->objectManager->get(StandaloneView::class);
+        $emailView = GeneralUtility::makeInstance(StandaloneView::class);
         $emailView->setFormat($format);
         $emailView->setTemplatePathAndFilename($template);
         $emailView->setLayoutRootPaths($layoutRootPaths);
@@ -92,7 +73,7 @@ class SendMail
             ->setSubject($subject)
             ->html($emailBody, $this->mailCharset);
 
-        if ($this->attachment != '') {
+        if ($this->attachment !== '') {
             $message->attachFromPath($this->attachment);
             $this->attachment = '';
         }
@@ -107,23 +88,15 @@ class SendMail
      *
      * @param string $attachment
      */
-    public function setAttachment($attachment)
+    public function setAttachment(string $attachment): void
     {
         $this->attachment = $attachment;
     }
 
     /**
-     * @param string $mailContentType Content type like text/plain | text/html | multipart/related; Default: text/plain
-     */
-    public function setMailContentType($mailContentType)
-    {
-        $this->mailContentType = $mailContentType;
-    }
-
-    /**
      * @param string $mailCharset Default: utf-8
      */
-    public function setMailCharset($mailCharset)
+    public function setMailCharset(string $mailCharset): void
     {
         $this->mailCharset = $mailCharset;
     }
@@ -133,12 +106,12 @@ class SendMail
      * @param string $delimiter
      * @return array
      */
-    public function getExplodedEmailAddresses(array $addresses, $delimiter = ';')
+    public function getExplodedEmailAddresses(array $addresses, string $delimiter = ';'): array
     {
         $result = [];
 
         foreach ($addresses as $item) {
-            list($address, $name) = explode($delimiter, $item);
+            [$address, $name] = explode($delimiter, $item);
             $result[$address] = $name;
         }
 

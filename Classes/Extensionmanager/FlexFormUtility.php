@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: markus
- * Date: 21.12.16
- * Time: 12:21
- */
 
 namespace Xima\XmTools\Extensionmanager;
 
@@ -23,7 +17,7 @@ class FlexFormUtility
     * @param $addition filename of additional flexform
     *
     */
-    public function mergeFlexFormDefinitions($base, $extension, $original, $addition)
+    public function mergeFlexFormDefinitions($base, $extension, $original, $addition): string
     {
         $old = GeneralUtility::getUrl(
             ExtensionManagementUtility::extPath($base, 'Configuration/FlexForms/' . $original)
@@ -42,15 +36,12 @@ class FlexFormUtility
                 && is_array($additionalValueArray['sheets'])
                 && isset($additionalValueArray['sheets'][$sheetTitle])) {
                 $newValueArray['sheets'][$sheetTitle]['ROOT']['el'] = array_merge(
-                    $currentValueArray['sheets'][$sheetTitle]['ROOT']['el'],
-                    $additionalValueArray['sheets'][$sheetTitle]['ROOT']['el']
+                    $currentValueArray['sheets'][$sheetTitle]['ROOT']['el'] ?? [],
+                    $additionalValueArray['sheets'][$sheetTitle]['ROOT']['el'] ?? []
                 );
             }
         }
 
-        $flexTools = GeneralUtility::makeInstance(FlexFormTools::class);
-        $new = $flexTools->flexArray2Xml($newValueArray, true);
-
-        return $new;
+        return GeneralUtility::makeInstance(FlexFormTools::class)->flexArray2Xml($newValueArray, true);
     }
 }
