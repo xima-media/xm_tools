@@ -5,6 +5,7 @@ namespace Xima\XmTools\Backend\ToolbarItems;
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Package\Exception\InvalidPackageManifestException;
 use TYPO3\CMS\Core\Package\PackageManager;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -46,10 +47,11 @@ class WebsiteVersionToolbarItem implements ToolbarItemInterface
      * Returns the version property from the project's composer.json
      *
      * @return string
+     * @throws InvalidPackageManifestException
      */
     protected function getWebsiteVersion(): string
     {
-        return GeneralUtility::makeInstance(PackageManager::class)->getComposerManifest(Environment::getProjectPath() . '/', true)->version;
+        return GeneralUtility::makeInstance(PackageManager::class)?->getComposerManifest(Environment::getProjectPath() . '/', true)?->version ?? '';
     }
 
     /**
