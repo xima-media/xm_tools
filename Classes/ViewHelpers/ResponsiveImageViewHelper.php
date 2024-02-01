@@ -179,7 +179,7 @@ class ResponsiveImageViewHelper extends AbstractTagBasedViewHelper
             throw new Exception('You must either specify a string src or a File object.', 1382284106);
         }
 
-        if (empty($this->arguments['sizes'])) {
+        if (empty($this->arguments['sizes']['width'])) {
             throw new Exception('You must specify at least one size. Like sizes="{width: {0: 100}}".', 1450184865);
         }
 
@@ -204,6 +204,7 @@ class ResponsiveImageViewHelper extends AbstractTagBasedViewHelper
             $correspondingHeights = false;
             $fixedHeight = null;
             $sizes = $this->arguments['sizes'];
+            $sizes['height'] = $sizes['height'] ?? [];
             if (is_array($sizes['height']) && !empty($sizes['height'])) {
                 $setHeight = true;
                 if (count($sizes['width']) === count($sizes['height'])) {
@@ -226,6 +227,7 @@ class ResponsiveImageViewHelper extends AbstractTagBasedViewHelper
 
                 $processingInstructions = [
                     'width' => $width,
+                    'height' => '',
                 ];
 
                 if (isset($sizes['ratio'])) {
