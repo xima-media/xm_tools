@@ -20,7 +20,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ArrayImplodeViewHelper extends AbstractViewHelper
 {
-
     public function initializeArguments()
     {
         $this->registerArgument('glue', 'string', 'Specifies what to put between the array elements', true);

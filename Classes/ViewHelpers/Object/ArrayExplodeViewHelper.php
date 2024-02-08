@@ -21,7 +21,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ArrayExplodeViewHelper extends AbstractViewHelper
 {
-
     public function initializeArguments()
     {
         $this->registerArgument('delimiter', 'string', 'Specifies where to break the String', true);

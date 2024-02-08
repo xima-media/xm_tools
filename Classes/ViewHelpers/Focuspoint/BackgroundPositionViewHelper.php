@@ -23,7 +23,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class BackgroundPositionViewHelper extends AbstractViewHelper
 {
-
     public function initializeArguments()
     {
         $this->registerArgument('focus_point_x', 'string', 'Focuspoint X', false, '0');

@@ -251,13 +251,13 @@ class ResponsiveImageViewHelper extends AbstractTagBasedViewHelper
                     // take the focuspoint into account
                     $focus_point_x = $image->getProperty('focus_point_x');
                     $processingInstructions['width'] .= ((int)$focus_point_x > 0 ? '+' . $focus_point_x : '-' . abs(
-                            $focus_point_x
-                        ));
+                        $focus_point_x
+                    ));
                     $focus_point_y = $image->getProperty('focus_point_y');
                     if (isset($processingInstructions['height'])) {
                         $processingInstructions['height'] .= ((int)$focus_point_y > 0 ? '-' . $focus_point_y : '+' . abs(
-                                $focus_point_y
-                            ));
+                            $focus_point_y
+                        ));
                     }
                 }
 
@@ -353,9 +353,9 @@ class ResponsiveImageViewHelper extends AbstractTagBasedViewHelper
     protected function isImageRegenerationRequired(FileInterface $image): bool
     {
         if (method_exists(
-                $image,
-                'getExtension'
-            ) && isset($this->settings['viewHelpers']['responsiveImage']['dontRegenerateFileFormats'])) {
+            $image,
+            'getExtension'
+        ) && isset($this->settings['viewHelpers']['responsiveImage']['dontRegenerateFileFormats'])) {
             $fileExt = $image->getExtension();
             $excluded = GeneralUtility::trimExplode(
                 ',',

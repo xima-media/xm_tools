@@ -36,7 +36,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 class EmbedUrlViewHelper extends AbstractViewHelper
 {
-
     public function initializeArguments()
     {
         $this->registerArgument('file', FileInterface::class, 'given media file');
