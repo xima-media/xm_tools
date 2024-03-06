@@ -249,13 +249,13 @@ class ResponsiveImageViewHelper extends AbstractTagBasedViewHelper
 
                 if ($image instanceof FileInterface && $image->hasProperty('focus_point_x')) {
                     // take the focuspoint into account
-                    $focus_point_x = $image->getProperty('focus_point_x');
-                    $processingInstructions['width'] .= ((int)$focus_point_x > 0 ? '+' . $focus_point_x : '-' . abs(
+                    $focus_point_x = (int)$image->getProperty('focus_point_x');
+                    $processingInstructions['width'] .= ($focus_point_x > 0 ? '+' . $focus_point_x : '-' . abs(
                         $focus_point_x
                     ));
-                    $focus_point_y = $image->getProperty('focus_point_y');
+                    $focus_point_y = (int)$image->getProperty('focus_point_y');
                     if (isset($processingInstructions['height'])) {
-                        $processingInstructions['height'] .= ((int)$focus_point_y > 0 ? '-' . $focus_point_y : '+' . abs(
+                        $processingInstructions['height'] .= ($focus_point_y > 0 ? '-' . $focus_point_y : '+' . abs(
                             $focus_point_y
                         ));
                     }
