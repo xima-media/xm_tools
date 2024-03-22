@@ -2,6 +2,9 @@
 
 namespace Xima\XmTools\Session;
 
+use Exception;
+use RuntimeException;
+
 /**
  * Session-Layer for TYPO3 Extbase fe_user session
  *
@@ -10,16 +13,15 @@ namespace Xima\XmTools\Session;
  */
 class Session
 {
-
     /**
      * Write data into fe_user session
      *
      * @param string $key
      * @param mixed $data
      * @param string $type - Either "user" (persistent, bound to fe_users profile) or "ses" (temporary, bound to current session cookie)
-     * @throws \Exception
+     * @throws Exception
      */
-    public static function set($key, $data, $type = 'ses')
+    public static function set(string $key, mixed $data, string $type = 'ses'): void
     {
         $GLOBALS['TSFE']->fe_user->setKey(self::isType($type), $key, serialize($data));
         $GLOBALS['TSFE']->fe_user->storeSessionData();
@@ -31,13 +33,13 @@ class Session
      * @param string $key
      * @param string $type - Either "user" (persistent, bound to fe_users profile) or "ses" (temporary, bound to current session cookie)
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
-    public static function get($key, $type = 'ses')
+    public static function get(string $key, string $type = 'ses'): mixed
     {
         $sessionData = $GLOBALS['TSFE']->fe_user->getKey(self::isType($type), $key);
 
-        return unserialize($sessionData);
+        return unserialize($sessionData, ['allowed_classes' => true]);
     }
 
     /**
@@ -45,12 +47,12 @@ class Session
      *
      * @param string $key
      * @param string $type - Either "user" (persistent, bound to fe_users profile) or "ses" (temporary, bound to current session cookie)
-     * @return boolean
-     * @throws \Exception
+     * @return bool
+     * @throws Exception
      */
-    public static function has($key, $type = 'ses')
+    public static function has(string $key, string $type = 'ses'): bool
     {
-        return ($GLOBALS['TSFE']->fe_user->getKey(self::isType($type), $key)) ? true : false;
+        return (bool)$GLOBALS['TSFE']->fe_user->getKey(self::isType($type), $key);
     }
 
     /**
@@ -58,9 +60,9 @@ class Session
      *
      * @param string $key
      * @param string $type - Either "user" (persistent, bound to fe_users profile) or "ses" (temporary, bound to current session cookie)
-     * @throws \Exception
+     * @throws Exception
      */
-    public static function remove($key, $type = 'ses')
+    public static function remove(string $key, string $type = 'ses'): void
     {
         $GLOBALS['TSFE']->fe_user->setKey(self::isType($type), $key, null);
         $GLOBALS['TSFE']->fe_user->removeSessionData();
@@ -69,7 +71,7 @@ class Session
     /**
      * Stores fe_user session data in database
      */
-    public static function persist()
+    public static function persist(): void
     {
         $GLOBALS['TSFE']->fe_user->storeSessionData();
     }
@@ -77,7 +79,7 @@ class Session
     /**
      * Fetches fe_user session data from database
      */
-    public static function fetch()
+    public static function fetch(): void
     {
         $GLOBALS['TSFE']->fe_user->fetchSessionData();
     }
@@ -85,23 +87,22 @@ class Session
     /**
      * Deletes fe_user session data from database
      */
-    public static function delete()
+    public static function delete(): void
     {
         $GLOBALS['TSFE']->fe_user->removeSessionData();
     }
 
     /**
      * @param string $type Either "user" (persistent, bound to fe_users profile) or "ses" (temporary, bound to current session cookie)
-     * @return mixed
-     * @throws \Exception
+     * @return string
+     * @throws Exception
      */
-    protected static function isType($type)
+    protected static function isType(string $type): string
     {
-        if (false == in_array($type, array('ses', 'user'))) {
-            throw new \Exception('Wrong session type "' . $type . '"!');
+        if (!in_array($type, ['ses', 'user'])) {
+            throw new RuntimeException('Wrong session type "' . $type . '"!');
         }
 
         return $type;
     }
-
 }

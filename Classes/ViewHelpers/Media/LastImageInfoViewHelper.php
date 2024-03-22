@@ -1,6 +1,6 @@
 <?php
-namespace Xima\XmTools\ViewHelpers\Media;
 
+namespace Xima\XmTools\ViewHelpers\Media;
 
 /***************************************************************
  *  Copyright notice

@@ -8,12 +8,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\BackendConfigurationManager;
 use TYPO3\CMS\Extensionmanager\Utility\ListUtility;
 
-
 /**
  * Class ExtensionUtility
  *
  * @author Steve Lenz <steve.lenz@xima.de>, Sebastian Gierth <sebastian.gierth@xima.de>
- * @package Xima\XmTools\Extensionmanager
  */
 class ExtensionUtility
 {
@@ -84,5 +82,4 @@ class ExtensionUtility
 
         return $conf;
     }
-
 }

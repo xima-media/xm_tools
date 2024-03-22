@@ -1,15 +1,14 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
 
 namespace Xima\XmTools\Service;
-
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
 /**
  * Class ImageProcessingService
- * @package Xima\XmTools\Service
  */
 class ImageProcessingService
 {
@@ -30,8 +29,7 @@ class ImageProcessingService
         FileInterface $image,
         Area $cropArea,
         Area $focusArea
-    ): array
-    {
+    ): array {
         $cropAreaAbsolute = $cropArea->makeAbsoluteBasedOnFile($image);
 
         // First the Y dimension:

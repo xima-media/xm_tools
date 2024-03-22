@@ -1,5 +1,6 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
 
 /**
  * Replace config.persistence.classes typoscript configuration
@@ -8,34 +9,34 @@ declare(strict_types = 1);
  */
 return [
     Xima\XmTools\Domain\Model\Category::class => [
-        'tableName' => 'sys_category'
+        'tableName' => 'sys_category',
     ],
     Xima\XmTools\Domain\Model\TtContent::class => [
         'tableName' => 'tt_content',
         'properties' => [
             'uid' => [
-                'fieldName' => 'uid'
+                'fieldName' => 'uid',
             ],
             'pid' => [
-                'fieldName' => 'pid'
+                'fieldName' => 'pid',
             ],
             'sorting' => [
-                'fieldName' => 'sorting'
+                'fieldName' => 'sorting',
             ],
             'contentType' => [
-                'fieldName' => 'CType'
+                'fieldName' => 'CType',
             ],
             'header' => [
-                'fieldName' => 'header'
+                'fieldName' => 'header',
             ],
             'listType' => [
-                'fieldName' => 'list_type'
+                'fieldName' => 'list_type',
             ],
             'piFlexform' => [
-                'fieldName' => 'pi_flexform'
+                'fieldName' => 'pi_flexform',
             ],
             'sysLanguageUid' => [
-                'fieldName' => 'sys_language_uid'
+                'fieldName' => 'sys_language_uid',
             ],
         ],
     ],

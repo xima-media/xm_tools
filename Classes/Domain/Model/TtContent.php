@@ -8,12 +8,9 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  * Class TtContent
  *
  * Model of tt_content
- *
- * @package Xima\XmTools\Domain\Model
  */
 class TtContent extends AbstractEntity
 {
-
     /**
      * header
      *
@@ -64,7 +61,6 @@ class TtContent extends AbstractEntity
      * Sets the header
      *
      * @param string $header
-     * @return void
      */
     public function setHeader($header)
     {
@@ -85,7 +81,6 @@ class TtContent extends AbstractEntity
      * Sets the sorting
      *
      * @param string $sorting
-     * @return void
      */
     public function setSorting($sorting)
     {
@@ -106,13 +101,11 @@ class TtContent extends AbstractEntity
      * Sets the contentType
      *
      * @param string $contentType
-     * @return void
      */
     public function setContentType($contentType)
     {
         $this->contentType = $contentType;
     }
-
 
     /**
      * @return string
@@ -145,5 +138,4 @@ class TtContent extends AbstractEntity
     {
         $this->sysLanguageUid = $sysLanguageUid;
     }
-
 }

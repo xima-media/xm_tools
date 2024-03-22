@@ -4,16 +4,13 @@ namespace Xima\XmTools\UserFunc;
 
 use Xima\XmTools\Extensionmanager\ExtensionUtility;
 
-
 /**
  * Class ExtensionUserFunc
  *
  * @author Steve Lenz <steve.lenz@xima.de>
- * @package Xima\XmTools\UserFunc
  */
 class ExtensionUserFunc
 {
-
     /**
      * Returns the version of the given extension
      *
@@ -30,7 +27,6 @@ class ExtensionUserFunc
      *      # Overrides default label [optional]
      *      label = Version:&nbsp;
      * }
-     *
      */
     public function getExtensionVersion($content, $conf)
     {
@@ -43,5 +39,4 @@ class ExtensionUserFunc
 
         return (null == $version) ? $label . 'No version found.' : $label . $version;
     }
-
 }

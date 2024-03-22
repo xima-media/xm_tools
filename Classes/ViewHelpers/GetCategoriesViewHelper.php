@@ -1,4 +1,5 @@
 <?php
+
 namespace Xima\XmTools\ViewHelpers;
 
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
@@ -37,7 +38,8 @@ class GetCategoriesViewHelper extends AbstractViewHelper
      * */
     protected $categoryRepository;
 
-    public function initializeArguments() {
+    public function initializeArguments()
+    {
         $this->registerArgument('parentCategory', 'integer', 'The parent category', true, 0);
         $this->registerArgument('excludeCategories', 'string', 'Exclude categories (comma separated list of uids)', false);
         $this->registerArgument('firstOptionLabel', 'string', 'What should be the label of the first option (with value = 0)? Possible values: "parent" (the title of parent category), "none" (no option with value = 0 will be rendered), <your_own_string> (any custom string)', false, 'parent');
@@ -55,13 +57,14 @@ class GetCategoriesViewHelper extends AbstractViewHelper
      * @return mixed
      * @api
      */
-    public function render() {
+    public function render()
+    {
         $parent = $this->categoryRepository->findByUid($this->arguments['parentCategory']);
-        $excludeCategories = ($this->arguments['excludeCategories'] ? explode(',', $this->arguments['excludeCategories']) : array());
+        $excludeCategories = ($this->arguments['excludeCategories'] ? explode(',', $this->arguments['excludeCategories']) : []);
         $children = $this->categoryRepository->findChildrenByParent($this->arguments['parentCategory'], $excludeCategories);
         $firstOptionLabel = $this->arguments['firstOptionLabel'];
         $as = (string)$this->arguments['as'];
-        $options = array(); // for dropdown select
+        $options = []; // for dropdown select
 
         if ($firstOptionLabel == 'none') {
         } elseif ($firstOptionLabel == 'parent') {
@@ -74,11 +77,11 @@ class GetCategoriesViewHelper extends AbstractViewHelper
             $options[$child->getUid()] = $child->getTitle();
         }
 
-        $this->templateVariableContainer->add($as, array(
+        $this->templateVariableContainer->add($as, [
             'parent' => $parent,
             'children' => $children,
-            'options' => $options
-        ));
+            'options' => $options,
+        ]);
 
         $output = $this->renderChildren();
         $this->templateVariableContainer->remove($as);

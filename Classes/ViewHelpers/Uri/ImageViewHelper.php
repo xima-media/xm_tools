@@ -1,26 +1,66 @@
 <?php
 
-
 namespace Xima\XmTools\ViewHelpers\Uri;
-
 
 use TYPO3\CMS\Core\Imaging\ImageManipulation\CropVariantCollection;
 use TYPO3\CMS\Core\Resource\Exception\ResourceDoesNotExistException;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Service\ImageService;
 use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 use Xima\XmTools\Service\ImageProcessingService;
 
 /**
  * Class ImageViewHelper
- * @package Xima\XmTools\ViewHelpers\Uri
- *
- * Extends the Fluid Uri.ImageViewHelper to take focus areas into account while cropping.
- * This means the image is not necessarily cropped from its center. If a focus area is specified then this information
- * is respected when the image is cropped. The content of the focus area is then completely within the processed image!
  */
-class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper
+class ImageViewHelper extends AbstractViewHelper
 {
+    use CompileWithRenderStatic;
+
+    public function initializeArguments(): void
+    {
+        $this->registerArgument('src', 'string', 'src', false, '');
+        $this->registerArgument(
+            'treatIdAsReference',
+            'bool',
+            'given src argument is a sys_file_reference record',
+            false,
+            false
+        );
+        $this->registerArgument('image', 'object', 'image');
+        $this->registerArgument(
+            'crop',
+            'string|bool|array',
+            'overrule cropping of image (setting to FALSE disables the cropping set in FileReference)'
+        );
+        $this->registerArgument(
+            'cropVariant',
+            'string',
+            'select a cropping variant, in case multiple croppings have been specified or stored in FileReference',
+            false,
+            'default'
+        );
+        $this->registerArgument('fileExtension', 'string', 'Custom file extension to use');
+
+        $this->registerArgument(
+            'width',
+            'string',
+            'width of the image. This can be a numeric value representing the fixed width of the image in pixels. But you can also perform simple calculations by adding "m" or "c" to the value. See imgResource.width for possible options.'
+        );
+        $this->registerArgument(
+            'height',
+            'string',
+            'height of the image. This can be a numeric value representing the fixed height of the image in pixels. But you can also perform simple calculations by adding "m" or "c" to the value. See imgResource.width for possible options.'
+        );
+        $this->registerArgument('minWidth', 'int', 'minimum width of the image');
+        $this->registerArgument('minHeight', 'int', 'minimum height of the image');
+        $this->registerArgument('maxWidth', 'int', 'maximum width of the image');
+        $this->registerArgument('maxHeight', 'int', 'maximum height of the image');
+        $this->registerArgument('absolute', 'bool', 'Force absolute URL', false, false);
+    }
+
     /**
      * Resizes the image (if required) and returns its path. If the image was not resized, the path will be equal to $src
      *
@@ -30,8 +70,11 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper
      * @return string
      * @throws Exception
      */
-    public static function renderStatic(array $arguments, \Closure $renderChildrenClosure, RenderingContextInterface $renderingContext): string
-    {
+    public static function renderStatic(
+        array $arguments,
+        \Closure $renderChildrenClosure,
+        RenderingContextInterface $renderingContext
+    ): string {
         $src = (string)$arguments['src'];
         $image = $arguments['image'];
         $treatIdAsReference = (bool)$arguments['treatIdAsReference'];
@@ -86,6 +129,7 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper
             }
 
             $processedImage = $imageService->applyProcessingInstructions($image, $processingInstructions);
+
             return $imageService->getImageUri($processedImage, $absolute);
         } catch (ResourceDoesNotExistException $e) {
             // thrown if file does not exist
@@ -100,5 +144,10 @@ class ImageViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Uri\ImageViewHelper
             // thrown if file storage does not exist
             throw new Exception($e->getMessage(), 1509741910, $e);
         }
+    }
+
+    protected static function getImageService(): ImageService
+    {
+        return GeneralUtility::makeInstance(ImageService::class);
     }
 }
