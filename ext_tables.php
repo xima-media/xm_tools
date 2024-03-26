@@ -7,12 +7,7 @@ if (!defined('TYPO3')) {
 /**
  * CSS skins for backend
  */
-$GLOBALS['TBE_STYLES']['skins']['xm_tools'] = [
-    'name' => 'XIMA Tools Backend Skin',
-    'stylesheetDirectories' => [
-        'visual' => 'EXT:xm_tools/Resources/Public/Backend/Css/',
-    ],
-];
+$GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['xm_tools'] = 'EXT:xm_tools/Resources/Public/Backend/Css';
 
 $backendMarkingEnabled = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class)
     ->get('xm_tools', 'backendMarkingEnabled');
@@ -23,8 +18,8 @@ if ((bool)$backendMarkingEnabled) {
         $appContext,
         'testing'
     ) !== false) {
-        $GLOBALS['TBE_STYLES']['skins']['xm_tools']['stylesheetDirectories'] += ['EXT:xm_tools/Resources/Public/Backend/Css/Staging'];
+        $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['xm_tools_staging'] = 'EXT:xm_tools/Resources/Public/Backend/Css/Staging';
     } elseif (stripos($appContext, 'development') !== false) {
-        $GLOBALS['TBE_STYLES']['skins']['xm_tools']['stylesheetDirectories'] += ['EXT:xm_tools/Resources/Public/Backend/Css/Dev'];
+        $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['xm_tools_dev'] = 'EXT:xm_tools/Resources/Public/Backend/Css/Dev';
     }
 }
