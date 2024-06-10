@@ -11,130 +11,64 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
  */
 class TtContent extends AbstractEntity
 {
-    /**
-     * header
-     *
-     * @var string
-     */
-    protected $header = '';
+    protected string $header = '';
 
-    /**
-     * sorting
-     *
-     * @var string
-     */
-    protected $sorting = '';
+    protected string $sorting = '';
 
-    /**
-     * contentType
-     *
-     * @var string
-     */
-    protected $contentType = '';
+    protected string $contentType = '';
 
-    /**
-     * @var string
-     */
-    protected $piFlexform;
+    protected string $piFlexform;
 
-    /**
-     * @var string
-     */
-    protected $listType;
+    protected string $listType;
 
-    /**
-     * @var int
-     */
-    protected $sysLanguageUid;
+    protected int $sysLanguageUid = 0;
 
-    /**
-     * Returns the header
-     *
-     * @return string $header
-     */
-    public function getHeader()
+    public function getHeader(): string
     {
         return $this->header;
     }
 
-    /**
-     * Sets the header
-     *
-     * @param string $header
-     */
-    public function setHeader($header)
+    public function setHeader(string $header): void
     {
         $this->header = $header;
     }
 
-    /**
-     * Returns the sorting
-     *
-     * @return string $sorting
-     */
-    public function getSorting()
+    public function getSorting(): string
     {
         return $this->sorting;
     }
 
-    /**
-     * Sets the sorting
-     *
-     * @param string $sorting
-     */
-    public function setSorting($sorting)
+    public function setSorting(string $sorting): void
     {
         $this->sorting = $sorting;
     }
 
-    /**
-     * Returns the contentType
-     *
-     * @return string $contentType
-     */
-    public function getContentType()
+    public function getContentType(): string
     {
         return $this->contentType;
     }
 
-    /**
-     * Sets the contentType
-     *
-     * @param string $contentType
-     */
-    public function setContentType($contentType)
+    public function setContentType(string $contentType): void
     {
         $this->contentType = $contentType;
     }
 
-    /**
-     * @return string
-     */
-    public function getPiFlexform()
+    public function getPiFlexform(): string
     {
         return $this->piFlexform;
     }
 
-    /**
-     * @return string
-     */
-    public function getListType()
+    public function getListType(): string
     {
         return $this->listType;
     }
 
-    /**
-     * @return int
-     */
-    public function getSysLanguageUid()
+    public function getSysLanguageUid(): int
     {
         return $this->sysLanguageUid;
     }
 
-    /**
-     * @param int $sysLanguageUid
-     */
-    public function setSysLanguageUid($sysLanguageUid)
+    public function setSysLanguageUid(int $sysLanguageUid): void
     {
         $this->sysLanguageUid = $sysLanguageUid;
     }

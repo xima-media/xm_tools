@@ -2,6 +2,7 @@
 
 namespace Xima\XmTools\ViewHelpers;
 
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use Xima\XmTools\Domain\Repository\CategoryRepository;
 
@@ -33,12 +34,14 @@ use Xima\XmTools\Domain\Repository\CategoryRepository;
 
 class GetCategoriesViewHelper extends AbstractViewHelper
 {
-    /**
-     * @var CategoryRepository
-     * */
-    protected $categoryRepository;
+    protected CategoryRepository $categoryRepository;
 
-    public function initializeArguments()
+    public function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
+
+    public function initializeArguments(): void
     {
         $this->registerArgument('parentCategory', 'integer', 'The parent category', true, 0);
         $this->registerArgument('excludeCategories', 'string', 'Exclude categories (comma separated list of uids)', false);
@@ -46,15 +49,11 @@ class GetCategoriesViewHelper extends AbstractViewHelper
         $this->registerArgument('as', 'string', 'Name of the template variable that will contain the categories', true);
     }
 
-    public function injectCategoryRepository(CategoryRepository $categoryRepository)
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
-
     /**
      * Return child categories
      *
      * @return mixed
+     * @throws InvalidQueryException
      * @api
      */
     public function render()
@@ -66,10 +65,9 @@ class GetCategoriesViewHelper extends AbstractViewHelper
         $as = (string)$this->arguments['as'];
         $options = []; // for dropdown select
 
-        if ($firstOptionLabel == 'none') {
-        } elseif ($firstOptionLabel == 'parent') {
-            $options[0] = $parent->getTitle();
-        } else {
+        if ($firstOptionLabel === 'parent') {
+            $options[0] = $parent?->getTitle() ?? '';
+        } elseif ($firstOptionLabel !== 'none') {
             $options[0] = $firstOptionLabel;
         }
 

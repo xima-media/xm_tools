@@ -15,9 +15,9 @@ class FeUser
      *
      * @return bool
      */
-    public static function isFeUser()
+    public static function isFeUser(): bool
     {
-        return ($GLOBALS['TSFE']->fe_user->user) ? true : false;
+        return (bool)$GLOBALS['TSFE']->fe_user->user;
     }
 
     /**
@@ -25,23 +25,23 @@ class FeUser
      *
      * @return int
      */
-    public static function getUid()
+    public static function getUid(): int
     {
-        return $GLOBALS['TSFE']->fe_user->user['uid'];
+        return $GLOBALS['TSFE']->fe_user->user['uid'] ?? 0;
     }
 
     /**
      * Returns fe_user data
      *
      * @param null $key - If null you get the whole user data array
-     * @return mixed - false if key not exists
+     * @return array|false - false if key not exists
      */
-    public static function getUser($key = null)
+    public static function getUser($key = null): array|false
     {
-        if (null == $key) {
+        if (null === $key) {
             return $GLOBALS['TSFE']->fe_user->user;
         }
-        return (isset($GLOBALS['TSFE']->fe_user->user[$key])) ? $GLOBALS['TSFE']->fe_user->user[$key] : false;
+        return $GLOBALS['TSFE']->fe_user->user[$key] ?? false;
     }
 
     /**
@@ -49,7 +49,7 @@ class FeUser
      *
      * @return array
      */
-    public static function getGroupData()
+    public static function getGroupData(): array
     {
         return $GLOBALS['TSFE']->fe_user->groupData;
     }
@@ -59,9 +59,9 @@ class FeUser
      *
      * @return bool
      */
-    public static function isAuthenticated()
+    public static function isAuthenticated(): bool
     {
-        return self::isFeUser() && null != self::getUid();
+        return self::isFeUser() && 0 !== self::getUid();
     }
 
     /**
@@ -70,7 +70,7 @@ class FeUser
      * @param string $role
      * @return bool
      */
-    public static function hasRole($role)
+    public static function hasRole(string $role): bool
     {
         return self::isFeUser()
             && self::isAuthenticated()
@@ -84,7 +84,7 @@ class FeUser
      * @param int $role
      * @return bool
      */
-    public static function hasRoleId($role)
+    public static function hasRoleId(int $role): bool
     {
         return self::isFeUser()
             && self::isAuthenticated()

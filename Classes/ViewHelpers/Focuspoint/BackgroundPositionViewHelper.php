@@ -30,10 +30,7 @@ class BackgroundPositionViewHelper extends AbstractViewHelper
         $this->registerArgument('orientation', 'string', 'One of x, y or both', false, 'both');
     }
 
-    /**
-     * @return mixed|string
-     */
-    public function render()
+    public function render(): string
     {
         $focus_point_x = $this->arguments['focus_point_x'];
         $focus_point_y = $this->arguments['focus_point_y'];
