@@ -1,6 +1,8 @@
 <?php
+
 namespace Xima\XmTools\ViewHelpers;
 
+use TYPO3\CMS\Extbase\Persistence\Exception\InvalidQueryException;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 use Xima\XmTools\Domain\Repository\CategoryRepository;
 
@@ -32,41 +34,40 @@ use Xima\XmTools\Domain\Repository\CategoryRepository;
 
 class GetCategoriesViewHelper extends AbstractViewHelper
 {
-    /**
-     * @var CategoryRepository
-     * */
-    protected $categoryRepository;
+    protected CategoryRepository $categoryRepository;
 
-    public function initializeArguments() {
+    public function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
+
+    public function initializeArguments(): void
+    {
         $this->registerArgument('parentCategory', 'integer', 'The parent category', true, 0);
         $this->registerArgument('excludeCategories', 'string', 'Exclude categories (comma separated list of uids)', false);
         $this->registerArgument('firstOptionLabel', 'string', 'What should be the label of the first option (with value = 0)? Possible values: "parent" (the title of parent category), "none" (no option with value = 0 will be rendered), <your_own_string> (any custom string)', false, 'parent');
         $this->registerArgument('as', 'string', 'Name of the template variable that will contain the categories', true);
     }
 
-    public function injectCategoryRepository(CategoryRepository $categoryRepository)
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
-
     /**
      * Return child categories
      *
      * @return mixed
+     * @throws InvalidQueryException
      * @api
      */
-    public function render() {
+    public function render()
+    {
         $parent = $this->categoryRepository->findByUid($this->arguments['parentCategory']);
-        $excludeCategories = ($this->arguments['excludeCategories'] ? explode(',', $this->arguments['excludeCategories']) : array());
+        $excludeCategories = ($this->arguments['excludeCategories'] ? explode(',', $this->arguments['excludeCategories']) : []);
         $children = $this->categoryRepository->findChildrenByParent($this->arguments['parentCategory'], $excludeCategories);
         $firstOptionLabel = $this->arguments['firstOptionLabel'];
         $as = (string)$this->arguments['as'];
-        $options = array(); // for dropdown select
+        $options = []; // for dropdown select
 
-        if ($firstOptionLabel == 'none') {
-        } elseif ($firstOptionLabel == 'parent') {
-            $options[0] = $parent->getTitle();
-        } else {
+        if ($firstOptionLabel === 'parent') {
+            $options[0] = $parent?->getTitle() ?? '';
+        } elseif ($firstOptionLabel !== 'none') {
             $options[0] = $firstOptionLabel;
         }
 
@@ -74,11 +75,11 @@ class GetCategoriesViewHelper extends AbstractViewHelper
             $options[$child->getUid()] = $child->getTitle();
         }
 
-        $this->templateVariableContainer->add($as, array(
+        $this->templateVariableContainer->add($as, [
             'parent' => $parent,
             'children' => $children,
-            'options' => $options
-        ));
+            'options' => $options,
+        ]);
 
         $output = $this->renderChildren();
         $this->templateVariableContainer->remove($as);

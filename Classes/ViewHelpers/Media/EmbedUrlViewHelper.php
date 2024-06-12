@@ -3,9 +3,9 @@
 namespace Xima\XmTools\ViewHelpers\Media;
 
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 /***************************************************************
  *
  *  Copyright notice
@@ -31,14 +31,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
+use TYPO3Fluid\Fluid\Core\ViewHelper\Exception;
 
 class EmbedUrlViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         $this->registerArgument('file', FileInterface::class, 'given media file');
@@ -53,8 +50,10 @@ class EmbedUrlViewHelper extends AbstractViewHelper
     public function render()
     {
         if ((is_null($this->arguments['file']) && is_null($this->arguments['fileAsArray'])) || (!is_null($this->arguments['file']) && !is_null($this->arguments['fileAsArray']))) {
-            throw new Exception('You must either specify an array or a File object.',
-                1535005991);
+            throw new Exception(
+                'You must either specify an array or a File object.',
+                1535005991
+            );
         }
         $file = $this->arguments['file'] ?: $this->arguments['fileAsArray'];
 

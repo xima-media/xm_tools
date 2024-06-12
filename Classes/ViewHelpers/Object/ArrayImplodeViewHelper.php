@@ -20,9 +20,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ArrayImplodeViewHelper extends AbstractViewHelper
 {
-    /**
-     * @return void
-     */
     public function initializeArguments()
     {
         $this->registerArgument('glue', 'string', 'Specifies what to put between the array elements', true);
@@ -41,7 +38,7 @@ class ArrayImplodeViewHelper extends AbstractViewHelper
         $glue = $this->arguments['glue'];
         $array = $this->arguments['array'];
         $functionOrKey = $this->arguments['functionOrKey'];
-        $theArray = array();
+        $theArray = [];
 
         foreach ($array as $value) {
             if ($functionOrKey != '') {
@@ -61,5 +58,4 @@ class ArrayImplodeViewHelper extends AbstractViewHelper
 
         return implode($glue, $theArray);
     }
-
 }
